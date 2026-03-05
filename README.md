@@ -21,6 +21,9 @@ This repo includes the leak files for MCPE 0.6.1 version. Im looking into adding
 - [ ] Design Proper Settings Menu or Redesign the whole UI to look and functions more like Bedrock
 - [ ] Backport Legacy Console, Bedrock and Java Features or adjustmnets so it feels more like Regular Minecraft.
 
+# Current bugs
+- Sound doesnt work on Win32.
+
 
         
   
