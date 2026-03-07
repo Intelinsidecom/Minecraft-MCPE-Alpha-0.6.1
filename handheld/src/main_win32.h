@@ -21,6 +21,7 @@
 #include "platform/input/Multitouch.h"
 #include "util/Mth.h"
 #include "AppPlatform_win32.h"
+#include "resource.h"
 
 static App* g_app = 0;
 static volatile bool g_running = true;
@@ -31,6 +32,7 @@ static int getBits(int bits, int startBitInclusive, int endBitExclusive, int shi
 		sum += (bits & (2<<i));
 	return shiftTruncate? (sum >> startBitInclusive) : sum;
 }
+
 
 void resizeWindow(HWND hWnd, int nWidth, int nHeight) {
    RECT rcClient, rcWindow;
@@ -59,6 +61,18 @@ void toggleResolutions(HWND hwnd, int direction) {
 	int k = size[2];
 	
 	resizeWindow(hwnd, k * size[0], k * size[1]);
+}
+
+void OpenDebugConsole() {
+	AllocConsole();
+
+	FILE* f;
+
+	freopen_s(&f, "CONOUT$", "w", stdout);
+	freopen_s(&f, "CONOUT$", "w", stderr);
+	freopen_s(&f, "CONIN$", "r", stdin);
+
+	SetConsoleTitleA("Console");
 }
 
 LRESULT WINAPI windowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
@@ -142,7 +156,7 @@ void platform(HWND *result, int width, int height) {
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
-	wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = NULL;
 	wc.lpszMenuName = NULL;
@@ -152,9 +166,14 @@ void platform(HWND *result, int width, int height) {
 
 	AdjustWindowRectEx(&wRect, WS_OVERLAPPEDWINDOW, FALSE, WS_EX_APPWINDOW | WS_EX_WINDOWEDGE);
 
-	hwnd = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "OGLES", "main", WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0, 0, wRect.right-wRect.left, wRect.bottom-wRect.top, NULL, NULL, hInstance, NULL);
+	hwnd = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "OGLES", "Minecraft", WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0, 0, wRect.right-wRect.left, wRect.bottom-wRect.top, NULL, NULL, hInstance, NULL);
 	*result = hwnd;
+#ifdef _DEBUG 
+	OpenDebugConsole();
+#endif
 }
+
+
 
 /** Thread that reads input data via UDP network datagrams
     and fills Mouse and Keyboard structures accordingly.
@@ -211,9 +230,10 @@ void inputNetworkThread(void* userdata)
 	}
 }
 
-int main(void) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 	AppContext appContext;
 	MSG sMessage;
+
 
 #ifndef STANDALONE_SERVER
 

@@ -16,20 +16,15 @@ static AppPlatform_android appPlatform;
 
 static void setupExternalPath(JNIEnv* env, MAIN_CLASS* app)
 {
-    //JVMAttacher ta(vm);
-    //JNIEnv* env = ta.getEnv();
-
     LOGI("setupExternalPath");
 
-    if (env)
-    {
-        LOGI("Environment exists");
-    }
+    jclass versionClass = env->FindClass("android/os/Build$VERSION");
+    jfieldID sdkIntField = env->GetStaticFieldID(versionClass, "SDK_INT", "I");
+    int sdkInt = env->GetStaticIntField(versionClass, sdkIntField);
+    LOGI("Android SDK_INT: %d", sdkInt);
+
     jclass clazz = env->FindClass("android/os/Environment");
     jmethodID method = env->GetStaticMethodID(clazz, "getExternalStorageDirectory", "()Ljava/io/File;");
-    if (env->ExceptionOccurred()) {
-        env->ExceptionDescribe();
-    }
     jobject file = env->CallStaticObjectMethod(clazz, method);
 
     jclass fileClass = env->GetObjectClass(file);
@@ -37,9 +32,16 @@ static void setupExternalPath(JNIEnv* env, MAIN_CLASS* app)
     jobject pathString = env->CallObjectMethod(file, fileMethod);
 
     const char* str = env->GetStringUTFChars((jstring) pathString, NULL);
-    app->externalStoragePath = str;
-	app->externalCacheStoragePath = str;
-    LOGI(str);
+    std::string path = str;
+    
+    if (sdkInt >= 29) {
+        path += "/Documents";
+        LOGI("Scoped Storage detected, using Documents path: %s", path.c_str());
+    }
+
+    app->externalStoragePath = path;
+    app->externalCacheStoragePath = path;
+    LOGI("Final externalStoragePath: %s", path.c_str());
 
     env->ReleaseStringUTFChars((jstring)pathString, str);
 }
