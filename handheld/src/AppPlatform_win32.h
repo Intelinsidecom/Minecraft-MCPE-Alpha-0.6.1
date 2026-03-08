@@ -66,9 +66,12 @@ public:
     TextureData loadTexture(const std::string& filename_, bool textureFolder)
 	{
 		TextureData out;
-
-		std::string filename = textureFolder? "../../data/images/" + filename_
-											: filename_;
+		std::string filename;
+		if (folderExists("../../data")) {
+			filename = "../../data/images/" + filename_;
+		} else {
+			filename = "data/images/" + filename_;
+		}
 		std::ifstream source(filename.c_str(), std::ios::binary);
 
 		if (source) {
