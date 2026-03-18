@@ -26,8 +26,17 @@ class AppPlatform_win32: public AppPlatform
 {
 public:
     AppPlatform_win32()
+	:	_hwnd(NULL),
+		_grabbed(false)
     {
     }
+    
+	void setWindowHandle(HWND hwnd) { _hwnd = hwnd; }
+	HWND getWindowHandle() const { return _hwnd; }
+
+	virtual void grabMouse();
+	virtual void releaseMouse();
+	bool isMouseGrabbed() const { return _grabbed; }
 
 	BinaryBlob readAssetFile(const std::string& filename) {
 		FILE* fp = NULL;
@@ -143,6 +152,8 @@ public:
 	virtual bool hasBuyButtonWhenInvalidLicense();
 
 private:
+	HWND _hwnd;
+	bool _grabbed;
 };
 
 #endif /*APPPLATFORM_WIN32_H__*/

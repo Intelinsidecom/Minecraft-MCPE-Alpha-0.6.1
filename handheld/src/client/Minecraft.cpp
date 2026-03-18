@@ -146,7 +146,7 @@ Minecraft::Minecraft()
 	lastTime(0),
 	ticksSinceLastUpdate(0),
 	gameMode(NULL),
-	mouseGrabbed(true),
+	mouseGrabbed(false),
 	missTime(0),
 	pause(false),
 	_running(false),
@@ -1133,21 +1133,18 @@ void Minecraft::grabMouse()
 #ifndef STANDALONE_SERVER
 	if (mouseGrabbed) return;
 	mouseGrabbed = true;
+	_reloadInput();
 	mouseHandler.grab();
-	//setScreen(NULL);
 #endif
 }
 
 void Minecraft::releaseMouse()
 {
 #ifndef STANDALONE_SERVER
-	if (!mouseGrabbed) {
-		return;
-	}
-	if (player) {
-		player->releaseAllKeys();
-	}
+	if (!mouseGrabbed) return;
+	if (player) player->releaseAllKeys();
 	mouseGrabbed = false;
+	_reloadInput();
 	mouseHandler.release();
 #endif
 }
@@ -1156,6 +1153,7 @@ bool Minecraft::useTouchscreen() {
 #ifdef RPI
 	return false;
 #endif
+	if (mouseGrabbed) return false;
 	return options.useTouchScreen || !_supportsNonTouchscreen;
 }
 bool Minecraft::supportNonTouchScreen() {
@@ -1272,7 +1270,7 @@ void Minecraft::_reloadInput() {
 #ifndef STANDALONE_SERVER
 	delete inputHolder;
 
-	if (useTouchscreen()) {
+	if (useTouchscreen() && !mouseGrabbed) {
 		inputHolder = new TouchInputHolder(this, &options);
 	} else {
 		#if defined(ANDROID) || defined(__APPLE__) 

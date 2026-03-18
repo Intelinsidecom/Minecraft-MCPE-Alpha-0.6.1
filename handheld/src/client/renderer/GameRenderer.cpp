@@ -358,6 +358,8 @@ void GameRenderer::renderLevel(float a) {
 				Player* player = (Player*) cameraEntity;
 				if (mc->useTouchscreen()) {
 					levelRenderer->renderHitSelect(player, mc->hitResult, 0, NULL, a); //player.inventory->getSelected(), a);
+				} else {
+					levelRenderer->renderHitOutline(player, mc->hitResult, 0, NULL, a);
 				}
 				levelRenderer->renderHit(player, mc->hitResult, 0, NULL, a);//player->inventory.getSelected(), a);
 			}

@@ -23,7 +23,7 @@
 #include "AppPlatform_win32.h"
 #include "resource.h"
 
-static App* g_app = 0;
+extern App* g_app;
 static volatile bool g_running = true;
 
 static int getBits(int bits, int startBitInclusive, int endBitExclusive, int shiftTruncate) {
@@ -122,8 +122,26 @@ LRESULT WINAPI windowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 		break;
 	}
 	case WM_MOUSEMOVE: {
-		Mouse::feed( MouseAction::ACTION_MOVE, 0, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		Multitouch::feed(0, 0, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0);
+		int x = GET_X_LPARAM(lParam);
+		int y = GET_Y_LPARAM(lParam);
+		AppPlatform_win32* plat = (AppPlatform_win32*)g_app->platform();
+		if (plat && plat->isMouseGrabbed()) {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int centerX = (rect.right - rect.left) / 2;
+			int centerY = (rect.bottom - rect.top) / 2;
+			int dx = x - centerX;
+			int dy = y - centerY;
+			if (dx != 0 || dy != 0) {
+				Mouse::feed(MouseAction::ACTION_MOVE, 0, (short)x, (short)y, (short)dx, (short)dy);
+				POINT pt = { centerX, centerY };
+				ClientToScreen(hWnd, &pt);
+				SetCursorPos(pt.x, pt.y);
+			}
+		} else {
+			Mouse::feed( MouseAction::ACTION_MOVE, 0, (short)x, (short)y);
+			Multitouch::feed(0, 0, (short)x, (short)y, 0);
+		}
 		break;
 	}
 	default:
@@ -338,6 +356,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 	// Platform init.
 	appContext.platform = new AppPlatform_win32();
 	platform(&hwnd, appContext.platform->getScreenWidth(), appContext.platform->getScreenHeight());
+	((AppPlatform_win32*)appContext.platform)->setWindowHandle(hwnd);
 	ShowWindow(hwnd, SW_SHOW);
 	SetForegroundWindow(hwnd);
 	SetFocus(hwnd);

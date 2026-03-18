@@ -502,7 +502,7 @@ void Gui::renderProgressIndicator( const bool isTouchInterface, const int screen
 	ItemInstance* currentItem = minecraft->player->inventory->getSelected();
 	bool bowEquipped = currentItem != NULL ? currentItem->getItem() == Item::bow : false;
 	bool itemInUse = currentItem != NULL ? currentItem->getItem() == minecraft->player->getUseItem()->getItem() : false;
-	if (!isTouchInterface || minecraft->options.isJoyTouchArea || (bowEquipped && itemInUse)) {
+	if ((!isTouchInterface || minecraft->options.isJoyTouchArea || (bowEquipped && itemInUse)) && !minecraft->options.thirdPersonView) {
 		minecraft->textures->loadAndBindTexture("gui/icons.png");
 		glEnable(GL_BLEND);
 		glBlendFunc2(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);

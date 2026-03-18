@@ -1,5 +1,7 @@
 #include "MouseHandler.h"
 #include "player/input/ITurnInput.h"
+#include "../App.h"
+#include "../AppPlatform.h"
 
 #ifdef RPI
 #include <SDL/SDL.h>
@@ -28,6 +30,9 @@ void MouseHandler::grab() {
 	//LOGI("Grabbing input!\n");
 	SDL_WM_GrabInput(SDL_GRAB_ON);
 	SDL_ShowCursor(0);
+#elif defined(WIN32)
+	extern App* g_app;
+	if (g_app && g_app->platform()) g_app->platform()->grabMouse();
 #endif
 }
 
@@ -36,6 +41,9 @@ void MouseHandler::release() {
 	//LOGI("Releasing input!\n");
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
 	SDL_ShowCursor(1);
+#elif defined(WIN32)
+	extern App* g_app;
+	if (g_app && g_app->platform()) g_app->platform()->releaseMouse();
 #endif
 }
 

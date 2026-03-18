@@ -15,3 +15,21 @@ float AppPlatform_win32::getPixelsPerMillimeter() {
 
 bool AppPlatform_win32::supportsTouchscreen()  { return true; }
 bool AppPlatform_win32::hasBuyButtonWhenInvalidLicense() { return true; }
+
+void AppPlatform_win32::grabMouse() {
+	if (!_hwnd || _grabbed) return;
+	_grabbed = true;
+	ShowCursor(FALSE);
+	RECT rect;
+	GetClientRect(_hwnd, &rect);
+	ClientToScreen(_hwnd, (LPPOINT)&rect.left);
+	ClientToScreen(_hwnd, (LPPOINT)&rect.right);
+	ClipCursor(&rect);
+}
+
+void AppPlatform_win32::releaseMouse() {
+	if (!_grabbed) return;
+	_grabbed = false;
+	ShowCursor(TRUE);
+	ClipCursor(NULL);
+}

@@ -136,6 +136,8 @@ public:
 		keyboardVisible = false;
 	}
 	virtual bool isKeyboardVisible() {return keyboardVisible;}
+	virtual void grabMouse() {}
+	virtual void releaseMouse() {}
 protected:
 	bool keyboardVisible;
 };

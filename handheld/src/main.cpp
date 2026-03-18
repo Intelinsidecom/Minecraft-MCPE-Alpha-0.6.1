@@ -22,8 +22,9 @@
 #include "NinecraftApp.h"
 #define MAIN_CLASS NinecraftApp
 
-#ifdef _WIN32
+#ifdef WIN32
 	#include "main_win32.h"
+	App* g_app = 0;
 #endif
 #ifdef ANDROID
     #ifdef PRE_ANDROID23
