@@ -9,9 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Platform">
-      <UniqueIdentifier>{315d8115-3fca-4a3f-9374-57f41665e3a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\world">
       <UniqueIdentifier>{84771a0f-b6af-479c-a26d-fbf611d14fcb}</UniqueIdentifier>
     </Filter>
@@ -26,9 +23,6 @@
     </Filter>
     <Filter Include="Source Files\client\renderer">
       <UniqueIdentifier>{4398bfb3-fb0a-498c-9772-3c815e8ad360}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\input">
-      <UniqueIdentifier>{7887f605-f5e2-4bca-86b9-ccaf7228184d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\util">
       <UniqueIdentifier>{9b2956dc-ea58-4192-8bb8-3a7c97e92141}</UniqueIdentifier>
@@ -110,9 +104,6 @@
     </Filter>
     <Filter Include="Source Files\client\sound">
       <UniqueIdentifier>{7abec229-7c62-4f8c-be0c-b0541ebe6a2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\audio">
-      <UniqueIdentifier>{9a993a4b-5523-4ce6-8fc5-d45b6c098655}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\world\level\biome">
       <UniqueIdentifier>{5db94373-ca02-4a85-8029-da71c6bb7b9c}</UniqueIdentifier>
@@ -198,6 +189,15 @@
     <Filter Include="Source Files\client\gui\screens\crafting">
       <UniqueIdentifier>{d9a5faa2-fae5-4072-950e-89ca5a5f86fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\platform">
+      <UniqueIdentifier>{315d8115-3fca-4a3f-9374-57f41665e3a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform\input">
+      <UniqueIdentifier>{7887f605-f5e2-4bca-86b9-ccaf7228184d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform\audio">
+      <UniqueIdentifier>{9a993a4b-5523-4ce6-8fc5-d45b6c098655}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -216,7 +216,7 @@
       <Filter>Source Files\client\player</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\platform\time.cpp">
-      <Filter>Platform</Filter>
+      <Filter>Source Files\platform</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\util\Mth.cpp">
       <Filter>Source Files\util</Filter>
@@ -285,13 +285,13 @@
       <Filter>Source Files\world\entity\player</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\platform\input\Controller.cpp">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\platform\input\Keyboard.cpp">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\platform\input\Mouse.cpp">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\world\item\Item.cpp">
       <Filter>Source Files\world\item</Filter>
@@ -315,7 +315,7 @@
       <Filter>Source Files\client\renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\platform\CThread.cpp">
-      <Filter>Platform</Filter>
+      <Filter>Source Files\platform</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\client\gui\Gui.cpp">
       <Filter>Source Files\client\gui</Filter>
@@ -765,7 +765,7 @@
       <Filter>Source Files\client\player\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\platform\input\Multitouch.cpp">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\client\player\input\touchscreen\TouchScreenInput.cpp">
       <Filter>Source Files\client\player\input\touchscreen</Filter>
@@ -1220,6 +1220,9 @@
     <ClCompile Include="..\..\src\server\CreatorLevel.cpp">
       <Filter>Source Files\server</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\platform\audio\SoundSystemAL.cpp">
+      <Filter>Source Files\platform\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\App.h">
@@ -1259,7 +1262,7 @@
       <Filter>Source Files\client\player</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\time.h">
-      <Filter>Platform</Filter>
+      <Filter>Source Files\platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\util\Random.h">
       <Filter>Source Files\util</Filter>
@@ -1565,13 +1568,13 @@
       <Filter>Source Files\client\renderer\culling</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\input\Controller.h">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\input\Keyboard.h">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\input\Mouse.h">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\world\level\LightUpdate.h">
       <Filter>Source Files\world\level</Filter>
@@ -1649,7 +1652,7 @@
       <Filter>Source Files\client\renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\CThread.h">
-      <Filter>Platform</Filter>
+      <Filter>Source Files\platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\client\gui\Gui.h">
       <Filter>Source Files\client\gui</Filter>
@@ -2138,7 +2141,7 @@
       <Filter>Source Files\client\sound</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\audio\SoundSystem.h">
-      <Filter>Platform\audio</Filter>
+      <Filter>Source Files\platform\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\world\level\tile\LadderTile.h">
       <Filter>Source Files\world\level\tile</Filter>
@@ -2153,7 +2156,7 @@
       <Filter>Source Files\client\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\audio\SoundSystemSL.h">
-      <Filter>Platform\audio</Filter>
+      <Filter>Source Files\platform\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\client\renderer\entity\ItemRenderer.h">
       <Filter>Source Files\client\renderer\entity</Filter>
@@ -2192,7 +2195,7 @@
       <Filter>Source Files\world\level\levelgen\feature</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\log.h">
-      <Filter>Platform</Filter>
+      <Filter>Source Files\platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\world\level\storage\ExternalFileLevelStorage.h">
       <Filter>Source Files\world\level\storage</Filter>
@@ -2276,7 +2279,7 @@
       <Filter>Source Files\client\gui\screens</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\file.h">
-      <Filter>Platform</Filter>
+      <Filter>Source Files\platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\client\gui\screens\DialogDefinitions.h">
       <Filter>Source Files\client\gui\screens</Filter>
@@ -2318,7 +2321,7 @@
       <Filter>Source Files\client\gui\screens</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\platform\input\Multitouch.h">
-      <Filter>Platform\input</Filter>
+      <Filter>Source Files\platform\input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\client\player\input\touchscreen\ITouchScreenModel.h">
       <Filter>Source Files\client\player\input\touchscreen</Filter>
