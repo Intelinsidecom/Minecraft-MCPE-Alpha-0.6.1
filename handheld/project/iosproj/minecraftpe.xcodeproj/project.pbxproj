@@ -44,6 +44,13 @@
 		042A91B116B17517007ABBC6 /* OptionsPane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 042A91A916B17517007ABBC6 /* OptionsPane.cpp */; };
 		042A91B216B17517007ABBC6 /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 042A91AB16B17517007ABBC6 /* TextBox.cpp */; };
 		044129071682FF9600B70EE6 /* MouseHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044129061682FF9600B70EE6 /* MouseHandler.cpp */; };
+		57265BB72F7032D10027CFEF /* OptionsFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BB62F7032D10027CFEF /* OptionsFile.cpp */; };
+		57265BBF2F70332F0027CFEF /* GuiElementContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BB92F70332F0027CFEF /* GuiElementContainer.cpp */; };
+		57265BC02F70332F0027CFEF /* GuiElementContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BB92F70332F0027CFEF /* GuiElementContainer.cpp */; };
+		57265BC12F70332F0027CFEF /* OptionsItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BBB2F70332F0027CFEF /* OptionsItem.cpp */; };
+		57265BC22F70332F0027CFEF /* OptionsItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BBB2F70332F0027CFEF /* OptionsItem.cpp */; };
+		57265BC32F70332F0027CFEF /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BBD2F70332F0027CFEF /* Slider.cpp */; };
+		57265BC42F70332F0027CFEF /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BBD2F70332F0027CFEF /* Slider.cpp */; };
 		9D293CE716071C08000305C8 /* CreateNewWorld_iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D293CE616071C08000305C8 /* CreateNewWorld_iphone.xib */; };
 		9D293CE816071C08000305C8 /* CreateNewWorld_iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D293CE616071C08000305C8 /* CreateNewWorld_iphone.xib */; };
 		9D293CEB160720D6000305C8 /* worldname_iphone5_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D293CEA160720D6000305C8 /* worldname_iphone5_3.png */; };
@@ -1213,6 +1220,14 @@
 		042A91AB16B17517007ABBC6 /* TextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
 		042A91AC16B17517007ABBC6 /* TextBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextBox.h; sourceTree = "<group>"; };
 		044129061682FF9600B70EE6 /* MouseHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseHandler.cpp; sourceTree = "<group>"; };
+		57265BB62F7032D10027CFEF /* OptionsFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptionsFile.cpp; sourceTree = "<group>"; };
+		57265BB82F7032EF0027CFEF /* OptionsFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsFile.h; sourceTree = "<group>"; };
+		57265BB92F70332F0027CFEF /* GuiElementContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiElementContainer.cpp; sourceTree = "<group>"; };
+		57265BBA2F70332F0027CFEF /* GuiElementContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiElementContainer.h; sourceTree = "<group>"; };
+		57265BBB2F70332F0027CFEF /* OptionsItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptionsItem.cpp; sourceTree = "<group>"; };
+		57265BBC2F70332F0027CFEF /* OptionsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsItem.h; sourceTree = "<group>"; };
+		57265BBD2F70332F0027CFEF /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Slider.cpp; sourceTree = "<group>"; };
+		57265BBE2F70332F0027CFEF /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
 		9D293CE616071C08000305C8 /* CreateNewWorld_iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateNewWorld_iphone.xib; path = minecraftpe/dialogs/CreateNewWorld_iphone.xib; sourceTree = "<group>"; };
 		9D293CEA160720D6000305C8 /* worldname_iphone5_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldname_iphone5_3.png; sourceTree = "<group>"; };
 		9D959AFF16036BEE00E23A6F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -3158,6 +3173,8 @@
 		D5B50C1F14CFF66F005F7284 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				57265BB82F7032EF0027CFEF /* OptionsFile.h */,
+				57265BB62F7032D10027CFEF /* OptionsFile.cpp */,
 				044129061682FF9600B70EE6 /* MouseHandler.cpp */,
 				D584928414FD240C00741128 /* IConfigListener.cpp */,
 				D584928514FD240C00741128 /* IConfigListener.h */,
@@ -3218,6 +3235,12 @@
 		D5B50C2714CFF66F005F7284 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				57265BB92F70332F0027CFEF /* GuiElementContainer.cpp */,
+				57265BBA2F70332F0027CFEF /* GuiElementContainer.h */,
+				57265BBB2F70332F0027CFEF /* OptionsItem.cpp */,
+				57265BBC2F70332F0027CFEF /* OptionsItem.h */,
+				57265BBD2F70332F0027CFEF /* Slider.cpp */,
+				57265BBE2F70332F0027CFEF /* Slider.h */,
 				042A91A116B17517007ABBC6 /* GButton.cpp */,
 				042A91A216B17517007ABBC6 /* GButton.h */,
 				042A91A316B17517007ABBC6 /* GuiElement.cpp */,
@@ -5332,6 +5355,9 @@
 				D5D8C4C41639341100FD35F0 /* Motive.cpp in Sources */,
 				D5D8C4C8163934BB00FD35F0 /* HangingEntityItem.cpp in Sources */,
 				D5D8C4CC1639362F00FD35F0 /* NetherReactorPattern.cpp in Sources */,
+				57265BC02F70332F0027CFEF /* GuiElementContainer.cpp in Sources */,
+				57265BC22F70332F0027CFEF /* OptionsItem.cpp in Sources */,
+				57265BC42F70332F0027CFEF /* Slider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5699,6 +5725,10 @@
 				042A91B016B17517007ABBC6 /* OptionsGroup.cpp in Sources */,
 				042A91B116B17517007ABBC6 /* OptionsPane.cpp in Sources */,
 				042A91B216B17517007ABBC6 /* TextBox.cpp in Sources */,
+				57265BB72F7032D10027CFEF /* OptionsFile.cpp in Sources */,
+				57265BBF2F70332F0027CFEF /* GuiElementContainer.cpp in Sources */,
+				57265BC12F70332F0027CFEF /* OptionsItem.cpp in Sources */,
+				57265BC32F70332F0027CFEF /* Slider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

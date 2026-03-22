@@ -14,8 +14,8 @@
 	#define USE_VBO
 	#define GL_QUADS 0x0007
     #if defined(__APPLE__)
-        #import <OpenGLES/ES1/gl.height>
-        #import <OpenGLES/ES1/glext.height>
+        #import <OpenGLES/ES1/gl.h>
+        #import <OpenGLES/ES1/glext.h>
     #else
         #include <GLES/gl.h>
         #if defined(ANDROID)

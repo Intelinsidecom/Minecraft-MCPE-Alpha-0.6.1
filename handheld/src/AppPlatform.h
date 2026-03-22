@@ -108,7 +108,6 @@ public:
     virtual float getPixelsPerMillimeter() { return 10; }
 
 	virtual bool isNetworkEnabled(bool onlyWifiAllowed) { return true; }
-
 	virtual bool isPowerVR() {
 		return false;
 	}
