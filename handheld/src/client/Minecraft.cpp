@@ -34,6 +34,7 @@
 #endif
 #include "../platform/CThread.h"
 #include "../platform/input/Mouse.h"
+#include "../platform/input/Controller.h"
 #include "../AppPlatform.h"
 #include "../Performance.h"
 #include "../LicenseCodes.h"
@@ -1155,8 +1156,12 @@ bool Minecraft::useTouchscreen() {
 #ifdef RPI
 	return false;
 #endif
-	if (mouseGrabbed) return false;
-	return options.useTouchScreen || !_supportsNonTouchscreen;
+	#if defined(ANDROID) || defined(__APPLE__)
+		return options.useTouchScreen || !_supportsNonTouchscreen;
+	#else
+		if (mouseGrabbed) return false;
+		return options.useTouchScreen || !_supportsNonTouchscreen;
+	#endif
 }
 bool Minecraft::supportNonTouchScreen() {
 	return _supportsNonTouchscreen;
@@ -1272,7 +1277,7 @@ void Minecraft::_reloadInput() {
 #ifndef STANDALONE_SERVER
 	delete inputHolder;
 
-	if (useTouchscreen() && !mouseGrabbed) {
+	if (useTouchscreen()) {
 		inputHolder = new TouchInputHolder(this, &options);
 	} else {
 		#if defined(ANDROID) || defined(__APPLE__) 
