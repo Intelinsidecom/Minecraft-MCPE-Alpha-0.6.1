@@ -35,35 +35,8 @@ bool createFolderIfNotExists( const char* name ) {
 
     int errorCode = 0;
 	if ((errorCode = _mkdir(name)) != 0) {
-#ifdef ANDROID
-        LOGI("FAILED to create folder %s, error: %d! Checking for Android 29+ scoped storage issues...", name, _errno());
-        std::string pathStr(name);
-        size_t docsPos = pathStr.find("/Documents");
-        if (docsPos != std::string::npos) {
-            std::string parentPath = pathStr.substr(0, docsPos);
-            LOGI("Android 29+ scoped storage detected, trying parent path: %s", parentPath.c_str());
-            if (!exists(parentPath.c_str())) {
-                if ((errorCode = _mkdir(parentPath.c_str())) != 0) {
-                    LOGE("FAILED to create parent folder %s, error: %d", parentPath.c_str(), _errno());
-                    return false;
-                }
-                LOGI("Created parent folder %s", parentPath.c_str());
-            }
-            if ((errorCode = _mkdir(name)) == 0) {
-                LOGI("Successfully created folder %s after parent creation", name);
-                return true;
-            } else {
-                LOGE("Still FAILED to create folder %s even after parent creation, error: %d", name, _errno());
-                return false;
-            }
-        } else {
-            LOGE("FAILED to create folder %s, error: %d (not a Documents path issue)", name, _errno());
-            return false;
-        }
-#else
         LOGI("FAILED to create folder %s, %d! Escape plan?\n", name, _errno());
         return false;
-#endif // ANDROID
     }
 
     LOGI("Created folder %s\n", name);

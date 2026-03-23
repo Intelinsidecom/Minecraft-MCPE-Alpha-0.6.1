@@ -30,45 +30,6 @@ ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string
 
 	int treeLength = sizeof(tree) / sizeof(tree[0]);
 
-#ifdef ANDROID
-	if (!createFolderIfNotExists(externalPath.c_str())) {
-		LOGI("Failed to access external path: %s - attempting fallback", externalPath.c_str());
-		std::string fallbackPath = externalPath;
-		size_t docsPos = fallbackPath.find("/Documents");
-		if (docsPos != std::string::npos) {
-			fallbackPath = fallbackPath.substr(0, docsPos);
-			LOGI("Trying fallback path: %s", fallbackPath.c_str());
-			if (!createFolderIfNotExists(fallbackPath.c_str())) {
-				LOGE("Failed to access both primary and fallback paths");
-				return;
-			}
-			createTree(fallbackPath.c_str(), tree, treeLength);
-			basePath = fallbackPath + p0 + p1 + p2;
-		} else {
-			return;
-		}
-	} else {
-		createTree(externalPath.c_str(), tree, treeLength);
-		basePath = externalPath + p0 + p1 + p2;
-	}
-	
-	if (hasTempDirectory()) {
-		std::string tempPath = temporaryFilesPath;
-		size_t docsPos = tempPath.find("/Documents");
-		if (docsPos != std::string::npos) {
-			std::string fallbackTemp = tempPath.substr(0, docsPos);
-			if (createFolderIfNotExists(fallbackTemp.c_str())) {
-				createTree(fallbackTemp.c_str(), tree, treeLength);
-				tmpBasePath = fallbackTemp + p0 + p1 + p2;
-			} else {
-				tmpBasePath = basePath;
-			}
-		} else {
-			createTree(temporaryFilesPath.c_str(), tree, treeLength);
-			tmpBasePath = temporaryFilesPath + p0 + p1 + p2;
-		}
-	}
-#else
 	createTree(externalPath.c_str(), tree, treeLength);
 	
 	if (hasTempDirectory())
@@ -76,7 +37,6 @@ ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string
 
 	basePath = externalPath + p0 + p1 + p2;
 	tmpBasePath = temporaryFilesPath + p0 + p1 + p2;
-#endif // ANDROID
 #else
 	basePath = externalPath;
 	tmpBasePath = temporaryFilesPath;
@@ -226,8 +186,7 @@ bool ExternalFileLevelStorageSource::isNewLevelIdAcceptable( const std::string& 
 }
 
 std::string ExternalFileLevelStorageSource::getFullPath(const std::string& levelId) {
-    const std::string& tempDir = (hasTempDirectory() && !tmpBasePath.empty()) ? tmpBasePath : basePath;
-    return ((TempLevelId == levelId) ? tempDir : basePath) + "/" + levelId;
+    return ((TempLevelId == levelId)? tmpBasePath : basePath) + "/" + levelId;
 }
 
 

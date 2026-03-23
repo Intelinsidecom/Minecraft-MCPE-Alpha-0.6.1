@@ -120,41 +120,6 @@ void ExternalFileLevelStorage::saveLevelData( const std::string& levelPath, Leve
     std::string oldFile = directory + fnLevelDatOld;
 
 	levelData.setStorageVersion(SharedConstants::StorageVersion);
-	
-#ifdef ANDROID
-	if (!createFolderIfNotExists(levelPath.c_str())) {
-		LOGE("Cannot create level directory: %s - save aborted", levelPath.c_str());
-		return;
-	}
-
-	FILE* testFile = fopen(tmpFile.c_str(), "wb");
-	if (!testFile) {
-		LOGE("Cannot write to level directory: %s - checking for Android 29+ scoped storage issues", levelPath.c_str());
-		size_t docsPos = levelPath.find("/Documents");
-		if (docsPos != std::string::npos) {
-			std::string fallbackPath = levelPath.substr(0, docsPos) + "/games/com.mojang/minecraftWorlds";
-			std::string levelName = levelPath.substr(levelPath.find_last_of("/") + 1);
-			std::string fallbackLevelPath = fallbackPath + "/" + levelName;
-			
-			LOGI("Attempting fallback save path: %s", fallbackLevelPath.c_str());
-			if (createFolderIfNotExists(fallbackLevelPath.c_str())) {
-				directory = fallbackLevelPath + "/";
-				tmpFile = directory + fnLevelDatNew;
-				datFile = directory + fnLevelDat;
-				oldFile = directory + fnLevelDatOld;
-				testFile = fopen(tmpFile.c_str(), "wb");
-			}
-		}
-		
-		if (!testFile) {
-			LOGE("Failed to write to both primary and fallback paths - save aborted");
-			return;
-		}
-	}
-	fclose(testFile);
-	remove(tmpFile.c_str());
-#endif // ANDROID
-	
 	if (!writeLevelData(tmpFile, levelData, players))
         return;
 
@@ -537,38 +502,7 @@ void ExternalFileLevelStorage::saveEntities( Level* level, LevelChunk* levelChun
 	NbtIo::write(&base, &dos);
 	int numBytes = stream.GetNumberOfBytesUsed();
 
-#ifdef ANDROID
-	std::string entitiesFilePath = levelPath + "/entities.dat";
-	FILE* fp = fopen(entitiesFilePath.c_str(), "wb");
-	
-	// Handle Android 29+ scoped storage issues
-	if (!fp) {
-		LOGE("Cannot save entities to %s - checking for Android 29+ scoped storage issues", entitiesFilePath.c_str());
-		
-		// For Android 29+, if path contains /Documents and fails, try fallback
-		size_t docsPos = levelPath.find("/Documents");
-		if (docsPos != std::string::npos) {
-			std::string fallbackPath = levelPath.substr(0, docsPos) + "/games/com.mojang/minecraftWorlds";
-			std::string levelName = levelPath.substr(levelPath.find_last_of("/") + 1);
-			std::string fallbackLevelPath = fallbackPath + "/" + levelName;
-			
-			LOGI("Attempting fallback entities save path: %s/entities.dat", fallbackLevelPath.c_str());
-			if (createFolderIfNotExists(fallbackLevelPath.c_str())) {
-				entitiesFilePath = fallbackLevelPath + "/entities.dat";
-				fp = fopen(entitiesFilePath.c_str(), "wb");
-			}
-		}
-		
-		if (!fp) {
-			LOGE("Failed to save entities to both primary and fallback paths");
-			base.deleteChildren();
-			return;
-		}
-	}
-#else
 	FILE* fp = fopen((levelPath + "/entities.dat").c_str(), "wb");
-#endif // ANDROID
-	
 	if (fp) {
 		int version = 1;
 		fwrite("ENT\0", 1, 4, fp);
@@ -576,9 +510,6 @@ void ExternalFileLevelStorage::saveEntities( Level* level, LevelChunk* levelChun
 		fwrite(&numBytes, sizeof(int), 1, fp);
 		fwrite(stream.GetData(), 1, numBytes, fp);
 		fclose(fp);
-#ifdef ANDROID
-		LOGI("Successfully saved %d entities to: %s", count, entitiesFilePath.c_str());
-#endif
 	}
 
 	base.deleteChildren();

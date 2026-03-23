@@ -9,7 +9,6 @@
 #include "../world/entity/player/Inventory.h"
 #include "../client/Minecraft.h"
 #include "../client/gamemode/GameMode.h"
-#include <string>
 #ifndef STANDALONE_SERVER
 #include "../client/gui/screens/DisconnectionScreen.h"
 #endif
@@ -97,12 +96,9 @@ void ClientSideNetworkHandler::onUnableToConnect()
 
 void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 {
-	LOGI("=== onDisconnect called ===\n");
-	LOGI("Current level ID: '%s'\n", currentLevelId.c_str());
-	
+	LOGI("onDisconnect\n");
 	if (level)
 	{
-		LOGI("Level exists, setting isClientSide to false\n");
 		level->isClientSide = false;
 		for (int i = (int)level->players.size()-1; i >= 0; --i ) {
 			Player* p = level->players[i];
@@ -111,31 +107,10 @@ void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 				level->removeEntity(p);
 			}
 		}
-	} else {
-		LOGI("No level exists\n");
 	}
-	
-	if (!currentLevelId.empty()) {
-		LOGI("=== Attempting to delete temporary multiplayer level ===\n");
-		LOGI("Level ID to delete: %s\n", currentLevelId.c_str());
-		
-		LevelStorageSource* storageSource = minecraft->getLevelSource();
-		if (storageSource) {
-			LOGI("Storage source obtained, calling deleteLevel...\n");
-			storageSource->deleteLevel(currentLevelId);
-			LOGI("deleteLevel call completed\n");
-		} else {
-			LOGI("ERROR: Could not get storage source\n");
-		}
-		currentLevelId.clear();
-	} else {
-		LOGI("No current level ID to delete\n");
-	}
-	
 #ifndef STANDALONE_SERVER
 	minecraft->gui.addMessage("Disconnected from server");
 #endif
-	LOGI("=== onDisconnect completed ===\n");
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& source, LoginStatusPacket* packet) {
@@ -170,14 +145,12 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& source, StartGam
 	}
 #endif
 
-	char seedBuffer[32];
-	sprintf(seedBuffer, "%ld", packet->levelSeed);
-	currentLevelId = LevelStorageSource::TempLevelId + "_" + source.ToString() + "_" + std::string(seedBuffer);
+	const std::string& levelId = LevelStorageSource::TempLevelId;
 	LevelStorageSource* storageSource = minecraft->getLevelSource();
-	storageSource->deleteLevel(currentLevelId);
+	storageSource->deleteLevel(levelId);
 	//level = new Level(storageSource->selectLevel(levelId, true), "temp", packet->levelSeed, SharedConstants::StorageVersion);
 	MultiPlayerLevel* level = new MultiPlayerLevel(
-		storageSource->selectLevel(currentLevelId, true),
+		storageSource->selectLevel(levelId, true),
 		"temp",
 		LevelSettings(packet->levelSeed, LevelSettings::validateGameType(packet->gameType)),
 		SharedConstants::StorageVersion);
