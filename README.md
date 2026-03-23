@@ -23,6 +23,7 @@ This repo includes the leak files for MCPE 0.6.1 version. Im looking into adding
 
 ## Current bugs
 - Mouse Movement in Win32 can be buggy.
+- Critical Issue: When joining to an server or an friend, you get spawned to default cordinates and more. singleplayer works without issues.
 
 # Building
 
@@ -63,7 +64,18 @@ Notes for modern android users:
 4. Choose the device you will be running simulator for in top left (Ipad or Iphone)
 5. Press Run to test (Keep in mind performance isnt going to be great).
 
-P.S unfortunately i havent found an way to export the project to ipa for running on iphones as of writing this, i cant release an offici al IPA build to test.
+## Running on an real device (IPhone)
+1. Navigate to XCode Package Contents with Right Clicking XCode app in finder and selecting Show Package Contents
+2. Navigate to Contents/Developer/Platforms/IphoneOS.platform/Developer/SDKs/(For what sdk your building for)/SDKSettings.plist
+3. Open with XCode, Expand Default Properties and select AD_HOC_CODE_xxx to YES and CODE_SIGNING_REQUIRED to NO (must be uppercase)
+4. Save the file, close XCode completely and reopen with the Project
+5. Navigate to Project Settings and change the Basic Listing to All
+6. Change under Code Signing  and Where Release and Debug are from Iphone Developer to Adhoc Signing (if not already changed)
+7. Under Platform in the top toolbar choose Archive and once its done under the Archived project, right click and select Find in Finder
+8. Where the archive is, right click and select show Package Contents and Navigate to Products / Application
+9. In desktop or where you want, make an folder called Payload and copy the minecraftpe to it.
+10. Compress the payload folder with right click and then rename zip to ipa.
+11. Sideload the ipa how you want and you can play the game.
 
 ## Dedicated Server
 
