@@ -209,9 +209,10 @@ void platform(HWND *result, int width, int height) {
 
 	hwnd = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "OGLES", "Minecraft", WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0, 0, wRect.right-wRect.left, wRect.bottom-wRect.top, NULL, NULL, hInstance, NULL);
 	*result = hwnd;
-#ifdef _DEBUG 
+	// I noticed some shit on other pcs on release
+//#ifdef _DEBUG 
 	OpenDebugConsole();
-#endif
+//#endif
 }
 
 

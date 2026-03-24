@@ -253,19 +253,20 @@ void Inventory::setupDefault() {
 		addItem(new ItemInstance(Item::bow));
 		addItem(new ItemInstance(Item::sign));
 	} else {
-#if defined(WIN32)
-		// Survival
-		addItem(new ItemInstance(Item::ironIngot, 64));
-		addItem(new ItemInstance(Item::ironIngot, 34));
-		addItem(new ItemInstance(Tile::stonecutterBench));
-		addItem(new ItemInstance(Tile::workBench));
-		addItem(new ItemInstance(Tile::furnace));
-		addItem(new ItemInstance(Tile::wood, 54));
-		addItem(new ItemInstance(Item::stick, 14));
-		addItem(new ItemInstance(Item::coal, 31));
-		addItem(new ItemInstance(Tile::sand, 6));
-		addItem(new ItemInstance(Item::dye_powder, 23, DyePowderItem::PURPLE));
-#endif
+// Was used for testing but since I want to make Win32 like an proper port, these shouldnt be there.
+//#if defined(WIN32)
+//		// Survival
+//		addItem(new ItemInstance(Item::ironIngot, 64));
+//		addItem(new ItemInstance(Item::ironIngot, 34));
+//		addItem(new ItemInstance(Tile::stonecutterBench));
+//		addItem(new ItemInstance(Tile::workBench));
+//		addItem(new ItemInstance(Tile::furnace));
+//		addItem(new ItemInstance(Tile::wood, 54));
+//		addItem(new ItemInstance(Item::stick, 14));
+//		addItem(new ItemInstance(Item::coal, 31));
+//		addItem(new ItemInstance(Tile::sand, 6));
+//		addItem(new ItemInstance(Item::dye_powder, 23, DyePowderItem::PURPLE))
+// #endif
 	}
 #endif
 

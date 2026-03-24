@@ -755,10 +755,11 @@ void Minecraft::tickInput() {
 				}
 			#endif
 			#if defined(WIN32)
-				if (key == Keyboard::KEY_F) {
-					options.isFlying = !options.isFlying;
-					player->noPhysics = options.isFlying;
-				}
+// Its for testing or whatewer so not really that needed (F_DISABLED)
+//				if (key == Keyboard::KEY_F) {
+//					options.isFlying = !options.isFlying;
+//					player->noPhysics = options.isFlying;
+//				}
 
 				if (key == Keyboard::KEY_T) {
 					options.thirdPersonView = !options.thirdPersonView;
@@ -780,7 +781,6 @@ void Minecraft::tickInput() {
 
 				if (key == Keyboard::KEY_U) {
 					onGraphicsReset();
-					player->heal(100);
 				}
 
 				if (key == Keyboard::KEY_B || key == 108) // Toggle the game mode
@@ -862,13 +862,25 @@ void Minecraft::tickInput() {
 				}
 			#endif
 
-			#ifndef RPI
-				if (key == 82)
-					pauseGame(false);
-			#else
-				if (key == Keyboard::KEY_ESCAPE)
-					pauseGame(false);
-			#endif
+			if (key == Keyboard::KEY_E) {
+				if (screen) {
+					setScreen(NULL);
+				} else {
+					screenChooser.setScreen(SCREEN_BLOCKSELECTION);
+				}
+			}
+
+			if (key == Keyboard::KEY_Q) {
+				if (player && player->inventory) {
+					ItemInstance* currentItem = player->inventory->getSelected();
+					if (currentItem && currentItem->count > 0) {
+						player->inventory->dropSlot(player->inventory->selected, false);
+					}
+				}
+			}
+
+			if (key == Keyboard::KEY_ESCAPE)
+				pauseGame(false);
 
 			#ifndef OPENGL_ES
 				if (key == Keyboard::KEY_P) {

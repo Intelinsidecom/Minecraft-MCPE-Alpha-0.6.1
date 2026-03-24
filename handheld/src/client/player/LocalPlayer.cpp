@@ -197,6 +197,14 @@ void LocalPlayer::aiStep() {
 			if (input->wantDown) {
 				yd -= 0.15f;
 			}
+			
+			if (Keyboard::isKeyDown(Keyboard::KEY_SPACE)) {
+				yd += 0.15f;
+			}
+			if (Keyboard::isKeyDown(16)) {
+				yd -= 0.15f;
+			}
+			
 		}
 	}
 

@@ -7,7 +7,7 @@
 
 #define _SECURE_SCL 0
 
-#ifdef WIN32
+#if defined(_M_IX86) && defined(WIN32)
 	#include "vld.h"
 #endif
 
