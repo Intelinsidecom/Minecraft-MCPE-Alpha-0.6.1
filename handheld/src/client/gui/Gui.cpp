@@ -184,7 +184,9 @@ void Gui::handleClick(int button, int x, int y) {
 	int slot = getSlotIdAt(x, y);
 	if (slot != -1)
 	{
-		if (slot == (getNumSlots()-1))
+		bool isMouseLocked = minecraft->mouseGrabbed;
+
+		if (slot == (getNumSlots()-1) && !isMouseLocked)
 		{
 			minecraft->screenChooser.setScreen(SCREEN_BLOCKSELECTION);
 		}
@@ -198,6 +200,9 @@ void Gui::handleClick(int button, int x, int y) {
 
 void Gui::handleKeyPressed(int key)
 {
+	bool isMouseLocked = minecraft->mouseGrabbed;
+	int maxSlot = isMouseLocked ? getNumSlots() - 1 : getNumSlots() - 2;
+	
 	if (key == 99)
 	{
 		if (minecraft->player->inventory->selected > 0)
@@ -207,7 +212,7 @@ void Gui::handleKeyPressed(int key)
 	}
 	else if (key == 4)
 	{
-		if (minecraft->player->inventory->selected < (getNumSlots() - 2))
+		if (minecraft->player->inventory->selected < maxSlot)
 		{
 			minecraft->player->inventory->selected++;
 		}
@@ -451,7 +456,10 @@ void Gui::tickItemDrop()
 	isCurrentlyActive = false;
 	if (Mouse::isButtonDown(MouseAction::ACTION_LEFT)) {
 		int slot = getSlotIdAt(Mouse::getX(), Mouse::getY());
-		if (slot >= 0 && slot < getNumSlots()-1) {
+		bool isMouseLocked = minecraft->mouseGrabbed;
+		int maxSlot = isMouseLocked ? getNumSlots() - 1 : getNumSlots() - 2;
+		
+		if (slot >= 0 && slot <= maxSlot) {
 			if (slot != _currentDropSlot) {
 				_currentDropTicks = 0;
 				_currentDropSlot = slot;
@@ -752,6 +760,7 @@ void Gui::renderToolBar( float a, int ySlot, const int screenWidth ) {
 	Tesselator& t = Tesselator::instance;
 	t.beginOverride();
 
+	bool isMouseLocked = minecraft->mouseGrabbed;
 	float x = baseItemX;
 	for (int i = 0; i < getNumSlots()-1; i++) {
 		renderSlot(i, (int)x, ySlot, a);
@@ -765,8 +774,11 @@ void Gui::renderToolBar( float a, int ySlot, const int screenWidth ) {
 	//renderSlotWatch.stop();
 	//renderSlotWatch.printEvery(100, "Render slots:");
 
-	//int x = screenWidth / 2 + getNumSlots() * 10 + (getNumSlots()-1) * 20 + 2;
-	blit(screenWidth / 2 + 10 * getNumSlots() - 20 + 4, ySlot + 6, 242, 252, 14, 4, 14, 4);
+	if (isMouseLocked) {
+		renderSlot(getNumSlots()-1, (int)x, ySlot, a);
+	} else {
+		blit(screenWidth / 2 + 10 * getNumSlots() - 20 + 4, ySlot + 6, 242, 252, 14, 4, 14, 4);
+	}
 
 	minecraft->textures->loadAndBindTexture("gui/gui_blocks.png");
 	t.endOverrideAndDraw();
@@ -779,6 +791,9 @@ void Gui::renderToolBar( float a, int ySlot, const int screenWidth ) {
 	for (int i = 0; i < getNumSlots()-1; i++) {
 		ItemRenderer::renderGuiItemDecorations(minecraft->player->inventory->getItem(i), x, (float)ySlot);
 		x += 20;
+	}
+	if (isMouseLocked) {
+		ItemRenderer::renderGuiItemDecorations(minecraft->player->inventory->getItem(getNumSlots()-1), x, (float)ySlot);
 	}
 	t.endOverrideAndDraw();
 	glEnable(GL_DEPTH_TEST);
@@ -795,12 +810,17 @@ void Gui::renderToolBar( float a, int ySlot, const int screenWidth ) {
 
 	t.beginOverride();
 	if (minecraft->gameMode->isSurvivalType()) {
-		x = baseItemX;
+		float x = baseItemX;
 		for (int i = 0; i < getNumSlots()-1; i++) {
 			ItemInstance* item = minecraft->player->inventory->getItem(i);
 			if (item && item->count >= 0)
 				renderSlotText(item, k*x, k*ySlot + 1, true, true);
 			x += 20;
+		}
+		if (isMouseLocked) {
+			ItemInstance* item = minecraft->player->inventory->getItem(getNumSlots()-1);
+			if (item && item->count >= 0)
+				renderSlotText(item, k*x, k*ySlot + 1, true, true);
 		}
 	}
 	minecraft->textures->loadAndBindTexture("font/default8.png");

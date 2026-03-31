@@ -160,6 +160,16 @@ LRESULT WINAPI windowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 		}
 		break;
 	}
+	case WM_MOUSEWHEEL: {
+		int wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+		int scrollDirection = (wheelDelta > 0) ? 1 : -1;
+		int x = GET_X_LPARAM(lParam);
+		int y = GET_Y_LPARAM(lParam);
+		POINT pt = { x, y };
+		ScreenToClient(hWnd, &pt);
+		Mouse::feed(MouseAction::ACTION_WHEEL, 0, (short)pt.x, (short)pt.y, 0, (short)scrollDirection);
+		break;
+	}
 	case WM_ACTIVATE: {
 		if (LOWORD(wParam) == WA_INACTIVE) {
 			if (g_app) ((Minecraft*)g_app)->pauseGame(false);

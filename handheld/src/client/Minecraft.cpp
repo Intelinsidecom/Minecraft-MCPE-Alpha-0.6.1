@@ -695,7 +695,8 @@ void Minecraft::tickInput() {
 
 		if (e.action == MouseAction::ACTION_WHEEL) {
 			Inventory* v = player->inventory;
-			int numSlots = gui.getNumSlots() - 1;
+			bool isMouseLocked = mouseGrabbed;
+			int numSlots = isMouseLocked ? gui.getNumSlots() : gui.getNumSlots() - 1;
 			int slot = (v->selected - e.dy + numSlots) % numSlots;
 			v->selectSlot(slot);
 		}
@@ -727,7 +728,10 @@ void Minecraft::tickInput() {
 					int digit = key - '0';
 					int slot = digit - 1;
 
-					if (slot >= 0 && slot < gui.getNumSlots()-1)
+					bool isMouseLocked = mouseGrabbed;
+					int maxSlot = isMouseLocked ? gui.getNumSlots() - 1 : gui.getNumSlots() - 2;
+					
+					if (slot >= 0 && slot <= maxSlot)
 						player->inventory->selectSlot(slot);
 
 					#if defined(WIN32)
