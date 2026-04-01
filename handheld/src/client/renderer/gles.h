@@ -141,6 +141,7 @@ struct RenderState {
     int fogMode;
     float fogStart;
     float fogEnd;
+    float fogDensity;
     float fogColor[4];
     bool alphaTestEnabled;
     float alphaTestRef;

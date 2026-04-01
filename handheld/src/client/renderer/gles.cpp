@@ -55,7 +55,6 @@ static void ensureShaders() {
 
     EGLContext ctx = eglGetCurrentContext();
     EGLDisplay dpy = eglGetCurrentDisplay();
-    LOGI("DIAGNOSTIC: ensureShaders() - Current EGL Context: %p, Display: %p\n", ctx, dpy);
 
 #ifndef OPENGL_ES
     static bool glewDone = false;
@@ -66,7 +65,6 @@ static void ensureShaders() {
     }
 #endif
 
-    LOGI("DIAGNOSTIC: ensureShaders() - Attempting to create shaders...\n");
 
     const char* paths[] = {
         "data/shaders/",
@@ -85,10 +83,8 @@ static void ensureShaders() {
             defaultShader = new Shader(vPath, fPath);
             if (defaultShader && defaultShader->isLoaded()) {
                 defaultShader->bind();
-                LOGI("DIAGNOSTIC: Successfully loaded default shader from %s. Program ID: %u\n", paths[i], defaultShader->getProgram());
                 break;
             } else {
-                LOGE("DIAGNOSTIC: Failed to link shader from %s (Program ID still 0)\n", paths[i]);
             }
         }
     }
@@ -96,7 +92,6 @@ static void ensureShaders() {
     if (!defaultShader || !defaultShader->isLoaded()) {
         static int failCount = 0;
         if (failCount++ < 5) {
-            LOGE("DIAGNOSTIC: CRITICAL - Shaders not loaded. GPU Context may not be current.\n");
         }
     }
 }
@@ -136,14 +131,12 @@ void drawArrayVT(int bufferId, int vertices, int vertexSize /* = 24 */, unsigned
 #ifndef drawArrayVT_NoState
 void drawArrayVT_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) {
 	//if (Options::debugGl) LOGI("drawArray\n");
-	LOGI("DIAGNOSTIC: drawArrayVT_NoState called - bufferId: %d, vertices: %d, vertexSize: %d\n", bufferId, vertices, vertexSize);
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
 	
 	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
 	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
 	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
 	
-	LOGI("DIAGNOSTIC: Attribute locations - a_position: %d, a_texCoord: %d, a_color: %d\n", posLoc, texLoc, colLoc);
 	
 	glEnableVertexAttribArray(posLoc);
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
@@ -514,7 +507,7 @@ void mc_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLflo
     if (currentStack) currentStack->ortho(left, right, bottom, top, zNear, zFar);
 }
 
-RenderState renderState = { false, 0, 0.0f, 1.0f, {1.0f, 1.0f, 1.0f, 1.0f}, false, 0.1f, GL_SMOOTH, false, {1.0f, 1.0f, 1.0f, 1.0f} };
+RenderState renderState = { false, 0, 0.0f, 1.0f, 0.0f, {1.0f, 1.0f, 1.0f, 1.0f}, false, 0.1f, GL_SMOOTH, false, {1.0f, 1.0f, 1.0f, 1.0f} };
 
 #undef glFogf
 #undef glFogfv
@@ -526,6 +519,7 @@ RenderState renderState = { false, 0, 0.0f, 1.0f, {1.0f, 1.0f, 1.0f, 1.0f}, fals
 void mc_glFogf(GLenum pname, GLfloat param) {
     if (pname == GL_FOG_START) renderState.fogStart = param;
     else if (pname == GL_FOG_END) renderState.fogEnd = param;
+    else if (pname == GL_FOG_DENSITY) renderState.fogDensity = param;
     else if (pname == GL_FOG_MODE) renderState.fogMode = (int)param;
 }
 
@@ -638,8 +632,6 @@ void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     ensureShaders();
     static int drawCount = 0;
     if (drawCount < 10) {
-        LOGI("DIAGNOSTIC: Draw call #%d - Mode: %x, First: %d, Count: %d, Shader: %p\n", 
-             drawCount++, mode, first, count, currentShader);
     }
 
     if (currentShader) {
@@ -651,7 +643,15 @@ void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         currentShader->setUniform4f("u_color", renderState.color[0], renderState.color[1], renderState.color[2], renderState.color[3]);
         
         currentShader->setUniform1i("u_texture", 0);
-
+        
+        // Fog uniforms
+        currentShader->setUniform1i("u_fogEnabled", renderState.fogEnabled ? 1 : 0);
+        currentShader->setUniform4f("u_fogColor", renderState.fogColor[0], renderState.fogColor[1], renderState.fogColor[2], renderState.fogColor[3]);
+        currentShader->setUniform1f("u_fogStart", renderState.fogStart);
+        currentShader->setUniform1f("u_fogEnd", renderState.fogEnd);
+        currentShader->setUniform1f("u_fogDensity", renderState.fogDensity);
+        currentShader->setUniform1i("u_fogMode", renderState.fogMode);
+        
         GLint posLoc = currentShader->getAttribLocation("a_position");
         GLint texLoc = currentShader->getAttribLocation("a_texCoord");
         GLint colLoc = currentShader->getAttribLocation("a_color");
@@ -666,25 +666,20 @@ void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             tSize = 2; tType = GL_FLOAT; tStride = 24; tPtr = (void*)12;
             cSize = 4; cType = GL_UNSIGNED_BYTE; cStride = 24; cPtr = (void*)20;
             
-            LOGI("DIAGNOSTIC: Set vertex parameters - vStride=%d, tStride=%d, cStride=%d\n", vStride, tStride, cStride);
         }
         
         if (vEnabled && posLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
-            LOGI("DIAGNOSTIC: Enabling position attribute - size: %d, type: %x, stride: %d, ptr: %p\n", vSize, vType, vStride, vPtr);
             p_glEnableVertexAttribArray(posLoc);
             p_glVertexAttribPointer(posLoc, vSize, vType, GL_FALSE, vStride, vPtr);
         }
         if (tEnabled && texLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
-            LOGI("DIAGNOSTIC: Enabling texcoord attribute - size: %d, type: %x, stride: %d, ptr: %p\n", tSize, tType, tStride, tPtr);
             p_glEnableVertexAttribArray(texLoc);
             p_glVertexAttribPointer(texLoc, tSize, tType, GL_FALSE, tStride, tPtr);
         } else if (texLoc != -1 && p_glDisableVertexAttribArray) {
-            LOGI("DIAGNOSTIC: Disabling texcoord attribute\n");
             p_glDisableVertexAttribArray(texLoc);
         }
 
         if (cEnabled && colLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
-            LOGI("DIAGNOSTIC: Enabling color attribute - size: %d, type: %x, stride: %d, ptr: %p\n", cSize, cType, cType == GL_UNSIGNED_BYTE ? GL_TRUE : GL_FALSE, vStride, cPtr);
             p_glEnableVertexAttribArray(colLoc);
             p_glVertexAttribPointer(colLoc, cSize, cType, cType == GL_UNSIGNED_BYTE ? GL_TRUE : GL_FALSE, vStride, cPtr);
         } else if (colLoc != -1) {

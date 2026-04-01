@@ -15,6 +15,7 @@ PFNGLUSEPROGRAM p_glUseProgram = nullptr;
 PFNGLGETATTRIBLOCATION p_glGetAttribLocation = nullptr;
 PFNGLGETUNIFORMLOCATION p_glGetUniformLocation = nullptr;
 PFNGLUNIFORMMATRIX4FV p_glUniformMatrix4fv = nullptr;
+PFNGLUNIFORM1F p_glUniform1f = nullptr;
 PFNGLUNIFORM1I p_glUniform1i = nullptr;
 PFNGLUNIFORM4F p_glUniform4f = nullptr;
 PFNGLENABLEVERTEXATTRIBARRAY p_glEnableVertexAttribArray = nullptr;
@@ -43,6 +44,7 @@ void LoadGLESFunctions() {
     p_glGetAttribLocation = (PFNGLGETATTRIBLOCATION)eglGetProcAddress("glGetAttribLocation");
     p_glGetUniformLocation = (PFNGLGETUNIFORMLOCATION)eglGetProcAddress("glGetUniformLocation");
     p_glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FV)eglGetProcAddress("glUniformMatrix4fv");
+    p_glUniform1f = (PFNGLUNIFORM1F)eglGetProcAddress("glUniform1f");
     p_glUniform1i = (PFNGLUNIFORM1I)eglGetProcAddress("glUniform1i");
     p_glUniform4f = (PFNGLUNIFORM4F)eglGetProcAddress("glUniform4f");
     p_glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAY)eglGetProcAddress("glEnableVertexAttribArray");

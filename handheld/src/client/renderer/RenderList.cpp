@@ -3,6 +3,8 @@
 #include "gles.h"
 #include "RenderChunk.h"
 #include "Tesselator.h"
+#include "Shader.h"
+
 
 
 RenderList::RenderList()
@@ -68,6 +70,16 @@ void RenderList::renderChunks() {
 	glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
 
 	const int Stride = VertexSizeBytes;
+
+	// Set fog uniforms once before rendering all chunks
+	if (currentShader) {
+		currentShader->setUniform1i("u_fogEnabled", renderState.fogEnabled ? 1 : 0);
+		currentShader->setUniform4f("u_fogColor", renderState.fogColor[0], renderState.fogColor[1], renderState.fogColor[2], renderState.fogColor[3]);
+		currentShader->setUniform1f("u_fogStart", renderState.fogStart);
+		currentShader->setUniform1f("u_fogEnd", renderState.fogEnd);
+		currentShader->setUniform1f("u_fogDensity", renderState.fogDensity);
+		currentShader->setUniform1i("u_fogMode", renderState.fogMode);
+	}
 
 	for (int i = 0; i < bufferLimit; ++i) {
 		RenderChunk& rc = rlists[i];

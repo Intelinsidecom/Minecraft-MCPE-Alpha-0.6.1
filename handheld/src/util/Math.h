@@ -88,10 +88,11 @@ public:
         Matrix4 res;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                res.m[i * 4 + j] = m[i * 4 + 0] * o.m[0 * 4 + j] +
-                                   m[i * 4 + 1] * o.m[1 * 4 + j] +
-                                   m[i * 4 + 2] * o.m[2 * 4 + j] +
-                                   m[i * 4 + 3] * o.m[3 * 4 + j];
+                // Column-major order for OpenGL ES 2.0 compatibility
+                res.m[j * 4 + i] = m[0 * 4 + i] * o.m[j * 4 + 0] +
+                                   m[1 * 4 + i] * o.m[j * 4 + 1] +
+                                   m[2 * 4 + i] * o.m[j * 4 + 2] +
+                                   m[3 * 4 + i] * o.m[j * 4 + 3];
             }
         }
         for (int i = 0; i < 16; i++) m[i] = res.m[i];

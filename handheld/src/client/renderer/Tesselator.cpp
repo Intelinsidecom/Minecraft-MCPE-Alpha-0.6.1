@@ -107,6 +107,13 @@ RenderChunk Tesselator::end( bool useMine, int bufferId )
 			currentShader->setUniform1i("u_useTexture", hasTexture ? 1 : 0);
 			currentShader->setUniform1i("u_alphaTest", renderState.alphaTestEnabled ? 1 : 0);
 			currentShader->setUniform4f("u_color", renderState.color[0], renderState.color[1], renderState.color[2], renderState.color[3]);
+			// Fog uniforms
+			currentShader->setUniform1i("u_fogEnabled", renderState.fogEnabled ? 1 : 0);
+			currentShader->setUniform4f("u_fogColor", renderState.fogColor[0], renderState.fogColor[1], renderState.fogColor[2], renderState.fogColor[3]);
+			currentShader->setUniform1f("u_fogStart", renderState.fogStart);
+			currentShader->setUniform1f("u_fogEnd", renderState.fogEnd);
+			currentShader->setUniform1f("u_fogDensity", renderState.fogDensity);
+			currentShader->setUniform1i("u_fogMode", renderState.fogMode);
 		}
 		GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
 		GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
@@ -411,6 +418,13 @@ void Tesselator::draw()
 			currentShader->setUniform1i("u_useTexture", hasTexture ? 1 : 0);
 			currentShader->setUniform1i("u_alphaTest", renderState.alphaTestEnabled ? 1 : 0);
 			currentShader->setUniform4f("u_color", renderState.color[0], renderState.color[1], renderState.color[2], renderState.color[3]);
+			// Fog uniforms
+			currentShader->setUniform1i("u_fogEnabled", renderState.fogEnabled ? 1 : 0);
+			currentShader->setUniform4f("u_fogColor", renderState.fogColor[0], renderState.fogColor[1], renderState.fogColor[2], renderState.fogColor[3]);
+			currentShader->setUniform1f("u_fogStart", renderState.fogStart);
+			currentShader->setUniform1f("u_fogEnd", renderState.fogEnd);
+			currentShader->setUniform1f("u_fogDensity", renderState.fogDensity);
+			currentShader->setUniform1i("u_fogMode", renderState.fogMode);
 		}
 		GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
 		GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;

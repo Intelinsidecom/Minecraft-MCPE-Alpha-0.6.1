@@ -144,6 +144,12 @@ void Shader::setUniform1i(const std::string& name, int value) {
     if (loc != -1) p_glUniform1i(loc, value);
 }
 
+void Shader::setUniform1f(const std::string& name, float value) {
+    if (!programId || !p_glUniform1f) return;
+    GLint loc = getUniformLocation(name);
+    if (loc != -1) p_glUniform1f(loc, value);
+}
+
 void Shader::setUniform4f(const std::string& name, float x, float y, float z, float w) {
     if (!programId || !p_glUniform4f) return;
     GLint loc = getUniformLocation(name);
