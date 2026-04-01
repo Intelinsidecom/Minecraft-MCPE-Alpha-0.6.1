@@ -97,7 +97,9 @@ LOCAL_SRC_FILES := ../../../src/main.cpp \
 ../../../src/client/renderer/Tesselator.cpp \
 ../../../src/client/renderer/Textures.cpp \
 ../../../src/client/renderer/TileRenderer.cpp \
+../../../src/client/renderer/GLESLoader.cpp \
 ../../../src/client/renderer/gles.cpp \
+../../../src/client/renderer/Shader.cpp \
 ../../../src/client/renderer/culling/Frustum.cpp \
 ../../../src/client/renderer/entity/ArrowRenderer.cpp \
 ../../../src/client/renderer/entity/ChickenRenderer.cpp \
@@ -133,6 +135,7 @@ LOCAL_SRC_FILES := ../../../src/main.cpp \
 ../../../src/util/DataIO.cpp \
 ../../../src/util/Mth.cpp \
 ../../../src/util/StringUtils.cpp \
+../../../src/util/MatrixStack.cpp \
 ../../../src/util/PerfTimer.cpp \
 ../../../src/util/PerfRenderer.cpp \
 ../../../src/world/Direction.cpp \
@@ -254,7 +257,7 @@ LOCAL_CFLAGS += -isystem $(SYSROOT)/usr/include
 #LOCAL_CFLAGS := -DDEMO_MODE -DGLDEBUG $(LOCAL_CFLAGS)
 #LOCAL_CFLAGS := -DGLDEBUG $(LOCAL_CFLAGS)
 
-LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv1_CM -lOpenSLES
+LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
 LOCAL_STATIC_LIBRARIES := android_native_app_glue RakNet
 
 #LOCAL_CPP_FEATURES := exceptions

@@ -1,29 +1,29 @@
 #include "GLESLoader.h"
 #include "../../platform/log.h"
 
-PFNGLCREATESHADER p_glCreateShader = nullptr;
-PFNGLSHADERSOURCE p_glShaderSource = nullptr;
-PFNGLCOMPILESHADER p_glCompileShader = nullptr;
-PFNGLGETSHADERIV p_glGetShaderiv = nullptr;
-PFNGLGETSHADERINFOLOG p_glGetShaderInfoLog = nullptr;
-PFNGLCREATEPROGRAM p_glCreateProgram = nullptr;
-PFNGLATTACHSHADER p_glAttachShader = nullptr;
-PFNGLLINKPROGRAM p_glLinkProgram = nullptr;
-PFNGLGETPROGRAMIV p_glGetProgramiv = nullptr;
-PFNGLGETPROGRAMINFOLOG p_glGetProgramInfoLog = nullptr;
-PFNGLUSEPROGRAM p_glUseProgram = nullptr;
-PFNGLGETATTRIBLOCATION p_glGetAttribLocation = nullptr;
-PFNGLGETUNIFORMLOCATION p_glGetUniformLocation = nullptr;
-PFNGLUNIFORMMATRIX4FV p_glUniformMatrix4fv = nullptr;
-PFNGLUNIFORM1F p_glUniform1f = nullptr;
-PFNGLUNIFORM1I p_glUniform1i = nullptr;
-PFNGLUNIFORM4F p_glUniform4f = nullptr;
-PFNGLENABLEVERTEXATTRIBARRAY p_glEnableVertexAttribArray = nullptr;
-PFNGLDISABLEVERTEXATTRIBARRAY p_glDisableVertexAttribArray = nullptr;
-PFNGLVERTEXATTRIBPOINTER p_glVertexAttribPointer = nullptr;
-PFNGLVERTEXATTRIB4F p_glVertexAttrib4f = nullptr;
-PFNGLDELETESHADER p_glDeleteShader = nullptr;
-PFNGLDELETEPROGRAM p_glDeleteProgram = nullptr;
+PFNGLCREATESHADER p_glCreateShader = NULL;
+PFNGLSHADERSOURCE p_glShaderSource = NULL;
+PFNGLCOMPILESHADER p_glCompileShader = NULL;
+PFNGLGETSHADERIV p_glGetShaderiv = NULL;
+PFNGLGETSHADERINFOLOG p_glGetShaderInfoLog = NULL;
+PFNGLCREATEPROGRAM p_glCreateProgram = NULL;
+PFNGLATTACHSHADER p_glAttachShader = NULL;
+PFNGLLINKPROGRAM p_glLinkProgram = NULL;
+PFNGLGETPROGRAMIV p_glGetProgramiv = NULL;
+PFNGLGETPROGRAMINFOLOG p_glGetProgramInfoLog = NULL;
+PFNGLUSEPROGRAM p_glUseProgram = NULL;
+PFNGLGETATTRIBLOCATION p_glGetAttribLocation = NULL;
+PFNGLGETUNIFORMLOCATION p_glGetUniformLocation = NULL;
+PFNGLUNIFORMMATRIX4FV p_glUniformMatrix4fv = NULL;
+PFNGLUNIFORM1F p_glUniform1f = NULL;
+PFNGLUNIFORM1I p_glUniform1i = NULL;
+PFNGLUNIFORM4F p_glUniform4f = NULL;
+PFNGLENABLEVERTEXATTRIBARRAY p_glEnableVertexAttribArray = NULL;
+PFNGLDISABLEVERTEXATTRIBARRAY p_glDisableVertexAttribArray = NULL;
+PFNGLVERTEXATTRIBPOINTER p_glVertexAttribPointer = NULL;
+PFNGLVERTEXATTRIB4F p_glVertexAttrib4f = NULL;
+PFNGLDELETESHADER p_glDeleteShader = NULL;
+PFNGLDELETEPROGRAM p_glDeleteProgram = NULL;
 
 static bool glesLoaded = false;
 
@@ -57,7 +57,7 @@ void LoadGLESFunctions() {
     LOGI("DIAGNOSTIC: glCreateShader pointer: %p\n", p_glCreateShader);
     LOGI("DIAGNOSTIC: glCreateProgram pointer: %p\n", p_glCreateProgram);
 
-    glesLoaded = (p_glCreateShader != nullptr && p_glCreateProgram != nullptr);
+    glesLoaded = (p_glCreateShader != NULL && p_glCreateProgram != NULL);
 }
 
 bool GLESFunctionsLoaded() {

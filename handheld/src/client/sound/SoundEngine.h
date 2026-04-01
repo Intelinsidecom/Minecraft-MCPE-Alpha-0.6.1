@@ -5,8 +5,10 @@
 
 #if defined(ANDROID) && !defined(PRE_ANDROID23)
 	#include "../../platform/audio/SoundSystemSL.h"
-#elif defined(__APPLE__) || defined(_WIN32)
+#elif defined(__APPLE__)
     #include "../../platform/audio/SoundSystemAL.h"
+#elif defined(_WIN32)
+    #include "../../platform/audio/SoundSystemFMOD.h"
 #else
 	#include "../../platform/audio/SoundSystem.h"
 #endif
@@ -23,8 +25,10 @@ class SoundEngine
 
 	#if defined(ANDROID) && !defined(PRE_ANDROID23) && !defined(RPI)
 		SoundSystemSL soundSystem;
-    #elif defined(__APPLE__) || defined(_WIN32)
+    #elif defined(__APPLE__)
         SoundSystemAL soundSystem;
+    #elif defined(_WIN32)
+        SoundSystemFMOD soundSystem;
 	#else
 	    SoundSystem soundSystem;
 	#endif

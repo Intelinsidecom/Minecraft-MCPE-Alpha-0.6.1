@@ -5,7 +5,7 @@
 #include <sstream>
 #include "../../platform/log.h"
 
-Shader* currentShader = nullptr;
+Shader* currentShader = NULL;
 
 GLuint Shader::compileShader(GLenum type, const std::string& source) {
     LOGI("DIAGNOSTIC: Compiling %s shader...\n", type == GL_VERTEX_SHADER ? "VERTEX" : "FRAGMENT");
@@ -22,7 +22,7 @@ GLuint Shader::compileShader(GLenum type, const std::string& source) {
     if (shader == 0) return 0;
 
     const char* src = source.c_str();
-    p_glShaderSource(shader, 1, &src, nullptr);
+    p_glShaderSource(shader, 1, &src, NULL);
     p_glCompileShader(shader);
     err = glGetError();
     LOGI("DIAGNOSTIC: p_glCompileShader called, error: 0x%x\n", err);
@@ -31,7 +31,7 @@ GLuint Shader::compileShader(GLenum type, const std::string& source) {
     p_glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
         char infoLog[512];
-        p_glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+        p_glGetShaderInfoLog(shader, 512, NULL, infoLog);
         LOGE("DIAGNOSTIC: Shader compilation failed! Log:\n%s\n", infoLog);
     } else {
         LOGI("DIAGNOSTIC: Shader compiled successfully.\n");
@@ -42,8 +42,8 @@ GLuint Shader::compileShader(GLenum type, const std::string& source) {
 Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile) {
     std::string vertexCode;
     std::string fragmentCode;
-    std::ifstream vShaderFile(vertexFile);
-    std::ifstream fShaderFile(fragmentFile);
+    std::ifstream vShaderFile(vertexFile.c_str());
+    std::ifstream fShaderFile(fragmentFile.c_str());
 
     if (vShaderFile.is_open()) {
         std::stringstream vShaderStream;
@@ -85,7 +85,7 @@ Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile) {
         p_glGetProgramiv(programId, GL_LINK_STATUS, &success);
         if (!success) {
             char infoLog[512];
-            p_glGetProgramInfoLog(programId, 512, nullptr, infoLog);
+            p_glGetProgramInfoLog(programId, 512, NULL, infoLog);
             LOGE("DIAGNOSTIC: Shader linking failed! Log:\n%s\n", infoLog);
             p_glDeleteProgram(programId);
             programId = 0;
@@ -114,7 +114,7 @@ void Shader::bind() {
 void Shader::unbind() {
     if (p_glUseProgram) {
         p_glUseProgram(0);
-        currentShader = nullptr;
+        currentShader = NULL;
     }
 }
 

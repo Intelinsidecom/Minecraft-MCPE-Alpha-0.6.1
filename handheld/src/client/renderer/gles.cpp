@@ -46,7 +46,7 @@ void __gluMakeIdentityf(GLfloat m[16]) {
     m[3] = 0;  m[7] = 0;  m[11] = 0;  m[15] = 1;
 }
 
-static Shader* defaultShader = nullptr;
+static Shader* defaultShader = NULL;
 
 static void ensureShaders() {
     if (defaultShader && defaultShader->isLoaded()) return;
@@ -567,9 +567,9 @@ void mc_glAlphaFunc(GLenum func, GLclampf ref) {
 #undef glNormalPointer
 #undef glDrawArrays
 
-static const GLvoid* vPtr = nullptr;
-static const GLvoid* cPtr = nullptr;
-static const GLvoid* tPtr = nullptr;
+static const GLvoid* vPtr = NULL;
+static const GLvoid* cPtr = NULL;
+static const GLvoid* tPtr = NULL;
 
 static GLint vSize = 3, cSize = 4, tSize = 2;
 static GLenum vType = GL_FLOAT, cType = GL_UNSIGNED_BYTE, tType = GL_FLOAT;
