@@ -373,11 +373,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 		EGL_BLUE_SIZE,		8,
 		EGL_ALPHA_SIZE,		8,
 		EGL_DEPTH_SIZE,		16,
-		EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+		EGL_RENDERABLE_TYPE, 0x0004, /* EGL_OPENGL_ES2_BIT */
 		EGL_NONE
 	};
 	EGLint aEGLContextAttributes[] = {
-		EGL_CONTEXT_CLIENT_VERSION, 1,
+		EGL_CONTEXT_CLIENT_VERSION, 2,
 		EGL_NONE
 	};
 
@@ -407,7 +407,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 	appContext.surface = eglCreateWindowSurface(appContext.display, m_eglConfig[0], (NativeWindowType)hwnd, 0);
 	printf("EGLSurface = %p\n", appContext.surface);
 
-	appContext.context = eglCreateContext(appContext.display, m_eglConfig[0], EGL_NO_CONTEXT, NULL);//aEGLContextAttributes);
+	appContext.context = eglCreateContext(appContext.display, m_eglConfig[0], EGL_NO_CONTEXT, aEGLContextAttributes);
 	printf("EGLContext = %p\n", appContext.context);
 	if (!appContext.context) {
 		printf("EGL error: %d\n", eglGetError());

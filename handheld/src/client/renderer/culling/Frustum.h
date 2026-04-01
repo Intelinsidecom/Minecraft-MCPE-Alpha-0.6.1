@@ -28,6 +28,7 @@
 #include "FrustumData.h"
 #include "../../../util/Mth.h"
 #include "../gles.h"
+#include "../../../util/MatrixStack.h"
 
 class Frustum: public FrustumData
 {
@@ -67,14 +68,10 @@ private:
 
     void calculateFrustum()
     {
-        // glGetFloatv() is used to extract information about our OpenGL world.
-        // Below, we pass in GL_PROJECTION_MATRIX to abstract our projection matrix.
-        // It then stores the matrix into an array of [16].
-        glGetFloatv(GL_PROJECTION_MATRIX, proj);
-
-        // By passing in GL_MODELVIEW_MATRIX, we can abstract our model view matrix.
-        // This also stores it in an array of [16].
-        glGetFloatv(GL_MODELVIEW_MATRIX, modl);
+        for(int i = 0; i < 16; i++) {
+            proj[i] = projectionStack.getTop().m[i];
+            modl[i] = modelViewStack.getTop().m[i];
+        }
         // Now that we have our modelview and projection matrix, if we combine these 2 matrices,
         // it will give us our clipping planes.  To combine 2 matrices, we multiply them.
 

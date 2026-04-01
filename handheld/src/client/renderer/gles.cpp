@@ -1,6 +1,15 @@
 #include "gles.h"
 #include <cmath>
 #include <cstdio>
+#include <fstream>
+#include <string>
+#include "Shader.h"
+#include "GLESLoader.h"
+#include "../../util/MatrixStack.h"
+
+#include <EGL/egl.h>
+#pragma comment(lib, "libGLESv2.lib")
+#pragma comment(lib, "libEGL.lib")
 
 static const float __glPi = 3.14159265358979323846f;
 
@@ -37,13 +46,63 @@ void __gluMakeIdentityf(GLfloat m[16]) {
     m[3] = 0;  m[7] = 0;  m[11] = 0;  m[15] = 1;
 }
 
-void glInit()
-{
+static Shader* defaultShader = nullptr;
+
+static void ensureShaders() {
+    if (defaultShader && defaultShader->isLoaded()) return;
+
+    LoadGLESFunctions();
+
+    EGLContext ctx = eglGetCurrentContext();
+    EGLDisplay dpy = eglGetCurrentDisplay();
+    LOGI("DIAGNOSTIC: ensureShaders() - Current EGL Context: %p, Display: %p\n", ctx, dpy);
+
 #ifndef OPENGL_ES
-	
-	GLenum err = glewInit();
-	printf("Err: %d\n", err);
+    static bool glewDone = false;
+    if (!glewDone) {
+        GLenum err = glewInit();
+        printf("DIAGNOSTIC: glewInit result: %d\n", err);
+        glewDone = true;
+    }
 #endif
+
+    LOGI("DIAGNOSTIC: ensureShaders() - Attempting to create shaders...\n");
+
+    const char* paths[] = {
+        "data/shaders/",
+        "../../data/shaders/",
+        "../data/shaders/"
+    };
+    
+    for (int i = 0; i < 3; ++i) {
+        std::string vPath = std::string(paths[i]) + "default.vertex";
+        std::string fPath = std::string(paths[i]) + "default.fragment";
+        
+        std::ifstream f(vPath.c_str());
+        if (f.good()) {
+            f.close();
+            if (defaultShader) delete defaultShader;
+            defaultShader = new Shader(vPath, fPath);
+            if (defaultShader && defaultShader->isLoaded()) {
+                defaultShader->bind();
+                LOGI("DIAGNOSTIC: Successfully loaded default shader from %s. Program ID: %u\n", paths[i], defaultShader->getProgram());
+                break;
+            } else {
+                LOGE("DIAGNOSTIC: Failed to link shader from %s (Program ID still 0)\n", paths[i]);
+            }
+        }
+    }
+
+    if (!defaultShader || !defaultShader->isLoaded()) {
+        static int failCount = 0;
+        if (failCount++ < 5) {
+            LOGE("DIAGNOSTIC: CRITICAL - Shaders not loaded. GPU Context may not be current.\n");
+        }
+    }
+}
+
+void glInit() {
+    ensureShaders();
 }
 
 void anGenBuffers(GLsizei n, GLuint* buffers) {
@@ -54,49 +113,79 @@ void anGenBuffers(GLsizei n, GLuint* buffers) {
 
 #ifdef USE_VBO
 void drawArrayVT(int bufferId, int vertices, int vertexSize /* = 24 */, unsigned int mode /* = GL_TRIANGLES */) {
-	//if (Options::debugGl) LOGI("drawArray\n");
+	if (currentShader) {
+		currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+		currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+	}
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
-	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
-	glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer2(3, GL_FLOAT, vertexSize, 0);
-	glEnableClientState2(GL_VERTEX_ARRAY);
+	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+	
+	glEnableVertexAttribArray(texLoc);
+	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)(3 * 4));
+	
+	glEnableVertexAttribArray(posLoc);
+	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+	
 	glDrawArrays2(mode, 0, vertices);
-	glDisableClientState2(GL_VERTEX_ARRAY);
-	glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
+	
+	glDisableVertexAttribArray(posLoc);
+	glDisableVertexAttribArray(texLoc);
 }
 
 #ifndef drawArrayVT_NoState
 void drawArrayVT_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) {
 	//if (Options::debugGl) LOGI("drawArray\n");
+	LOGI("DIAGNOSTIC: drawArrayVT_NoState called - bufferId: %d, vertices: %d, vertexSize: %d\n", bufferId, vertices, vertexSize);
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
-	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
-	//glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer2(3, GL_FLOAT, vertexSize, 0);
-	//glEnableClientState2(GL_VERTEX_ARRAY);
+	
+	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
+	
+	LOGI("DIAGNOSTIC: Attribute locations - a_position: %d, a_texCoord: %d, a_color: %d\n", posLoc, texLoc, colLoc);
+	
+	glEnableVertexAttribArray(posLoc);
+	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+	
+	glEnableVertexAttribArray(texLoc);
+	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*) (3 * 4));
+	
+	glEnableVertexAttribArray(colLoc);
+	glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, (GLvoid*) (5 * 4));
+	
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
-	//glDisableClientState2(GL_VERTEX_ARRAY);
-	//glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
+	
+	glDisableVertexAttribArray(posLoc);
+	glDisableVertexAttribArray(texLoc);
+	glDisableVertexAttribArray(colLoc);
 }
 #endif
 
 void drawArrayVTC(int bufferId, int vertices, int vertexSize /* = 24 */) {
-	//if (Options::debugGl) LOGI("drawArray\n");
-	//LOGI("draw-vtc: %d, %d, %d\n", bufferId, vertices, vertexSize);
-	glEnableClientState2(GL_VERTEX_ARRAY);
-	glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState2(GL_COLOR_ARRAY);
-
+	if (currentShader) {
+		currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+		currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+	}
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
+	
+	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
 
-	glVertexPointer2(  3, GL_FLOAT, vertexSize, 0);
-	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
-	glColorPointer2(4, GL_UNSIGNED_BYTE, vertexSize, (GLvoid*) (5*4));
+	glEnableVertexAttribArray(posLoc);
+	glEnableVertexAttribArray(texLoc);
+	glEnableVertexAttribArray(colLoc);
+
+	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*) (3 * 4));
+	glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, (GLvoid*) (5 * 4));
 
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
 
-	glDisableClientState2(GL_VERTEX_ARRAY);
-	glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState2(GL_COLOR_ARRAY); 
+	glDisableVertexAttribArray(posLoc);
+	glDisableVertexAttribArray(texLoc);
+	glDisableVertexAttribArray(colLoc);
 }
 
 #ifndef drawArrayVTC_NoState
@@ -359,8 +448,6 @@ int glhUnProjectf(	float winx, float winy, float winz,
 	//Transformation matrices
 	float m[16], A[16];
 	float in[4], out[4];
-	//Calculation for inverting a matrix, compute projection x modelview
-	//and store in A[16]
 	MultiplyMatrices4by4OpenGL_FLOAT(A, projection, modelview);
 	//Now compute the inverse of matrix A
 	if(glhInvertMatrixf2(A, m)==0)
@@ -379,4 +466,261 @@ int glhUnProjectf(	float winx, float winy, float winz,
 	objectCoordinate[1]=out[1]*out[3];
 	objectCoordinate[2]=out[2]*out[3];
 	return 1;
+}
+
+#undef glTranslatef
+#undef glRotatef
+#undef glScalef
+#undef glPushMatrix
+#undef glPopMatrix
+#undef glLoadIdentity
+#undef glMultMatrixf
+#undef glMatrixMode
+
+void mc_glTranslatef(float x, float y, float z) {
+    if (currentStack) currentStack->translate(x, y, z);
+}
+void mc_glRotatef(float angle, float x, float y, float z) {
+    if (currentStack) currentStack->rotate(angle, x, y, z);
+}
+void mc_glScalef(float x, float y, float z) {
+    if (currentStack) currentStack->scale(x, y, z);
+}
+void mc_glPushMatrix() {
+    if (currentStack) currentStack->push();
+}
+void mc_glPopMatrix() {
+    if (currentStack) currentStack->pop();
+}
+void mc_glLoadIdentity() {
+    if (currentStack) currentStack->identity();
+}
+void mc_glMultMatrixf(const GLfloat* m) {
+    if (currentStack) currentStack->multMatrix(m);
+}
+void mc_glMatrixMode(GLenum mode) {
+    if (mode == GL_PROJECTION) {
+        currentStack = &projectionStack;
+    } else if (mode == GL_MODELVIEW) {
+        currentStack = &modelViewStack;
+    }
+}
+
+void mc_glShadeModel(GLenum mode) {
+    renderState.shadeModel = mode;
+}
+
+void mc_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar) {
+    if (currentStack) currentStack->ortho(left, right, bottom, top, zNear, zFar);
+}
+
+RenderState renderState = { false, 0, 0.0f, 1.0f, {1.0f, 1.0f, 1.0f, 1.0f}, false, 0.1f, GL_SMOOTH, false, {1.0f, 1.0f, 1.0f, 1.0f} };
+
+#undef glFogf
+#undef glFogfv
+#undef glFogx
+#undef glEnable
+#undef glDisable
+#undef glAlphaFunc
+
+void mc_glFogf(GLenum pname, GLfloat param) {
+    if (pname == GL_FOG_START) renderState.fogStart = param;
+    else if (pname == GL_FOG_END) renderState.fogEnd = param;
+    else if (pname == GL_FOG_MODE) renderState.fogMode = (int)param;
+}
+
+void mc_glFogfv(GLenum pname, const GLfloat *params) {
+    if (pname == GL_FOG_COLOR) {
+        renderState.fogColor[0] = params[0];
+        renderState.fogColor[1] = params[1];
+        renderState.fogColor[2] = params[2];
+        renderState.fogColor[3] = params[3];
+    }
+}
+
+void mc_glFogx(GLenum pname, GLint param) {
+    if (pname == GL_FOG_MODE) renderState.fogMode = param;
+}
+
+void mc_glEnable(GLenum cap) {
+    if (cap == GL_FOG) renderState.fogEnabled = true;
+    else if (cap == GL_ALPHA_TEST) renderState.alphaTestEnabled = true;
+    else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = true;
+    else if (cap == GL_LIGHTING) {} 
+    else if (cap == GL_COLOR_MATERIAL) {} 
+    else glEnable(cap); 
+}
+
+void mc_glDisable(GLenum cap) {
+    if (cap == GL_FOG) renderState.fogEnabled = false;
+    else if (cap == GL_ALPHA_TEST) renderState.alphaTestEnabled = false;
+    else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = false;
+    else if (cap == GL_LIGHTING) {} 
+    else if (cap == GL_COLOR_MATERIAL) {} 
+    else glDisable(cap); 
+}
+
+void mc_glAlphaFunc(GLenum func, GLclampf ref) {
+    renderState.alphaTestRef = ref;
+}
+
+#undef glColor4f
+#undef glEnableClientState
+#undef glDisableClientState
+#undef glVertexPointer
+#undef glColorPointer
+#undef glTexCoordPointer
+#undef glNormalPointer
+#undef glDrawArrays
+
+static const GLvoid* vPtr = nullptr;
+static const GLvoid* cPtr = nullptr;
+static const GLvoid* tPtr = nullptr;
+
+static GLint vSize = 3, cSize = 4, tSize = 2;
+static GLenum vType = GL_FLOAT, cType = GL_UNSIGNED_BYTE, tType = GL_FLOAT;
+static GLsizei vStride = 0, cStride = 0, tStride = 0;
+
+static bool vEnabled = false;
+static bool cEnabled = false;
+static bool tEnabled = false;
+
+void mc_glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+    renderState.color[0] = r;
+    renderState.color[1] = g;
+    renderState.color[2] = b;
+    renderState.color[3] = a;
+}
+
+void mc_glEnableClientState(GLenum array) {
+    if (array == GL_VERTEX_ARRAY) vEnabled = true;
+    else if (array == GL_COLOR_ARRAY) cEnabled = true;
+    else if (array == GL_TEXTURE_COORD_ARRAY) tEnabled = true;
+}
+
+void mc_glDisableClientState(GLenum array) {
+    if (array == GL_VERTEX_ARRAY) vEnabled = false;
+    else if (array == GL_COLOR_ARRAY) cEnabled = false;
+    else if (array == GL_TEXTURE_COORD_ARRAY) tEnabled = false;
+}
+
+void mc_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    vSize = size; vType = type; vStride = stride; vPtr = pointer;
+}
+
+void mc_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    cSize = size; cType = type; cStride = stride; cPtr = pointer;
+}
+
+void mc_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    tSize = size; tType = type; tStride = stride; tPtr = pointer;
+}
+
+void mc_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {}
+
+#undef glClear
+#undef glClearColor
+#undef glViewport
+
+void mc_glClear(GLbitfield mask) {
+    ensureShaders();
+    glClear(mask);
+}
+void mc_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
+    glClearColor(red, green, blue, alpha);
+}
+void mc_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
+    ensureShaders();
+    glViewport(x, y, width, height);
+}
+
+void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    ensureShaders();
+    static int drawCount = 0;
+    if (drawCount < 10) {
+        LOGI("DIAGNOSTIC: Draw call #%d - Mode: %x, First: %d, Count: %d, Shader: %p\n", 
+             drawCount++, mode, first, count, currentShader);
+    }
+
+    if (currentShader) {
+        currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+        currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+        
+        currentShader->setUniform1i("u_useTexture", renderState.texture2DEnabled ? 1 : 0);
+        currentShader->setUniform1i("u_alphaTest", renderState.alphaTestEnabled ? 1 : 0);
+        currentShader->setUniform4f("u_color", renderState.color[0], renderState.color[1], renderState.color[2], renderState.color[3]);
+        
+        currentShader->setUniform1i("u_texture", 0);
+
+        GLint posLoc = currentShader->getAttribLocation("a_position");
+        GLint texLoc = currentShader->getAttribLocation("a_texCoord");
+        GLint colLoc = currentShader->getAttribLocation("a_color");
+        
+        bool forceEnable = renderState.texture2DEnabled && currentShader;
+        if (forceEnable) {
+            vEnabled = true;
+            tEnabled = true; 
+            cEnabled = true;
+            
+            vSize = 3; vType = GL_FLOAT; vStride = 24; vPtr = 0;
+            tSize = 2; tType = GL_FLOAT; tStride = 24; tPtr = (void*)12;
+            cSize = 4; cType = GL_UNSIGNED_BYTE; cStride = 24; cPtr = (void*)20;
+            
+            LOGI("DIAGNOSTIC: Set vertex parameters - vStride=%d, tStride=%d, cStride=%d\n", vStride, tStride, cStride);
+        }
+        
+        if (vEnabled && posLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
+            LOGI("DIAGNOSTIC: Enabling position attribute - size: %d, type: %x, stride: %d, ptr: %p\n", vSize, vType, vStride, vPtr);
+            p_glEnableVertexAttribArray(posLoc);
+            p_glVertexAttribPointer(posLoc, vSize, vType, GL_FALSE, vStride, vPtr);
+        }
+        if (tEnabled && texLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
+            LOGI("DIAGNOSTIC: Enabling texcoord attribute - size: %d, type: %x, stride: %d, ptr: %p\n", tSize, tType, tStride, tPtr);
+            p_glEnableVertexAttribArray(texLoc);
+            p_glVertexAttribPointer(texLoc, tSize, tType, GL_FALSE, tStride, tPtr);
+        } else if (texLoc != -1 && p_glDisableVertexAttribArray) {
+            LOGI("DIAGNOSTIC: Disabling texcoord attribute\n");
+            p_glDisableVertexAttribArray(texLoc);
+        }
+
+        if (cEnabled && colLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
+            LOGI("DIAGNOSTIC: Enabling color attribute - size: %d, type: %x, stride: %d, ptr: %p\n", cSize, cType, cType == GL_UNSIGNED_BYTE ? GL_TRUE : GL_FALSE, vStride, cPtr);
+            p_glEnableVertexAttribArray(colLoc);
+            p_glVertexAttribPointer(colLoc, cSize, cType, cType == GL_UNSIGNED_BYTE ? GL_TRUE : GL_FALSE, vStride, cPtr);
+        } else if (colLoc != -1) {
+            if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
+            if (p_glVertexAttrib4f) p_glVertexAttrib4f(colLoc, 1.0f, 1.0f, 1.0f, 1.0f);
+        }
+        
+        glDrawArrays(mode, first, count);
+        
+        if (vEnabled && posLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+        if (tEnabled && texLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
+        if (cEnabled && colLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
+    } else {
+        glDrawArrays(mode, first, count);
+    }
+
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR && drawCount < 50) {
+        LOGE("DIAGNOSTIC: GLES Error after draw call: 0x%x\n", err);
+    }
+}
+
+void mc_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
+}
+
+#undef glHint
+void mc_glHint(GLenum target, GLenum mode) {
+}
+
+#undef glGetFloatv
+void mc_glGetFloatv(GLenum pname, GLfloat *params) {
+    if (pname == GL_MODELVIEW_MATRIX) {
+        for (int i = 0; i < 16; i++) params[i] = modelViewStack.getTop().m[i];
+    } else if (pname == GL_PROJECTION_MATRIX) {
+        for (int i = 0; i < 16; i++) params[i] = projectionStack.getTop().m[i];
+    } else {
+        glGetFloatv(pname, params);
+    }
 }
