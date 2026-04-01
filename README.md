@@ -8,8 +8,8 @@ This repo includes the leak files for MCPE 0.6.1 version. Im looking into adding
   - [x] IOS
   - [ ] Raspberry PI
   - [x] Server
-  - [x] Win32 (GL project shouldve used OpenGL (not GLES) but its buggy with OpenGL and GLES is almost the same so its deprecated and will be replaced as DirectX version before UI changes are done)
-- [ ] Make the Win32 Release more friendly to end-user. (hiding console on release, adding icon and proper name for the app, add mouse support and fix up the keyboard binds properly.)
+  - [x] Win32
+- [x] Make the Win32 Release more friendly to end-user. (hiding console on release, adding icon and proper name for the app, add mouse support and fix up the keyboard binds properly.)
 
 - Add Ports to other Platforms
   - [ ] Linux
@@ -17,18 +17,18 @@ This repo includes the leak files for MCPE 0.6.1 version. Im looking into adding
   - [ ] UWP (Windows Phone, Desktop, Xbox)
 
 
-- [ ] Port to Open GL ES 2.0
+- [x] Port to Open GL ES 2.0 (Working, in beta)
 - [ ] Design Proper Settings Menu or Redesign the whole UI to look and functions more like Bedrock
 - [ ] Backport Legacy Console, Bedrock and Java Features or adjustmnets so it feels more like Regular Minecraft.
 
 ## Current bugs
 - Mouse Movement in Win32 can be buggy.
-- Critical Issue: When joining to an server or an friend, you get spawned to default cordinates and more. singleplayer works without issues.
+- Critical Issue: When joining to an server or an friend, you get spawned to default cordinates and more. singleplayer works without issues. confirmed to only happen on modern android.
 
 # Building
 
 ## Win32
-1. Obtain Visual Studio with vs_xxx C++ toolchain (works from VS 2015 to VS 2022 with latest previews)
+1. Obtain Visual Studio with vs_xxx C++ toolchain (works from VS 2012 to VS 2022 with latest previews)
 2. Open the sln project file in VS
 3. Choose build config you prefer
 4. Build
@@ -53,8 +53,8 @@ Notes for modern android users:
 
 ## IOS
  - Prerequisities:
-   - Mac os 10.7 or 10.8 install (Real Hardware or VM doesnt matter).
-   - Xcode 4.5
+   - Mac os 10.7 or 10.8 install (Real Hardware or VM doesnt matter, for Xcode 4.5).
+   - Xcode 4.5 or newer
 
 - Keep in mind these specs are for how it was intended to be built back in that time. You can use newer Xcode however you want.
 
