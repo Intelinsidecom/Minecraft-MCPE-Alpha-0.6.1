@@ -131,6 +131,8 @@ void drawArrayVTC_NoState(int bufferId, int vertices, int vertexSize = 24);
 #endif
 
 void glInit();
+void glSetPlatform(class AppPlatform* platform);
+void glResetShaders();
 void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar);
 int glhUnProjectf(	float winx, float winy, float winz,
 					float *modelview, float *projection,

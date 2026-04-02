@@ -26,6 +26,8 @@
 #include "platform/input/Mouse.h"
 #include "platform/input/Multitouch.h"
 
+#include "client/renderer/gles.h"
+
 #include "EGLConfigPrinter.h"
 
 const int BroadcastPort = 9991;
@@ -171,6 +173,7 @@ engine_init_display( struct ENGINE* engine )
 
     // Don't need to reload graphics first time
     if (engine->is_inited) {
+        glResetShaders();
         engine->userApp->onGraphicsReset(engine->appContext);
         engine->userApp->setSize(w, h);
     }

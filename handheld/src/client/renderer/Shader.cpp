@@ -98,6 +98,45 @@ Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile) {
     p_glDeleteShader(fragment);
 }
 
+Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource, bool fromSource) {
+    (void)fromSource;
+    GLuint vertex = compileShader(GL_VERTEX_SHADER, vertexSource);
+    GLuint fragment = compileShader(GL_FRAGMENT_SHADER, fragmentSource);
+
+    if (!p_glCreateProgram) {
+        LOGE("DIAGNOSTIC: p_glCreateProgram is NULL!\n");
+        programId = 0;
+        return;
+    }
+
+    programId = p_glCreateProgram();
+    GLenum err = glGetError();
+    LOGI("DIAGNOSTIC: p_glCreateProgram returned %u, error: 0x%x\n", programId, err);
+
+    if (programId != 0) {
+        p_glAttachShader(programId, vertex);
+        p_glAttachShader(programId, fragment);
+        p_glLinkProgram(programId);
+        err = glGetError();
+        LOGI("DIAGNOSTIC: p_glLinkProgram err: 0x%x\n", err);
+
+        GLint success;
+        p_glGetProgramiv(programId, GL_LINK_STATUS, &success);
+        if (!success) {
+            char infoLog[512];
+            p_glGetProgramInfoLog(programId, 512, NULL, infoLog);
+            LOGE("DIAGNOSTIC: Shader linking failed! Log:\n%s\n", infoLog);
+            p_glDeleteProgram(programId);
+            programId = 0;
+        } else {
+            LOGI("DIAGNOSTIC: Shader program linked successfully. ID: %u\n", programId);
+        }
+    }
+
+    p_glDeleteShader(vertex);
+    p_glDeleteShader(fragment);
+}
+
 Shader::~Shader() {
     if (programId && p_glDeleteProgram) {
         p_glDeleteProgram(programId);

@@ -10,6 +10,7 @@ class Shader {
     GLuint compileShader(GLenum type, const std::string& source);
 public:
     Shader(const std::string& vertexFile, const std::string& fragmentFile);
+    Shader(const std::string& vertexSource, const std::string& fragmentSource, bool fromSource);
     ~Shader();
 
     bool isLoaded() const { return programId != 0; }

@@ -1,5 +1,6 @@
 #include "App.h"
 #include "AppPlatform_android.h"
+#include "client/renderer/gles.h"
 
 // Horrible, I know. / A
 #ifndef MAIN_CLASS
@@ -143,6 +144,8 @@ android_main( struct android_app* state )
     engine.is_inited    = false;
     engine.appContext.doRender = true;
     engine.appContext.platform = &appPlatform;
+
+    glSetPlatform(&appPlatform);
 
     setupExternalPath(state, (MAIN_CLASS*)app);
 

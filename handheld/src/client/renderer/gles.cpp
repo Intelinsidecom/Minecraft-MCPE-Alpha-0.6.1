@@ -2,16 +2,44 @@
 #include <cmath>
 #include <cstdio>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include "Shader.h"
 #include "GLESLoader.h"
 #include "../../util/MatrixStack.h"
+#include "../../AppPlatform.h"
 
 #include <EGL/egl.h>
 #pragma comment(lib, "libGLESv2.lib")
 #pragma comment(lib, "libEGL.lib")
 
 static const float __glPi = 3.14159265358979323846f;
+
+static AppPlatform* s_platform = NULL;
+
+void glSetPlatform(AppPlatform* platform) {
+    s_platform = platform;
+}
+
+static std::string loadShaderSource(const std::string& path) {
+    if (s_platform) {
+        BinaryBlob blob = s_platform->readAssetFile(path);
+        if (blob.data && blob.size > 0) {
+            std::string source(reinterpret_cast<char*>(blob.data), blob.size);
+            delete[] blob.data;
+            return source;
+        }
+    }
+    
+    std::ifstream file(path.c_str());
+    if (file.is_open()) {
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+    }
+    
+    return "";
+}
 
 static void __gluMakeIdentityf(GLfloat m[16]);
 
@@ -67,24 +95,31 @@ static void ensureShaders() {
 
 
     const char* paths[] = {
+#ifdef ANDROID
+        "shaders/",
+        "../../shaders/",
+        "../shaders/"
+#else
         "data/shaders/",
         "../../data/shaders/",
         "../data/shaders/"
+#endif
     };
     
     for (int i = 0; i < 3; ++i) {
         std::string vPath = std::string(paths[i]) + "default.vertex";
         std::string fPath = std::string(paths[i]) + "default.fragment";
         
-        std::ifstream f(vPath.c_str());
-        if (f.good()) {
-            f.close();
-            if (defaultShader) delete defaultShader;
-            defaultShader = new Shader(vPath, fPath);
-            if (defaultShader && defaultShader->isLoaded()) {
-                defaultShader->bind();
-                break;
-            } else {
+        std::string vertexCode = loadShaderSource(vPath);
+        if (!vertexCode.empty()) {
+            std::string fragmentCode = loadShaderSource(fPath);
+            if (!fragmentCode.empty()) {
+                if (defaultShader) delete defaultShader;
+                defaultShader = new Shader(vertexCode, fragmentCode, true);
+                if (defaultShader && defaultShader->isLoaded()) {
+                    defaultShader->bind();
+                    break;
+                }
             }
         }
     }
@@ -92,11 +127,20 @@ static void ensureShaders() {
     if (!defaultShader || !defaultShader->isLoaded()) {
         static int failCount = 0;
         if (failCount++ < 5) {
+            LOGE("Failed to load shaders! Attempt %d\n", failCount);
         }
     }
 }
 
 void glInit() {
+    ensureShaders();
+}
+
+void glResetShaders() {
+    if (defaultShader) {
+        delete defaultShader;
+        defaultShader = NULL;
+    }
     ensureShaders();
 }
 
