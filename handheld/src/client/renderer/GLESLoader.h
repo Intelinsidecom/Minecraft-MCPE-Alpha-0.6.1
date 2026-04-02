@@ -1,8 +1,13 @@
 #ifndef GLES_LOADER_H
 #define GLES_LOADER_H
 
+#if defined(__APPLE__)
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#else
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,7 +15,11 @@ extern "C" {
 
 // Shader functions
 typedef GLuint (GL_APIENTRY *PFNGLCREATESHADER)(GLenum type);
-typedef void (GL_APIENTRY *PFNGLSHADERSOURCE)(GLuint shader, GLsizei count, const GLchar* const* string, const GLint* length);
+#if defined(__APPLE__)
+    typedef void (GL_APIENTRY *PFNGLSHADERSOURCE)(GLuint shader, GLsizei count, const GLchar** string, const GLint* length);
+#else
+    typedef void (GL_APIENTRY *PFNGLSHADERSOURCE)(GLuint shader, GLsizei count, const GLchar* const* string, const GLint* length);
+#endif
 typedef void (GL_APIENTRY *PFNGLCOMPILESHADER)(GLuint shader);
 typedef void (GL_APIENTRY *PFNGLGETSHADERIV)(GLuint shader, GLenum pname, GLint* params);
 typedef void (GL_APIENTRY *PFNGLGETSHADERINFOLOG)(GLuint shader, GLsizei bufSize, GLsizei* length, GLchar* infoLog);

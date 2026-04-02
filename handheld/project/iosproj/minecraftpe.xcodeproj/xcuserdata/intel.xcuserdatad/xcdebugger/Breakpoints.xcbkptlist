@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "../../src/AppPlatform_iOS.mm"
-         timestampString = "795878817.0251271"
+         timestampString = "796817245.65009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "282"
-         endingLineNumber = "282">
+         startingLineNumber = "337"
+         endingLineNumber = "337">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

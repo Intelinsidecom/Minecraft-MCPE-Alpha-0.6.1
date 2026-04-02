@@ -30,6 +30,33 @@ static bool glesLoaded = false;
 void LoadGLESFunctions() {
     if (glesLoaded) return;
 
+#ifdef __APPLE__
+    p_glCreateShader = glCreateShader;
+    p_glShaderSource = glShaderSource;
+    p_glCompileShader = glCompileShader;
+    p_glGetShaderiv = glGetShaderiv;
+    p_glGetShaderInfoLog = glGetShaderInfoLog;
+    p_glCreateProgram = glCreateProgram;
+    p_glAttachShader = glAttachShader;
+    p_glLinkProgram = glLinkProgram;
+    p_glGetProgramiv = glGetProgramiv;
+    p_glGetProgramInfoLog = glGetProgramInfoLog;
+    p_glUseProgram = glUseProgram;
+    p_glGetAttribLocation = glGetAttribLocation;
+    p_glGetUniformLocation = glGetUniformLocation;
+    p_glUniformMatrix4fv = glUniformMatrix4fv;
+    p_glUniform1f = glUniform1f;
+    p_glUniform1i = glUniform1i;
+    p_glUniform4f = glUniform4f;
+    p_glEnableVertexAttribArray = glEnableVertexAttribArray;
+    p_glDisableVertexAttribArray = glDisableVertexAttribArray;
+    p_glVertexAttribPointer = glVertexAttribPointer;
+    p_glVertexAttrib4f = glVertexAttrib4f;
+    p_glDeleteShader = glDeleteShader;
+    p_glDeleteProgram = glDeleteProgram;
+#else
+    
+    
     p_glCreateShader = (PFNGLCREATESHADER)eglGetProcAddress("glCreateShader");
     p_glShaderSource = (PFNGLSHADERSOURCE)eglGetProcAddress("glShaderSource");
     p_glCompileShader = (PFNGLCOMPILESHADER)eglGetProcAddress("glCompileShader");
@@ -54,6 +81,8 @@ void LoadGLESFunctions() {
     p_glDeleteShader = (PFNGLDELETESHADER)eglGetProcAddress("glDeleteShader");
     p_glDeleteProgram = (PFNGLDELETEPROGRAM)eglGetProcAddress("glDeleteProgram");
 
+#endif
+    
     LOGI("DIAGNOSTIC: glCreateShader pointer: %p\n", p_glCreateShader);
     LOGI("DIAGNOSTIC: glCreateProgram pointer: %p\n", p_glCreateProgram);
 

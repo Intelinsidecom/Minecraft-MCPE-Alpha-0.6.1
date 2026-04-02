@@ -9,9 +9,14 @@
 #include "../../util/MatrixStack.h"
 #include "../../AppPlatform.h"
 
+#ifdef __APPLE__
+#include <OpenGLES/ES2/gl.h>
+#include <OpenGLES/ES2/glext.h>
+#else
 #include <EGL/egl.h>
 #pragma comment(lib, "libGLESv2.lib")
 #pragma comment(lib, "libEGL.lib")
+#endif
 
 static const float __glPi = 3.14159265358979323846f;
 
@@ -48,7 +53,7 @@ void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
     GLfloat m[4][4];
     GLfloat sine, cotangent, deltaZ;
     GLfloat radians=(GLfloat)(fovy/2.0f*__glPi/180.0f);
-
+    
     deltaZ=zFar-zNear;
     sine=(GLfloat)sin(radians);
     if ((deltaZ==0.0f) || (sine==0.0f) || (aspect==0.0f))
@@ -56,7 +61,7 @@ void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
         return;
     }
     cotangent=(GLfloat)(cos(radians)/sine);
-
+    
     __gluMakeIdentityf(&m[0][0]);
     m[0][0] = cotangent / aspect;
     m[1][1] = cotangent;
@@ -78,25 +83,40 @@ static Shader* defaultShader = NULL;
 
 static void ensureShaders() {
     if (defaultShader && defaultShader->isLoaded()) return;
-
+    
     LoadGLESFunctions();
-
+    
+#ifdef __APPLE__
+    // iOS uses EAGL context - check if it's current
+    void* eaglContext = (void*)[EAGLContext currentContext];
+    if (!eaglContext) {
+        return;
+    }
+    void* ctx = eaglContext;
+    void* dpy = NULL;
+#else
     EGLContext ctx = eglGetCurrentContext();
     EGLDisplay dpy = eglGetCurrentDisplay();
-
+#endif
+    
 #ifndef OPENGL_ES
     static bool glewDone = false;
     if (!glewDone) {
         GLenum err = glewInit();
-        printf("DIAGNOSTIC: glewInit result: %d\n", err);
         glewDone = true;
     }
 #endif
-
-
+    
+    
     const char* paths[] = {
 #ifdef ANDROID
         "shaders/",
+        "../../shaders/",
+        "../shaders/"
+#elif defined(__APPLE__)
+        "shaders/",
+        "resources/shaders/",
+        "../resources/shaders/",
         "../../shaders/",
         "../shaders/"
 #else
@@ -106,10 +126,9 @@ static void ensureShaders() {
 #endif
     };
     
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < sizeof(paths)/sizeof(paths[0]); ++i) {
         std::string vPath = std::string(paths[i]) + "default.vertex";
         std::string fPath = std::string(paths[i]) + "default.fragment";
-        
         std::string vertexCode = loadShaderSource(vPath);
         if (!vertexCode.empty()) {
             std::string fragmentCode = loadShaderSource(fPath);
@@ -123,7 +142,7 @@ static void ensureShaders() {
             }
         }
     }
-
+    
     if (!defaultShader || !defaultShader->isLoaded()) {
         static int failCount = 0;
         if (failCount++ < 5) {
@@ -174,7 +193,6 @@ void drawArrayVT(int bufferId, int vertices, int vertexSize /* = 24 */, unsigned
 
 #ifndef drawArrayVT_NoState
 void drawArrayVT_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) {
-	//if (Options::debugGl) LOGI("drawArray\n");
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
 	
 	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
@@ -209,17 +227,17 @@ void drawArrayVTC(int bufferId, int vertices, int vertexSize /* = 24 */) {
 	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
 	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
 	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
-
+    
 	glEnableVertexAttribArray(posLoc);
 	glEnableVertexAttribArray(texLoc);
 	glEnableVertexAttribArray(colLoc);
-
+    
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
 	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*) (3 * 4));
 	glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, (GLvoid*) (5 * 4));
-
+    
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
-
+    
 	glDisableVertexAttribArray(posLoc);
 	glDisableVertexAttribArray(texLoc);
 	glDisableVertexAttribArray(colLoc);
@@ -228,11 +246,11 @@ void drawArrayVTC(int bufferId, int vertices, int vertexSize /* = 24 */) {
 #ifndef drawArrayVTC_NoState
 void drawArrayVTC_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) {
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
-
+    
 	glVertexPointer2(  3, GL_FLOAT, vertexSize, 0);
 	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
 	glColorPointer2(4, GL_UNSIGNED_BYTE, vertexSize, (GLvoid*) (5*4));
-
+    
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
 }
 #endif
@@ -249,69 +267,69 @@ void drawArrayVTC_NoState(int bufferId, int vertices, int vertexSize /* = 24 */)
 void MultiplyMatrices4by4OpenGL_FLOAT(float *result, float *matrix1, float *matrix2)
 {
 	result[0]=matrix1[0]*matrix2[0]+
-		matrix1[4]*matrix2[1]+
-		matrix1[8]*matrix2[2]+
-		matrix1[12]*matrix2[3];
+    matrix1[4]*matrix2[1]+
+    matrix1[8]*matrix2[2]+
+    matrix1[12]*matrix2[3];
 	result[4]=matrix1[0]*matrix2[4]+
-		matrix1[4]*matrix2[5]+
-		matrix1[8]*matrix2[6]+
-		matrix1[12]*matrix2[7];
+    matrix1[4]*matrix2[5]+
+    matrix1[8]*matrix2[6]+
+    matrix1[12]*matrix2[7];
 	result[8]=matrix1[0]*matrix2[8]+
-		matrix1[4]*matrix2[9]+
-		matrix1[8]*matrix2[10]+
-		matrix1[12]*matrix2[11];
+    matrix1[4]*matrix2[9]+
+    matrix1[8]*matrix2[10]+
+    matrix1[12]*matrix2[11];
 	result[12]=matrix1[0]*matrix2[12]+
-		matrix1[4]*matrix2[13]+
-		matrix1[8]*matrix2[14]+
-		matrix1[12]*matrix2[15];
+    matrix1[4]*matrix2[13]+
+    matrix1[8]*matrix2[14]+
+    matrix1[12]*matrix2[15];
 	result[1]=matrix1[1]*matrix2[0]+
-		matrix1[5]*matrix2[1]+
-		matrix1[9]*matrix2[2]+
-		matrix1[13]*matrix2[3];
+    matrix1[5]*matrix2[1]+
+    matrix1[9]*matrix2[2]+
+    matrix1[13]*matrix2[3];
 	result[5]=matrix1[1]*matrix2[4]+
-		matrix1[5]*matrix2[5]+
-		matrix1[9]*matrix2[6]+
-		matrix1[13]*matrix2[7];
+    matrix1[5]*matrix2[5]+
+    matrix1[9]*matrix2[6]+
+    matrix1[13]*matrix2[7];
 	result[9]=matrix1[1]*matrix2[8]+
-		matrix1[5]*matrix2[9]+
-		matrix1[9]*matrix2[10]+
-		matrix1[13]*matrix2[11];
+    matrix1[5]*matrix2[9]+
+    matrix1[9]*matrix2[10]+
+    matrix1[13]*matrix2[11];
 	result[13]=matrix1[1]*matrix2[12]+
-		matrix1[5]*matrix2[13]+
-		matrix1[9]*matrix2[14]+
-		matrix1[13]*matrix2[15];
+    matrix1[5]*matrix2[13]+
+    matrix1[9]*matrix2[14]+
+    matrix1[13]*matrix2[15];
 	result[2]=matrix1[2]*matrix2[0]+
-		matrix1[6]*matrix2[1]+
-		matrix1[10]*matrix2[2]+
-		matrix1[14]*matrix2[3];
+    matrix1[6]*matrix2[1]+
+    matrix1[10]*matrix2[2]+
+    matrix1[14]*matrix2[3];
 	result[6]=matrix1[2]*matrix2[4]+
-		matrix1[6]*matrix2[5]+
-		matrix1[10]*matrix2[6]+
-		matrix1[14]*matrix2[7];
+    matrix1[6]*matrix2[5]+
+    matrix1[10]*matrix2[6]+
+    matrix1[14]*matrix2[7];
 	result[10]=matrix1[2]*matrix2[8]+
-		matrix1[6]*matrix2[9]+
-		matrix1[10]*matrix2[10]+
-		matrix1[14]*matrix2[11];
+    matrix1[6]*matrix2[9]+
+    matrix1[10]*matrix2[10]+
+    matrix1[14]*matrix2[11];
 	result[14]=matrix1[2]*matrix2[12]+
-		matrix1[6]*matrix2[13]+
-		matrix1[10]*matrix2[14]+
-		matrix1[14]*matrix2[15];
+    matrix1[6]*matrix2[13]+
+    matrix1[10]*matrix2[14]+
+    matrix1[14]*matrix2[15];
 	result[3]=matrix1[3]*matrix2[0]+
-		matrix1[7]*matrix2[1]+
-		matrix1[11]*matrix2[2]+
-		matrix1[15]*matrix2[3];
+    matrix1[7]*matrix2[1]+
+    matrix1[11]*matrix2[2]+
+    matrix1[15]*matrix2[3];
 	result[7]=matrix1[3]*matrix2[4]+
-		matrix1[7]*matrix2[5]+
-		matrix1[11]*matrix2[6]+
-		matrix1[15]*matrix2[7];
+    matrix1[7]*matrix2[5]+
+    matrix1[11]*matrix2[6]+
+    matrix1[15]*matrix2[7];
 	result[11]=matrix1[3]*matrix2[8]+
-		matrix1[7]*matrix2[9]+
-		matrix1[11]*matrix2[10]+
-		matrix1[15]*matrix2[11];
+    matrix1[7]*matrix2[9]+
+    matrix1[11]*matrix2[10]+
+    matrix1[15]*matrix2[11];
 	result[15]=matrix1[3]*matrix2[12]+
-		matrix1[7]*matrix2[13]+
-		matrix1[11]*matrix2[14]+
-		matrix1[15]*matrix2[15];
+    matrix1[7]*matrix2[13]+
+    matrix1[11]*matrix2[14]+
+    matrix1[15]*matrix2[15];
 }
 
 void MultiplyMatrixByVector4by4OpenGL_FLOAT(float *resultvector, const float *matrix, const float *pvector)
@@ -334,17 +352,17 @@ int glhInvertMatrixf2(float *m, float *out)
 	float *r0, *r1, *r2, *r3;
 	r0 = wtmp[0], r1 = wtmp[1], r2 = wtmp[2], r3 = wtmp[3];
 	r0[0] = MAT(m, 0, 0), r0[1] = MAT(m, 0, 1),
-		r0[2] = MAT(m, 0, 2), r0[3] = MAT(m, 0, 3),
-		r0[4] = 1.0f, r0[5] = r0[6] = r0[7] = 0.0f,
-		r1[0] = MAT(m, 1, 0), r1[1] = MAT(m, 1, 1),
-		r1[2] = MAT(m, 1, 2), r1[3] = MAT(m, 1, 3),
-		r1[5] = 1.0f, r1[4] = r1[6] = r1[7] = 0.0f,
-		r2[0] = MAT(m, 2, 0), r2[1] = MAT(m, 2, 1),
-		r2[2] = MAT(m, 2, 2), r2[3] = MAT(m, 2, 3),
-		r2[6] = 1.0f, r2[4] = r2[5] = r2[7] = 0.0f,
-		r3[0] = MAT(m, 3, 0), r3[1] = MAT(m, 3, 1),
-		r3[2] = MAT(m, 3, 2), r3[3] = MAT(m, 3, 3),
-		r3[7] = 1.0f, r3[4] = r3[5] = r3[6] = 0.0f;
+    r0[2] = MAT(m, 0, 2), r0[3] = MAT(m, 0, 3),
+    r0[4] = 1.0f, r0[5] = r0[6] = r0[7] = 0.0f,
+    r1[0] = MAT(m, 1, 0), r1[1] = MAT(m, 1, 1),
+    r1[2] = MAT(m, 1, 2), r1[3] = MAT(m, 1, 3),
+    r1[5] = 1.0f, r1[4] = r1[6] = r1[7] = 0.0f,
+    r2[0] = MAT(m, 2, 0), r2[1] = MAT(m, 2, 1),
+    r2[2] = MAT(m, 2, 2), r2[3] = MAT(m, 2, 3),
+    r2[6] = 1.0f, r2[4] = r2[5] = r2[7] = 0.0f,
+    r3[0] = MAT(m, 3, 0), r3[1] = MAT(m, 3, 1),
+    r3[2] = MAT(m, 3, 2), r3[3] = MAT(m, 3, 3),
+    r3[7] = 1.0f, r3[4] = r3[5] = r3[6] = 0.0f;
 	/* choose pivot - or die */
 	if (fabsf(r3[0]) > fabsf(r2[0]))
 		SWAP_ROWS_FLOAT(r3, r2);
@@ -436,7 +454,7 @@ int glhInvertMatrixf2(float *m, float *out)
 	/* eliminate third variable */
 	m3 = r3[2] / r2[2];
 	r3[3] -= m3 * r2[3], r3[4] -= m3 * r2[4],
-		r3[5] -= m3 * r2[5], r3[6] -= m3 * r2[6], r3[7] -= m3 * r2[7];
+    r3[5] -= m3 * r2[5], r3[6] -= m3 * r2[6], r3[7] -= m3 * r2[7];
 	/* last check */
 	if (0.0f == r3[3])
 		return 0;
@@ -448,24 +466,24 @@ int glhInvertMatrixf2(float *m, float *out)
 	m2 = r2[3];			/* now back substitute row 2 */
 	s = 1.0f / r2[2];
 	r2[4] = s * (r2[4] - r3[4] * m2), r2[5] = s * (r2[5] - r3[5] * m2),
-		r2[6] = s * (r2[6] - r3[6] * m2), r2[7] = s * (r2[7] - r3[7] * m2);
+    r2[6] = s * (r2[6] - r3[6] * m2), r2[7] = s * (r2[7] - r3[7] * m2);
 	m1 = r1[3];
 	r1[4] -= r3[4] * m1, r1[5] -= r3[5] * m1,
-		r1[6] -= r3[6] * m1, r1[7] -= r3[7] * m1;
+    r1[6] -= r3[6] * m1, r1[7] -= r3[7] * m1;
 	m0 = r0[3];
 	r0[4] -= r3[4] * m0, r0[5] -= r3[5] * m0,
-		r0[6] -= r3[6] * m0, r0[7] -= r3[7] * m0;
+    r0[6] -= r3[6] * m0, r0[7] -= r3[7] * m0;
 	m1 = r1[2];			/* now back substitute row 1 */
 	s = 1.0f / r1[1];
 	r1[4] = s * (r1[4] - r2[4] * m1), r1[5] = s * (r1[5] - r2[5] * m1),
-		r1[6] = s * (r1[6] - r2[6] * m1), r1[7] = s * (r1[7] - r2[7] * m1);
+    r1[6] = s * (r1[6] - r2[6] * m1), r1[7] = s * (r1[7] - r2[7] * m1);
 	m0 = r0[2];
 	r0[4] -= r2[4] * m0, r0[5] -= r2[5] * m0,
-		r0[6] -= r2[6] * m0, r0[7] -= r2[7] * m0;
+    r0[6] -= r2[6] * m0, r0[7] -= r2[7] * m0;
 	m0 = r0[1];			/* now back substitute row 0 */
 	s = 1.0f / r0[0];
 	r0[4] = s * (r0[4] - r1[4] * m0), r0[5] = s * (r0[5] - r1[5] * m0),
-		r0[6] = s * (r0[6] - r1[6] * m0), r0[7] = s * (r0[7] - r1[7] * m0);
+    r0[6] = s * (r0[6] - r1[6] * m0), r0[7] = s * (r0[7] - r1[7] * m0);
 	MAT(out, 0, 0) = r0[4];
 	MAT(out, 0, 1) = r0[5], MAT(out, 0, 2) = r0[6];
 	MAT(out, 0, 3) = r0[7], MAT(out, 1, 0) = r1[4];
@@ -479,8 +497,8 @@ int glhInvertMatrixf2(float *m, float *out)
 }
 
 int glhUnProjectf(	float winx, float winy, float winz,
-					float *modelview, float *projection,
-					int *viewport, float *objectCoordinate)
+                  float *modelview, float *projection,
+                  int *viewport, float *objectCoordinate)
 {
 	//Transformation matrices
 	float m[16], A[16];
@@ -584,18 +602,18 @@ void mc_glEnable(GLenum cap) {
     if (cap == GL_FOG) renderState.fogEnabled = true;
     else if (cap == GL_ALPHA_TEST) renderState.alphaTestEnabled = true;
     else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = true;
-    else if (cap == GL_LIGHTING) {} 
-    else if (cap == GL_COLOR_MATERIAL) {} 
-    else glEnable(cap); 
+    else if (cap == GL_LIGHTING) {}
+    else if (cap == GL_COLOR_MATERIAL) {}
+    else glEnable(cap);
 }
 
 void mc_glDisable(GLenum cap) {
     if (cap == GL_FOG) renderState.fogEnabled = false;
     else if (cap == GL_ALPHA_TEST) renderState.alphaTestEnabled = false;
     else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = false;
-    else if (cap == GL_LIGHTING) {} 
-    else if (cap == GL_COLOR_MATERIAL) {} 
-    else glDisable(cap); 
+    else if (cap == GL_LIGHTING) {}
+    else if (cap == GL_COLOR_MATERIAL) {}
+    else glDisable(cap);
 }
 
 void mc_glAlphaFunc(GLenum func, GLclampf ref) {
@@ -674,10 +692,7 @@ void mc_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 
 void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     ensureShaders();
-    static int drawCount = 0;
-    if (drawCount < 10) {
-    }
-
+    
     if (currentShader) {
         currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
         currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
@@ -703,7 +718,7 @@ void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         bool forceEnable = renderState.texture2DEnabled && currentShader;
         if (forceEnable) {
             vEnabled = true;
-            tEnabled = true; 
+            tEnabled = true;
             cEnabled = true;
             
             vSize = 3; vType = GL_FLOAT; vStride = 24; vPtr = 0;
@@ -722,7 +737,7 @@ void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         } else if (texLoc != -1 && p_glDisableVertexAttribArray) {
             p_glDisableVertexAttribArray(texLoc);
         }
-
+        
         if (cEnabled && colLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
             p_glEnableVertexAttribArray(colLoc);
             p_glVertexAttribPointer(colLoc, cSize, cType, cType == GL_UNSIGNED_BYTE ? GL_TRUE : GL_FALSE, vStride, cPtr);
@@ -739,10 +754,10 @@ void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     } else {
         glDrawArrays(mode, first, count);
     }
-
+    
     GLenum err = glGetError();
-    if (err != GL_NO_ERROR && drawCount < 50) {
-        LOGE("DIAGNOSTIC: GLES Error after draw call: 0x%x\n", err);
+    if (err != GL_NO_ERROR) {
+        LOGE("GLES Error after draw call: 0x%x\n", err);
     }
 }
 

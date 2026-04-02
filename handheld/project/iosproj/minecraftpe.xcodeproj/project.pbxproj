@@ -51,6 +51,18 @@
 		57265BC22F70332F0027CFEF /* OptionsItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BBB2F70332F0027CFEF /* OptionsItem.cpp */; };
 		57265BC32F70332F0027CFEF /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BBD2F70332F0027CFEF /* Slider.cpp */; };
 		57265BC42F70332F0027CFEF /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57265BBD2F70332F0027CFEF /* Slider.cpp */; };
+		57A8C7242F7E64360010EA16 /* default.fragment in Sources */ = {isa = PBXBuildFile; fileRef = 57A8C7222F7E64360010EA16 /* default.fragment */; };
+		57A8C7252F7E64360010EA16 /* default.fragment in Sources */ = {isa = PBXBuildFile; fileRef = 57A8C7222F7E64360010EA16 /* default.fragment */; };
+		57A8C7262F7E64360010EA16 /* default.vertex in Sources */ = {isa = PBXBuildFile; fileRef = 57A8C7232F7E64360010EA16 /* default.vertex */; };
+		57A8C7272F7E64360010EA16 /* default.vertex in Sources */ = {isa = PBXBuildFile; fileRef = 57A8C7232F7E64360010EA16 /* default.vertex */; };
+		57A8C7292F7E64AB0010EA16 /* default.fragment in Resources */ = {isa = PBXBuildFile; fileRef = 57A8C7222F7E64360010EA16 /* default.fragment */; };
+		57A8C72A2F7E64AB0010EA16 /* default.vertex in Resources */ = {isa = PBXBuildFile; fileRef = 57A8C7232F7E64360010EA16 /* default.vertex */; };
+		57AAE1D72F7E42C800B51E7D /* GLESLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57AAE1D32F7E42C800B51E7D /* GLESLoader.cpp */; };
+		57AAE1D82F7E42C800B51E7D /* GLESLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57AAE1D32F7E42C800B51E7D /* GLESLoader.cpp */; };
+		57AAE1D92F7E42C800B51E7D /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57AAE1D52F7E42C800B51E7D /* Shader.cpp */; };
+		57AAE1DA2F7E42C800B51E7D /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57AAE1D52F7E42C800B51E7D /* Shader.cpp */; };
+		57AAE1E02F7E42E600B51E7D /* MatrixStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57AAE1DD2F7E42E600B51E7D /* MatrixStack.cpp */; };
+		57AAE1E12F7E42E600B51E7D /* MatrixStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57AAE1DD2F7E42E600B51E7D /* MatrixStack.cpp */; };
 		9D293CE716071C08000305C8 /* CreateNewWorld_iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D293CE616071C08000305C8 /* CreateNewWorld_iphone.xib */; };
 		9D293CE816071C08000305C8 /* CreateNewWorld_iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D293CE616071C08000305C8 /* CreateNewWorld_iphone.xib */; };
 		9D293CEB160720D6000305C8 /* worldname_iphone5_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D293CEA160720D6000305C8 /* worldname_iphone5_3.png */; };
@@ -1228,6 +1240,16 @@
 		57265BBC2F70332F0027CFEF /* OptionsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsItem.h; sourceTree = "<group>"; };
 		57265BBD2F70332F0027CFEF /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Slider.cpp; sourceTree = "<group>"; };
 		57265BBE2F70332F0027CFEF /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		57A8C7222F7E64360010EA16 /* default.fragment */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = default.fragment; sourceTree = "<group>"; };
+		57A8C7232F7E64360010EA16 /* default.vertex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = default.vertex; sourceTree = "<group>"; };
+		57AAE1D32F7E42C800B51E7D /* GLESLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLESLoader.cpp; sourceTree = "<group>"; };
+		57AAE1D42F7E42C800B51E7D /* GLESLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESLoader.h; sourceTree = "<group>"; };
+		57AAE1D52F7E42C800B51E7D /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		57AAE1D62F7E42C800B51E7D /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		57AAE1DC2F7E42E600B51E7D /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
+		57AAE1DD2F7E42E600B51E7D /* MatrixStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatrixStack.cpp; sourceTree = "<group>"; };
+		57AAE1DE2F7E42E600B51E7D /* MatrixStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixStack.h; sourceTree = "<group>"; };
+		57AAE1DF2F7E42E600B51E7D /* MemUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemUtils.h; sourceTree = "<group>"; };
 		9D293CE616071C08000305C8 /* CreateNewWorld_iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateNewWorld_iphone.xib; path = minecraftpe/dialogs/CreateNewWorld_iphone.xib; sourceTree = "<group>"; };
 		9D293CEA160720D6000305C8 /* worldname_iphone5_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldname_iphone5_3.png; sourceTree = "<group>"; };
 		9D959AFF16036BEE00E23A6F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1937,7 +1959,7 @@
 		D5B50CDB14CFF66F005F7284 /* TripodCameraRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripodCameraRenderer.h; sourceTree = "<group>"; };
 		D5B50CDC14CFF66F005F7284 /* GameRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameRenderer.cpp; sourceTree = "<group>"; };
 		D5B50CDD14CFF66F005F7284 /* GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameRenderer.h; sourceTree = "<group>"; };
-		D5B50CDE14CFF66F005F7284 /* gles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gles.cpp; sourceTree = "<group>"; };
+		D5B50CDE14CFF66F005F7284 /* gles.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = gles.cpp; sourceTree = "<group>"; };
 		D5B50CDF14CFF66F005F7284 /* gles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gles.h; sourceTree = "<group>"; };
 		D5B50CE014CFF66F005F7284 /* ItemInHandRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemInHandRenderer.cpp; sourceTree = "<group>"; };
 		D5B50CE114CFF66F005F7284 /* ItemInHandRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemInHandRenderer.h; sourceTree = "<group>"; };
@@ -2508,6 +2530,16 @@
 			path = armor;
 			sourceTree = "<group>";
 		};
+		57A8C7212F7E64360010EA16 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				57A8C7222F7E64360010EA16 /* default.fragment */,
+				57A8C7232F7E64360010EA16 /* default.vertex */,
+			);
+			name = shaders;
+			path = ../../data/shaders;
+			sourceTree = "<group>";
+		};
 		D5251CB51538192700FC82C8 /* raknet */ = {
 			isa = PBXGroup;
 			children = (
@@ -2832,6 +2864,7 @@
 		D572D3AA144C69F100E67862 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				57A8C7212F7E64360010EA16 /* shaders */,
 				D5ACF18615C03DBF00E21C22 /* aac */,
 				D5251E72153823DC00FC82C8 /* lang */,
 				D5F0773A145EF5E100EC30FB /* ios */,
@@ -3467,6 +3500,10 @@
 		D5B50CB214CFF66F005F7284 /* renderer */ = {
 			isa = PBXGroup;
 			children = (
+				57AAE1D32F7E42C800B51E7D /* GLESLoader.cpp */,
+				57AAE1D42F7E42C800B51E7D /* GLESLoader.h */,
+				57AAE1D52F7E42C800B51E7D /* Shader.cpp */,
+				57AAE1D62F7E42C800B51E7D /* Shader.h */,
 				D5B50CB314CFF66F005F7284 /* Chunk.cpp */,
 				D5B50CB414CFF66F005F7284 /* Chunk.h */,
 				D5B50CB514CFF66F005F7284 /* ChunkRenderer.h */,
@@ -3721,6 +3758,10 @@
 		D5B50E5B14CFF66F005F7284 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				57AAE1DC2F7E42E600B51E7D /* Math.h */,
+				57AAE1DD2F7E42E600B51E7D /* MatrixStack.cpp */,
+				57AAE1DE2F7E42E600B51E7D /* MatrixStack.h */,
+				57AAE1DF2F7E42E600B51E7D /* MemUtils.h */,
 				D5B50E5C14CFF66F005F7284 /* CollectionUtils.h */,
 				D5B50E5D14CFF66F005F7284 /* DataIO.cpp */,
 				D5B50E5E14CFF66F005F7284 /* DataIO.h */,
@@ -4790,6 +4831,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57A8C7292F7E64AB0010EA16 /* default.fragment in Resources */,
+				57A8C72A2F7E64AB0010EA16 /* default.vertex in Resources */,
 				D506D3E2161288BD0099FA65 /* Default-568h@2x.png in Resources */,
 				D5CF9C55144C225000E4244F /* InfoPlist.strings in Resources */,
 				D5CF9C5E144C225000E4244F /* MainWindow.xib in Resources */,
@@ -5358,6 +5401,11 @@
 				57265BC02F70332F0027CFEF /* GuiElementContainer.cpp in Sources */,
 				57265BC22F70332F0027CFEF /* OptionsItem.cpp in Sources */,
 				57265BC42F70332F0027CFEF /* Slider.cpp in Sources */,
+				57AAE1D82F7E42C800B51E7D /* GLESLoader.cpp in Sources */,
+				57AAE1DA2F7E42C800B51E7D /* Shader.cpp in Sources */,
+				57AAE1E12F7E42E600B51E7D /* MatrixStack.cpp in Sources */,
+				57A8C7252F7E64360010EA16 /* default.fragment in Sources */,
+				57A8C7272F7E64360010EA16 /* default.vertex in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5729,6 +5777,11 @@
 				57265BBF2F70332F0027CFEF /* GuiElementContainer.cpp in Sources */,
 				57265BC12F70332F0027CFEF /* OptionsItem.cpp in Sources */,
 				57265BC32F70332F0027CFEF /* Slider.cpp in Sources */,
+				57AAE1D72F7E42C800B51E7D /* GLESLoader.cpp in Sources */,
+				57AAE1D92F7E42C800B51E7D /* Shader.cpp in Sources */,
+				57AAE1E02F7E42E600B51E7D /* MatrixStack.cpp in Sources */,
+				57A8C7242F7E64360010EA16 /* default.fragment in Sources */,
+				57A8C7262F7E64360010EA16 /* default.vertex in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5818,7 +5871,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "minecraftpe/minecraftpedemo-info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DDEMO_MODE",
@@ -5841,7 +5894,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "minecraftpe/minecraftpedemo-info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DDEMO_MODE";
 				PRODUCT_NAME = minecraftpe.demo;
 				RUN_CLANG_STATIC_ANALYZER = NO;
@@ -5860,7 +5913,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "minecraftpe/minecraftpedemo-info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DDEMO_MODE",
@@ -5935,7 +5988,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "minecraftpe/minecraftpedemo-info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DDEMO_MODE",

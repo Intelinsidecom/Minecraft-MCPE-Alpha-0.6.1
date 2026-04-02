@@ -11,7 +11,7 @@ public:
     Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 
     Vector3 cross(const Vector3& o) const {
-        return {y * o.z - z * o.y, z * o.x - x * o.z, x * o.y - y * o.x};
+        return Vector3(y * o.z - z * o.y, z * o.x - x * o.z, x * o.y - y * o.x);
     }
 
     void normalize() {

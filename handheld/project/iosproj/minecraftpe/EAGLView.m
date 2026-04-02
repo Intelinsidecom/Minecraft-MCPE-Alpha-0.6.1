@@ -91,10 +91,10 @@
   
         // Create depth buffer and allocate backing store
         glGenRenderbuffersOES(1, &_depthRenderBuffer);
-		glBindRenderbufferOES(GL_RENDERBUFFER_OES, _depthRenderBuffer);
+		glBindRenderbufferOES(GL_RENDERBUFFER, _depthRenderBuffer);
 
-        glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT24_OES, framebufferWidth, framebufferHeight);
-		glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, _depthRenderBuffer);
+        glRenderbufferStorageOES(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, framebufferWidth, framebufferHeight);
+		glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBuffer);
        
         NSLog(@"Created framebuffer with size %d, %d\n", framebufferWidth, framebufferHeight);
         
