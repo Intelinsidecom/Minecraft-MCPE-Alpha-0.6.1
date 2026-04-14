@@ -14,16 +14,18 @@ This repo includes the leak files for MCPE 0.6.1 version. Im looking into adding
 - Add Ports to other Platforms
   - [ ] Linux
   - [ ] WinRT
-  - [ ] UWP (Windows Phone, Desktop, Xbox)
+  - [x] UWP (Windows Phone, Desktop, Xbox)
 
 
 - [x] Port to Open GL ES 2.0 (Working, in beta)
 - [ ] Design Proper Settings Menu or Redesign the whole UI to look and functions more like Bedrock
 - [ ] Backport Legacy Console, Bedrock and Java Features or adjustmnets so it feels more like Regular Minecraft.
+- [ ] Implement DirectX and or Vulkan
+- [ ] Add Proper Controller support to all platforms. (Xbox, PS controllers.)
 
 ## Current bugs
 - Mouse Movement in Win32 can be buggy.
-- Critical Issue: When joining to an server or an friend, you get spawned to default cordinates and more. singleplayer works without issues. confirmed to only happen on modern android.
+- Critical Issue: When joining to an server or an friend, you get spawned to default cordinates and more. singleplayer works without issues. confirmed to only happen on modern android version.
 
 # Building
 
