@@ -232,6 +232,7 @@ void StartMenuScreen::render( int xm, int ym, float a )
 	renderBackground();
     
     glEnable2(GL_BLEND);
+    glBlendFunc2(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #if defined(RPI)
 	TextureId id = minecraft->textures->loadTexture("gui/pi_title.png");

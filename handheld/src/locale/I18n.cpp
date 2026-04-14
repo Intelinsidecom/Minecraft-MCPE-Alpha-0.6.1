@@ -6,15 +6,21 @@
 #include "../world/item/ItemInstance.h"
 #include <ctype.h>
 
+#ifdef _UWP
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
+#endif
+
 I18n::Map I18n::_strings;
 
 void I18n::loadLanguage( AppPlatform* platform, const std::string& languageCode )
 {
 	_strings.clear();
-	fillTranslations(platform, "lang/en_US.lang", true);
+	fillTranslations(platform, "lang" PATH_SEPARATOR "en_US.lang", true);
 
 	if (languageCode != "en_US")
-		fillTranslations(platform, "lang/" + languageCode + ".lang", true);
+		fillTranslations(platform, "lang" PATH_SEPARATOR + languageCode + ".lang", true);
 }
 
 bool I18n::get( const std::string& id, std::string& out ) {

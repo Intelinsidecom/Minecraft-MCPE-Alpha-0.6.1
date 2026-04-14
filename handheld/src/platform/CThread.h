@@ -10,6 +10,9 @@
 #ifdef WIN32
 	#include <windows.h>
 #endif
+#ifdef _UWP
+	#include <thread>
+#endif
 
 typedef void *( * pthread_fn )( void * );
 
@@ -33,7 +36,9 @@ typedef void *( * pthread_fn )( void * );
 		static void sleep( const unsigned int millis );
 	
 	private:
-	#ifdef WIN32
+	#ifdef _UWP
+		std::thread					m_stdThread;
+	#elif defined(WIN32)
 		LPTHREAD_START_ROUTINE		mp_threadFunc;
 		DWORD						m_threadID;
 		HANDLE						m_threadHandle;

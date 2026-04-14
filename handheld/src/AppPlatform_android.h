@@ -531,6 +531,10 @@ public:
         return JNI_TRUE == env->CallBooleanMethod(instance, _methodSupportsTouchscreen);
     }
 
+    virtual bool supportsNonTouchscreen() {
+        return false;
+    }
+
 	virtual void vibrate(int milliSeconds) {
         if (!_isInited) return;
         if (!_methodVibrate) return;

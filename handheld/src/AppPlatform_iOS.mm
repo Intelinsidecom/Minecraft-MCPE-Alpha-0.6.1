@@ -124,7 +124,7 @@ TextureData AppPlatform_iOS::loadTexture(const std::string& filename_, bool text
         LOGI("Couldn't find file: %s\n", filename.c_str());
 
         if ("this is idiotic but temporary") {
-            out.w = 16;
+        out.w = 16;
             out.h = 16;
             bool isTerrain = (filename.find("terrain") != std::string::npos);
             int numPixels = out.w * out.h;
@@ -153,8 +153,53 @@ BinaryBlob AppPlatform_iOS::readAssetFile(const std::string& filename_) {
     size_t dotp = filename.rfind(".");
     size_t slashp = filename.rfind("/");
     std::string ext;
+    
+    
+    if (filename.find("shaders/") != std::string::npos) {
+        std::string baseName = filename;
+        std::string fileExt;
+        
+        // Extract just the base name (like textures do)
+        if (slashp != std::string::npos && slashp < filename.length()) {
+            baseName = filename.substr(slashp+1);
+        }
+        if (dotp != std::string::npos && dotp < filename.length()) {
+            fileExt = filename.substr(dotp+1);
+            baseName = baseName.substr(0, dotp - (slashp != std::string::npos ? slashp+1 : 0));
+        }
+        
+        // Try with the actual extension first
+        NSString *p = [[NSString alloc] initWithUTF8String:baseName.c_str()];
+        NSString *rext = [[NSString alloc] initWithUTF8String:fileExt.c_str()];
+        NSString *path = [[NSBundle mainBundle] pathForResource:p ofType:rext];
+        [p release];
+        [rext release];
+        
+        NSData *data = [NSData dataWithContentsOfFile:path];
+        if (data) {
+            unsigned int numBytes = [data length];
+            unsigned char* bytes = new unsigned char[numBytes];
+            memcpy(bytes, [data bytes], numBytes);
+            return BinaryBlob(bytes, numBytes);
+        }
+        
+        // If that fails, try without extension (bundle might have stripped it)
+        p = [[NSString alloc] initWithUTF8String:baseName.c_str()];
+        path = [[NSBundle mainBundle] pathForResource:p ofType:nil];
+        [p release];
+        
+        data = [NSData dataWithContentsOfFile:path];
+        if (data) {
+            unsigned int numBytes = [data length];
+            unsigned char* bytes = new unsigned char[numBytes];
+            memcpy(bytes, [data bytes], numBytes);
+            return BinaryBlob(bytes, numBytes);
+        }
+        
+        return BinaryBlob(); // Failed to find shader
+    }
+    
     if (dotp != std::string::npos || slashp != std::string::npos) {
-        // Get file extension
         if (dotp != std::string::npos) {
             ext = filename.substr(dotp+1);
         }
@@ -241,7 +286,6 @@ StringVector AppPlatform_iOS::getOptionStrings() {
             id value = [d objectForKey: key];
             options.push_back([key UTF8String]);
             options.push_back([[value description] UTF8String]);
-            //LOGI("Added strings: %s\n", options[options.size()-1].c_str());
         }
     }
     return options;

@@ -133,7 +133,7 @@ RakNet::TimeUS GetTimeUS_Windows( void )
 		initialized = true;
 
 		// Save the current process
-#if !defined(_WIN32_WCE)
+#if !defined(_WIN32_WCE) && !defined(WINAPI_FAMILY)
 		HANDLE mProc = GetCurrentProcess();
 
 		// Get the current Affinity
@@ -144,6 +144,8 @@ RakNet::TimeUS GetTimeUS_Windows( void )
 #endif
 		mThread = GetCurrentThread();
 
+#elif !defined(_WIN32_WCE)
+		mThread = GetCurrentThread();
 #endif // _WIN32_WCE
 	}	
 

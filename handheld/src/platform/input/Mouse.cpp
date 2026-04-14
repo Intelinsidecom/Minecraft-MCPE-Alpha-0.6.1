@@ -166,4 +166,3 @@ void Mouse::feed(char actionButtonId, char buttonData, short x, short y, short d
 
 
 MouseDevice Mouse::_instance;
-

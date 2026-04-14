@@ -1,7 +1,7 @@
 #include "FolderMethods.h"
 #include <string>
 
-#ifndef WIN32
+#if !defined(WIN32) && !defined(WINAPI_FAMILY)
 
 #include <unistd.h>
 #include <errno.h>
@@ -18,6 +18,12 @@ int _access( const char* name, int mode ) {
 int _errno() {
 	return errno;
 }
+#elif defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+
+#include <errno.h>
+#include <sys/stat.h>
+#include <io.h>
+#include <direct.h>
 
 #else
 	#include <io.h>

@@ -43,24 +43,22 @@ void PerfRenderer::debugFpsMeterKeyPress( int key )
 
 void PerfRenderer::renderFpsMeter( float tickTime )
 {
-	std::vector<PerfTimer::ResultField> list = PerfTimer::getLog(_debugPath);
-	if (list.empty())
-		return;
-
-	PerfTimer::ResultField node = list[0];
-	list.erase(list.begin());
-
-	long usPer60Fps = 1000000l / 60;
-	if (lastTimer == -1) {
-		lastTimer = getTimeS();
-	}
+	// Improved fps meter since old one sucked, i might revert later
+	static float lastFrameTime = -1;
 	float now = getTimeS();
-	tickTimes[ frameTimePos ] = tickTime;
-	frameTimes[frameTimePos ] = now - lastTimer;
-	lastTimer = now;
 
-	if (++frameTimePos >= (int)frameTimes.size())
-		frameTimePos = 0;
+	if (lastFrameTime > 0) {
+		float actualFrameTime = now - lastFrameTime;
+		if (actualFrameTime > 0.001f && actualFrameTime < 1.0f) {
+			frameTimes[frameTimePos] = actualFrameTime;
+			tickTimes[frameTimePos] = tickTime;
+			if (++frameTimePos >= (int)frameTimes.size())
+				frameTimePos = 0;
+		}
+	}
+	lastFrameTime = now;
+
+	std::vector<PerfTimer::ResultField> list = PerfTimer::getLog(_debugPath);
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
@@ -70,6 +68,42 @@ void PerfRenderer::renderFpsMeter( float tickTime )
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity2();
 	glTranslatef2(0, 0, -2000);
+	glEnable(GL_TEXTURE_2D);
+	{
+		float recentTotalTime = 0;
+		int recentFrames = 0;
+		int countRecent = 10;
+
+		for (int i = 0; i < countRecent; i++) {
+			int idx = (frameTimePos - 1 - i + frameTimes.size()) % frameTimes.size();
+			if (frameTimes[idx] > 0.0001f) {
+				recentTotalTime += frameTimes[idx];
+				recentFrames++;
+			}
+		}
+
+		if (recentFrames > 0) {
+			float avgFrameTime = recentTotalTime / recentFrames;
+			int fps = (int)(1.0f / avgFrameTime);
+			if (fps < 0) fps = 0;
+			if (fps > 9999) fps = 9999;
+
+			std::stringstream fpsMsg;
+			fpsMsg << "FPS: " << fps;
+			glPushMatrix2();
+			glScalef2(2.0f, 2.0f, 1.0f);
+			_font->drawShadow(fpsMsg.str(), 5, 5, 0xFFFFFF);
+			glPopMatrix2();
+		}
+	}
+
+	if (list.empty())
+		return;
+
+	PerfTimer::ResultField node = list[0];
+	list.erase(list.begin());
+
+	long usPer60Fps = 1000000l / 60;
 
 	glLineWidth(1);
 	glDisable2(GL_TEXTURE_2D);

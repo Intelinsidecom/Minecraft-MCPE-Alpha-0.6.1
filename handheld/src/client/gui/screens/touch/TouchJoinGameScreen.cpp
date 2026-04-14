@@ -202,7 +202,7 @@ void JoinGameScreen::tick()
 void JoinGameScreen::render( int xm, int ym, float a )
 {
 	bool hasNetwork = minecraft->platform()->isNetworkEnabled(true);
-#ifdef WIN32
+#if defined(WIN32) && !defined(WINAPI_FAMILY)
 	hasNetwork = hasNetwork && !GetAsyncKeyState(VK_TAB);
 #endif
 

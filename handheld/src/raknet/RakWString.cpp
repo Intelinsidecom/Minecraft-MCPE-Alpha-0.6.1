@@ -252,7 +252,9 @@ int RakWString::StrCmp(const RakWString &right) const
 }
 int RakWString::StrICmp(const RakWString &right) const
 {
-#ifdef _WIN32
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+	return _wcsicmp(C_String(), right.C_String());
+#elif defined(_WIN32)
 	return wcsicmp(C_String(), right.C_String());
 #else
 	// Not supported

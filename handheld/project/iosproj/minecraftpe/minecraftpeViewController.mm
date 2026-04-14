@@ -58,7 +58,7 @@ static NSThread* lastThread = nil;
 
 - (void)awakeFromNib
 {
-    EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+    EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
     if (!aContext)
         NSLog(@"Failed to create ES context");
@@ -70,6 +70,9 @@ static NSThread* lastThread = nil;
 	
     [(EAGLView *)self.view setContext:context];
     [(EAGLView *)self.view setFramebuffer];
+    
+    _platform = new AppPlatform_iOS(self);
+    glSetPlatform(_platform);
     
     animating = FALSE;
     animationFrameInterval = 1;
@@ -88,7 +91,7 @@ static NSThread* lastThread = nil;
 
     self.displayLink = nil;
     
-    _platform = new AppPlatform_iOS(self);
+    glSetPlatform(_platform);
     _context = new AppContext();
     _context->platform = _platform;
     _context->doRender = false;

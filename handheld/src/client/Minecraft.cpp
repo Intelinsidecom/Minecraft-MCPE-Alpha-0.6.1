@@ -36,6 +36,11 @@
 #include "../platform/input/Mouse.h"
 #include "../platform/input/Controller.h"
 #include "../AppPlatform.h"
+
+#ifdef _UWP
+#include "../AppPlatform_uwp.h"
+#endif
+
 #include "../Performance.h"
 #include "../LicenseCodes.h"
 #include "../util/PerfTimer.h"
@@ -675,9 +680,11 @@ void Minecraft::tickInput() {
 	while (Mouse::next()) {
 		//if (Mouse::getButtonState(MouseAction::ACTION_LEFT))
 		//	LOGI("mouse-down-at: %d, %d\n", Mouse::getX(), Mouse::getY());
+//#ifndef _UWP
         	int passedTime = getTimeMs() - lastTickTime;
         	if (passedTime > 200) continue; // @note: As long Mouse::clear CLEARS the whole buffer, it's safe to break here
 		// But since it might be rewritten anyway (and hopefully there aren't a lot of messages, we just continue.
+//#endif
 
 		const MouseAction& e = Mouse::getEvent();
 
@@ -734,7 +741,7 @@ void Minecraft::tickInput() {
 					if (slot >= 0 && slot <= maxSlot)
 						player->inventory->selectSlot(slot);
 
-					#if defined(WIN32)
+					#if defined(WIN32) && !defined(WINAPI_FAMILY)
 						if (digit >= 1 && GetAsyncKeyState(VK_CONTROL) < 0) {
 							// Set adventure settings here!
 							AdventureSettingsPacket p(level->adventureSettings);
@@ -902,8 +909,10 @@ void Minecraft::tickInput() {
 		//if (!isPressed) LOGI("Key released: %d\n", key);
 
 		if (!options.useMouseForDigging) {
+#ifndef _UWP
 			int passedTime = getTimeMs() - lastTickTime;
 			if (passedTime > 200) continue;
+#endif
 
 			// Destroy and attack is on same button
 			if (key == options.keyDestroy.key && isPressed) {
@@ -1014,6 +1023,10 @@ void Minecraft::handleBuildAction(BuildActionIntention* action) {
 			missTime = 10;
 		}
     } else if (hitResult.type == ENTITY) {
+        // Validate entity pointer before using
+        if (!hitResult.entity || hitResult.entity->removed) {
+            return;
+        }
         if (action->isAttack()) {
 			player->swing();
 			//LOGI("attacking!\n");
@@ -1111,6 +1124,16 @@ void Minecraft::setScreen( Screen* screen )
 	Multitouch::reset();
 	Multitouch::resetThisUpdate();
 
+#ifdef _UWP
+	if (platform()) {
+		static_cast<AppPlatform_uwp*>(platform())->clearInputBuffer();
+	}
+	
+	if (inputHolder && inputHolder->getMoveInput()) {
+		inputHolder->getMoveInput()->releaseAllKeys();
+	}
+#endif
+
 	if (screenMutex) {
 		hasScheduledScreen = true;
 		scheduledScreen = screen;
@@ -1151,6 +1174,11 @@ void Minecraft::grabMouse()
 {
 #ifndef STANDALONE_SERVER
 	if (mouseGrabbed) return;
+	
+	if (!platform()->supportsNonTouchscreen()) {
+		return;
+	}
+	
 	mouseGrabbed = true;
 	_reloadInput();
 	mouseHandler.grab();
@@ -1172,7 +1200,8 @@ bool Minecraft::useTouchscreen() {
 #ifdef RPI
 	return false;
 #endif
-	#if defined(ANDROID) || defined(__APPLE__)
+	#if defined(ANDROID) || defined(__APPLE__) || defined(_UWP)
+		if (mouseGrabbed) return false;
 		return options.useTouchScreen || !_supportsNonTouchscreen;
 	#else
 		if (mouseGrabbed) return false;
@@ -1189,9 +1218,12 @@ void Minecraft::init()
 #ifndef STANDALONE_SERVER
 	checkGlError("Init enter");
 
-	_supportsNonTouchscreen = !platform()->supportsTouchscreen();
-
-	LOGI("IS TOUCHSCREEN? %d\n", options.useTouchScreen);
+	_supportsNonTouchscreen = platform()->supportsNonTouchscreen();
+	
+	if (platform()->supportsTouchscreen()) {
+		options.useTouchScreen = true;
+		LOGI("Touchscreen detected - forcing touch mode for mobile UI\n");
+	}
 
 	textures = new Textures(&options, platform());
 	textures->addDynamicTexture(new WaterTexture());

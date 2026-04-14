@@ -1,8 +1,50 @@
 #include "gles.h"
 #include <cmath>
 #include <cstdio>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include "Shader.h"
+#include "GLESLoader.h"
+#include "../../util/MatrixStack.h"
+#include "../../AppPlatform.h"
+
+#ifdef __APPLE__
+#include <OpenGLES/ES2/gl.h>
+#include <OpenGLES/ES2/glext.h>
+#else
+#include <EGL/egl.h>
+#pragma comment(lib, "libGLESv2.lib")
+#pragma comment(lib, "libEGL.lib")
+#endif
 
 static const float __glPi = 3.14159265358979323846f;
+
+static AppPlatform* s_platform = NULL;
+
+void glSetPlatform(AppPlatform* platform) {
+    s_platform = platform;
+}
+
+static std::string loadShaderSource(const std::string& path) {
+    if (s_platform) {
+        BinaryBlob blob = s_platform->readAssetFile(path);
+        if (blob.data && blob.size > 0) {
+            std::string source(reinterpret_cast<char*>(blob.data), blob.size);
+            delete[] blob.data;
+            return source;
+        }
+    }
+    
+    std::ifstream file(path.c_str());
+    if (file.is_open()) {
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+    }
+    
+    return "";
+}
 
 static void __gluMakeIdentityf(GLfloat m[16]);
 
@@ -11,7 +53,7 @@ void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
     GLfloat m[4][4];
     GLfloat sine, cotangent, deltaZ;
     GLfloat radians=(GLfloat)(fovy/2.0f*__glPi/180.0f);
-
+    
     deltaZ=zFar-zNear;
     sine=(GLfloat)sin(radians);
     if ((deltaZ==0.0f) || (sine==0.0f) || (aspect==0.0f))
@@ -19,7 +61,7 @@ void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
         return;
     }
     cotangent=(GLfloat)(cos(radians)/sine);
-
+    
     __gluMakeIdentityf(&m[0][0]);
     m[0][0] = cotangent / aspect;
     m[1][1] = cotangent;
@@ -37,13 +79,89 @@ void __gluMakeIdentityf(GLfloat m[16]) {
     m[3] = 0;  m[7] = 0;  m[11] = 0;  m[15] = 1;
 }
 
-void glInit()
-{
-#ifndef OPENGL_ES
-	
-	GLenum err = glewInit();
-	printf("Err: %d\n", err);
+static Shader* defaultShader = NULL;
+
+static void ensureShaders() {
+    if (defaultShader && defaultShader->isLoaded()) return;
+    
+    LoadGLESFunctions();
+    
+#ifdef __APPLE__
+    // iOS uses EAGL context - check if it's current
+    void* eaglContext = (void*)[EAGLContext currentContext];
+    if (!eaglContext) {
+        return;
+    }
+    void* ctx = eaglContext;
+    void* dpy = NULL;
+#else
+    EGLContext ctx = eglGetCurrentContext();
+    EGLDisplay dpy = eglGetCurrentDisplay();
 #endif
+    
+#ifndef OPENGL_ES
+    static bool glewDone = false;
+    if (!glewDone) {
+        GLenum err = glewInit();
+        glewDone = true;
+    }
+#endif
+    
+    
+    const char* paths[] = {
+#ifdef ANDROID
+        "shaders/",
+        "../../shaders/",
+        "../shaders/"
+#elif defined(__APPLE__)
+        "shaders/",
+        "resources/shaders/",
+        "../resources/shaders/",
+        "../../shaders/",
+        "../shaders/"
+#else
+        "",
+        "data/shaders/",
+        "../../data/shaders/",
+        "../data/shaders/"
+#endif
+    };
+    
+    for (int i = 0; i < sizeof(paths)/sizeof(paths[0]); ++i) {
+        std::string vPath = std::string(paths[i]) + "default.vertex";
+        std::string fPath = std::string(paths[i]) + "default.fragment";
+        std::string vertexCode = loadShaderSource(vPath);
+        if (!vertexCode.empty()) {
+            std::string fragmentCode = loadShaderSource(fPath);
+            if (!fragmentCode.empty()) {
+                if (defaultShader) delete defaultShader;
+                defaultShader = new Shader(vertexCode, fragmentCode, true);
+                if (defaultShader && defaultShader->isLoaded()) {
+                    defaultShader->bind();
+                    break;
+                }
+            }
+        }
+    }
+    
+    if (!defaultShader || !defaultShader->isLoaded()) {
+        static int failCount = 0;
+        if (failCount++ < 5) {
+            LOGE("Failed to load shaders! Attempt %d\n", failCount);
+        }
+    }
+}
+
+void glInit() {
+    ensureShaders();
+}
+
+void glResetShaders() {
+    if (defaultShader) {
+        delete defaultShader;
+        defaultShader = NULL;
+    }
+    ensureShaders();
 }
 
 void anGenBuffers(GLsizei n, GLuint* buffers) {
@@ -54,59 +172,89 @@ void anGenBuffers(GLsizei n, GLuint* buffers) {
 
 #ifdef USE_VBO
 void drawArrayVT(int bufferId, int vertices, int vertexSize /* = 24 */, unsigned int mode /* = GL_TRIANGLES */) {
-	//if (Options::debugGl) LOGI("drawArray\n");
+	if (!currentShader) return;
+	if (currentShader) {
+		currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+		currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+	}
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
-	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
-	glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer2(3, GL_FLOAT, vertexSize, 0);
-	glEnableClientState2(GL_VERTEX_ARRAY);
+	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+	
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(texLoc);
+	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)(3 * 4));
+	
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(posLoc);
+	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+	
 	glDrawArrays2(mode, 0, vertices);
-	glDisableClientState2(GL_VERTEX_ARRAY);
-	glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
+	
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
 }
 
 #ifndef drawArrayVT_NoState
 void drawArrayVT_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) {
-	//if (Options::debugGl) LOGI("drawArray\n");
+	if (!currentShader) return;
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
-	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
-	//glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer2(3, GL_FLOAT, vertexSize, 0);
-	//glEnableClientState2(GL_VERTEX_ARRAY);
+	
+	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
+	
+	
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(posLoc);
+	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+	
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(texLoc);
+	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*) (3 * 4));
+	
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(colLoc);
+	glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, (GLvoid*) (5 * 4));
+	
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
-	//glDisableClientState2(GL_VERTEX_ARRAY);
-	//glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
+	
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
 }
 #endif
 
 void drawArrayVTC(int bufferId, int vertices, int vertexSize /* = 24 */) {
-	//if (Options::debugGl) LOGI("drawArray\n");
-	//LOGI("draw-vtc: %d, %d, %d\n", bufferId, vertices, vertexSize);
-	glEnableClientState2(GL_VERTEX_ARRAY);
-	glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState2(GL_COLOR_ARRAY);
-
+	if (!currentShader) return;
+	if (currentShader) {
+		currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+		currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+	}
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
-
-	glVertexPointer2(  3, GL_FLOAT, vertexSize, 0);
-	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
-	glColorPointer2(4, GL_UNSIGNED_BYTE, vertexSize, (GLvoid*) (5*4));
-
+	
+	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
+    
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(posLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(texLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(colLoc);
+    
+	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*) (3 * 4));
+	glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, (GLvoid*) (5 * 4));
+    
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
-
-	glDisableClientState2(GL_VERTEX_ARRAY);
-	glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState2(GL_COLOR_ARRAY); 
+    
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
 }
 
 #ifndef drawArrayVTC_NoState
 void drawArrayVTC_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) {
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
-
+    
 	glVertexPointer2(  3, GL_FLOAT, vertexSize, 0);
 	glTexCoordPointer2(2, GL_FLOAT, vertexSize, (GLvoid*) (3 * 4));
 	glColorPointer2(4, GL_UNSIGNED_BYTE, vertexSize, (GLvoid*) (5*4));
-
+    
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
 }
 #endif
@@ -123,69 +271,69 @@ void drawArrayVTC_NoState(int bufferId, int vertices, int vertexSize /* = 24 */)
 void MultiplyMatrices4by4OpenGL_FLOAT(float *result, float *matrix1, float *matrix2)
 {
 	result[0]=matrix1[0]*matrix2[0]+
-		matrix1[4]*matrix2[1]+
-		matrix1[8]*matrix2[2]+
-		matrix1[12]*matrix2[3];
+    matrix1[4]*matrix2[1]+
+    matrix1[8]*matrix2[2]+
+    matrix1[12]*matrix2[3];
 	result[4]=matrix1[0]*matrix2[4]+
-		matrix1[4]*matrix2[5]+
-		matrix1[8]*matrix2[6]+
-		matrix1[12]*matrix2[7];
+    matrix1[4]*matrix2[5]+
+    matrix1[8]*matrix2[6]+
+    matrix1[12]*matrix2[7];
 	result[8]=matrix1[0]*matrix2[8]+
-		matrix1[4]*matrix2[9]+
-		matrix1[8]*matrix2[10]+
-		matrix1[12]*matrix2[11];
+    matrix1[4]*matrix2[9]+
+    matrix1[8]*matrix2[10]+
+    matrix1[12]*matrix2[11];
 	result[12]=matrix1[0]*matrix2[12]+
-		matrix1[4]*matrix2[13]+
-		matrix1[8]*matrix2[14]+
-		matrix1[12]*matrix2[15];
+    matrix1[4]*matrix2[13]+
+    matrix1[8]*matrix2[14]+
+    matrix1[12]*matrix2[15];
 	result[1]=matrix1[1]*matrix2[0]+
-		matrix1[5]*matrix2[1]+
-		matrix1[9]*matrix2[2]+
-		matrix1[13]*matrix2[3];
+    matrix1[5]*matrix2[1]+
+    matrix1[9]*matrix2[2]+
+    matrix1[13]*matrix2[3];
 	result[5]=matrix1[1]*matrix2[4]+
-		matrix1[5]*matrix2[5]+
-		matrix1[9]*matrix2[6]+
-		matrix1[13]*matrix2[7];
+    matrix1[5]*matrix2[5]+
+    matrix1[9]*matrix2[6]+
+    matrix1[13]*matrix2[7];
 	result[9]=matrix1[1]*matrix2[8]+
-		matrix1[5]*matrix2[9]+
-		matrix1[9]*matrix2[10]+
-		matrix1[13]*matrix2[11];
+    matrix1[5]*matrix2[9]+
+    matrix1[9]*matrix2[10]+
+    matrix1[13]*matrix2[11];
 	result[13]=matrix1[1]*matrix2[12]+
-		matrix1[5]*matrix2[13]+
-		matrix1[9]*matrix2[14]+
-		matrix1[13]*matrix2[15];
+    matrix1[5]*matrix2[13]+
+    matrix1[9]*matrix2[14]+
+    matrix1[13]*matrix2[15];
 	result[2]=matrix1[2]*matrix2[0]+
-		matrix1[6]*matrix2[1]+
-		matrix1[10]*matrix2[2]+
-		matrix1[14]*matrix2[3];
+    matrix1[6]*matrix2[1]+
+    matrix1[10]*matrix2[2]+
+    matrix1[14]*matrix2[3];
 	result[6]=matrix1[2]*matrix2[4]+
-		matrix1[6]*matrix2[5]+
-		matrix1[10]*matrix2[6]+
-		matrix1[14]*matrix2[7];
+    matrix1[6]*matrix2[5]+
+    matrix1[10]*matrix2[6]+
+    matrix1[14]*matrix2[7];
 	result[10]=matrix1[2]*matrix2[8]+
-		matrix1[6]*matrix2[9]+
-		matrix1[10]*matrix2[10]+
-		matrix1[14]*matrix2[11];
+    matrix1[6]*matrix2[9]+
+    matrix1[10]*matrix2[10]+
+    matrix1[14]*matrix2[11];
 	result[14]=matrix1[2]*matrix2[12]+
-		matrix1[6]*matrix2[13]+
-		matrix1[10]*matrix2[14]+
-		matrix1[14]*matrix2[15];
+    matrix1[6]*matrix2[13]+
+    matrix1[10]*matrix2[14]+
+    matrix1[14]*matrix2[15];
 	result[3]=matrix1[3]*matrix2[0]+
-		matrix1[7]*matrix2[1]+
-		matrix1[11]*matrix2[2]+
-		matrix1[15]*matrix2[3];
+    matrix1[7]*matrix2[1]+
+    matrix1[11]*matrix2[2]+
+    matrix1[15]*matrix2[3];
 	result[7]=matrix1[3]*matrix2[4]+
-		matrix1[7]*matrix2[5]+
-		matrix1[11]*matrix2[6]+
-		matrix1[15]*matrix2[7];
+    matrix1[7]*matrix2[5]+
+    matrix1[11]*matrix2[6]+
+    matrix1[15]*matrix2[7];
 	result[11]=matrix1[3]*matrix2[8]+
-		matrix1[7]*matrix2[9]+
-		matrix1[11]*matrix2[10]+
-		matrix1[15]*matrix2[11];
+    matrix1[7]*matrix2[9]+
+    matrix1[11]*matrix2[10]+
+    matrix1[15]*matrix2[11];
 	result[15]=matrix1[3]*matrix2[12]+
-		matrix1[7]*matrix2[13]+
-		matrix1[11]*matrix2[14]+
-		matrix1[15]*matrix2[15];
+    matrix1[7]*matrix2[13]+
+    matrix1[11]*matrix2[14]+
+    matrix1[15]*matrix2[15];
 }
 
 void MultiplyMatrixByVector4by4OpenGL_FLOAT(float *resultvector, const float *matrix, const float *pvector)
@@ -208,17 +356,17 @@ int glhInvertMatrixf2(float *m, float *out)
 	float *r0, *r1, *r2, *r3;
 	r0 = wtmp[0], r1 = wtmp[1], r2 = wtmp[2], r3 = wtmp[3];
 	r0[0] = MAT(m, 0, 0), r0[1] = MAT(m, 0, 1),
-		r0[2] = MAT(m, 0, 2), r0[3] = MAT(m, 0, 3),
-		r0[4] = 1.0f, r0[5] = r0[6] = r0[7] = 0.0f,
-		r1[0] = MAT(m, 1, 0), r1[1] = MAT(m, 1, 1),
-		r1[2] = MAT(m, 1, 2), r1[3] = MAT(m, 1, 3),
-		r1[5] = 1.0f, r1[4] = r1[6] = r1[7] = 0.0f,
-		r2[0] = MAT(m, 2, 0), r2[1] = MAT(m, 2, 1),
-		r2[2] = MAT(m, 2, 2), r2[3] = MAT(m, 2, 3),
-		r2[6] = 1.0f, r2[4] = r2[5] = r2[7] = 0.0f,
-		r3[0] = MAT(m, 3, 0), r3[1] = MAT(m, 3, 1),
-		r3[2] = MAT(m, 3, 2), r3[3] = MAT(m, 3, 3),
-		r3[7] = 1.0f, r3[4] = r3[5] = r3[6] = 0.0f;
+    r0[2] = MAT(m, 0, 2), r0[3] = MAT(m, 0, 3),
+    r0[4] = 1.0f, r0[5] = r0[6] = r0[7] = 0.0f,
+    r1[0] = MAT(m, 1, 0), r1[1] = MAT(m, 1, 1),
+    r1[2] = MAT(m, 1, 2), r1[3] = MAT(m, 1, 3),
+    r1[5] = 1.0f, r1[4] = r1[6] = r1[7] = 0.0f,
+    r2[0] = MAT(m, 2, 0), r2[1] = MAT(m, 2, 1),
+    r2[2] = MAT(m, 2, 2), r2[3] = MAT(m, 2, 3),
+    r2[6] = 1.0f, r2[4] = r2[5] = r2[7] = 0.0f,
+    r3[0] = MAT(m, 3, 0), r3[1] = MAT(m, 3, 1),
+    r3[2] = MAT(m, 3, 2), r3[3] = MAT(m, 3, 3),
+    r3[7] = 1.0f, r3[4] = r3[5] = r3[6] = 0.0f;
 	/* choose pivot - or die */
 	if (fabsf(r3[0]) > fabsf(r2[0]))
 		SWAP_ROWS_FLOAT(r3, r2);
@@ -310,7 +458,7 @@ int glhInvertMatrixf2(float *m, float *out)
 	/* eliminate third variable */
 	m3 = r3[2] / r2[2];
 	r3[3] -= m3 * r2[3], r3[4] -= m3 * r2[4],
-		r3[5] -= m3 * r2[5], r3[6] -= m3 * r2[6], r3[7] -= m3 * r2[7];
+    r3[5] -= m3 * r2[5], r3[6] -= m3 * r2[6], r3[7] -= m3 * r2[7];
 	/* last check */
 	if (0.0f == r3[3])
 		return 0;
@@ -322,24 +470,24 @@ int glhInvertMatrixf2(float *m, float *out)
 	m2 = r2[3];			/* now back substitute row 2 */
 	s = 1.0f / r2[2];
 	r2[4] = s * (r2[4] - r3[4] * m2), r2[5] = s * (r2[5] - r3[5] * m2),
-		r2[6] = s * (r2[6] - r3[6] * m2), r2[7] = s * (r2[7] - r3[7] * m2);
+    r2[6] = s * (r2[6] - r3[6] * m2), r2[7] = s * (r2[7] - r3[7] * m2);
 	m1 = r1[3];
 	r1[4] -= r3[4] * m1, r1[5] -= r3[5] * m1,
-		r1[6] -= r3[6] * m1, r1[7] -= r3[7] * m1;
+    r1[6] -= r3[6] * m1, r1[7] -= r3[7] * m1;
 	m0 = r0[3];
 	r0[4] -= r3[4] * m0, r0[5] -= r3[5] * m0,
-		r0[6] -= r3[6] * m0, r0[7] -= r3[7] * m0;
+    r0[6] -= r3[6] * m0, r0[7] -= r3[7] * m0;
 	m1 = r1[2];			/* now back substitute row 1 */
 	s = 1.0f / r1[1];
 	r1[4] = s * (r1[4] - r2[4] * m1), r1[5] = s * (r1[5] - r2[5] * m1),
-		r1[6] = s * (r1[6] - r2[6] * m1), r1[7] = s * (r1[7] - r2[7] * m1);
+    r1[6] = s * (r1[6] - r2[6] * m1), r1[7] = s * (r1[7] - r2[7] * m1);
 	m0 = r0[2];
 	r0[4] -= r2[4] * m0, r0[5] -= r2[5] * m0,
-		r0[6] -= r2[6] * m0, r0[7] -= r2[7] * m0;
+    r0[6] -= r2[6] * m0, r0[7] -= r2[7] * m0;
 	m0 = r0[1];			/* now back substitute row 0 */
 	s = 1.0f / r0[0];
 	r0[4] = s * (r0[4] - r1[4] * m0), r0[5] = s * (r0[5] - r1[5] * m0),
-		r0[6] = s * (r0[6] - r1[6] * m0), r0[7] = s * (r0[7] - r1[7] * m0);
+    r0[6] = s * (r0[6] - r1[6] * m0), r0[7] = s * (r0[7] - r1[7] * m0);
 	MAT(out, 0, 0) = r0[4];
 	MAT(out, 0, 1) = r0[5], MAT(out, 0, 2) = r0[6];
 	MAT(out, 0, 3) = r0[7], MAT(out, 1, 0) = r1[4];
@@ -353,14 +501,12 @@ int glhInvertMatrixf2(float *m, float *out)
 }
 
 int glhUnProjectf(	float winx, float winy, float winz,
-					float *modelview, float *projection,
-					int *viewport, float *objectCoordinate)
+                  float *modelview, float *projection,
+                  int *viewport, float *objectCoordinate)
 {
 	//Transformation matrices
 	float m[16], A[16];
 	float in[4], out[4];
-	//Calculation for inverting a matrix, compute projection x modelview
-	//and store in A[16]
 	MultiplyMatrices4by4OpenGL_FLOAT(A, projection, modelview);
 	//Now compute the inverse of matrix A
 	if(glhInvertMatrixf2(A, m)==0)
@@ -380,3 +526,365 @@ int glhUnProjectf(	float winx, float winy, float winz,
 	objectCoordinate[2]=out[2]*out[3];
 	return 1;
 }
+
+#undef glTranslatef
+#undef glRotatef
+#undef glScalef
+#undef glPushMatrix
+#undef glPopMatrix
+#undef glLoadIdentity
+#undef glMultMatrixf
+#undef glMatrixMode
+
+void mc_glTranslatef(float x, float y, float z) {
+    if (currentStack) currentStack->translate(x, y, z);
+}
+void mc_glRotatef(float angle, float x, float y, float z) {
+    if (currentStack) currentStack->rotate(angle, x, y, z);
+}
+void mc_glScalef(float x, float y, float z) {
+    if (currentStack) currentStack->scale(x, y, z);
+}
+void mc_glPushMatrix() {
+    if (currentStack) currentStack->push();
+}
+void mc_glPopMatrix() {
+    if (currentStack) currentStack->pop();
+}
+void mc_glLoadIdentity() {
+    if (currentStack) currentStack->identity();
+}
+void mc_glMultMatrixf(const GLfloat* m) {
+    if (currentStack) currentStack->multMatrix(m);
+}
+void mc_glMatrixMode(GLenum mode) {
+    if (mode == GL_PROJECTION) {
+        currentStack = &projectionStack;
+    } else if (mode == GL_MODELVIEW) {
+        currentStack = &modelViewStack;
+    }
+}
+
+void mc_glShadeModel(GLenum mode) {
+    renderState.shadeModel = mode;
+}
+
+void mc_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar) {
+    if (currentStack) currentStack->ortho(left, right, bottom, top, zNear, zFar);
+}
+
+RenderState renderState = { false, 0, 0.0f, 1.0f, 0.0f, {1.0f, 1.0f, 1.0f, 1.0f}, false, 0.1f, GL_SMOOTH, false, {1.0f, 1.0f, 1.0f, 1.0f} };
+
+#undef glFogf
+#undef glFogfv
+#undef glFogx
+#undef glEnable
+#undef glDisable
+#undef glAlphaFunc
+
+void mc_glFogf(GLenum pname, GLfloat param) {
+    if (pname == GL_FOG_START) renderState.fogStart = param;
+    else if (pname == GL_FOG_END) renderState.fogEnd = param;
+    else if (pname == GL_FOG_DENSITY) renderState.fogDensity = param;
+    else if (pname == GL_FOG_MODE) renderState.fogMode = (int)param;
+}
+
+void mc_glFogfv(GLenum pname, const GLfloat *params) {
+    if (pname == GL_FOG_COLOR) {
+        renderState.fogColor[0] = params[0];
+        renderState.fogColor[1] = params[1];
+        renderState.fogColor[2] = params[2];
+        renderState.fogColor[3] = params[3];
+    }
+}
+
+void mc_glFogx(GLenum pname, GLint param) {
+    if (pname == GL_FOG_MODE) renderState.fogMode = param;
+}
+
+void mc_glEnable(GLenum cap) {
+    if (cap == GL_FOG) renderState.fogEnabled = true;
+    else if (cap == GL_ALPHA_TEST) renderState.alphaTestEnabled = true;
+    else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = true;
+    else if (cap == GL_LIGHTING) {}
+    else if (cap == GL_COLOR_MATERIAL) {}
+    else if (p_glEnable) p_glEnable(cap);
+}
+
+void mc_glDisable(GLenum cap) {
+    if (cap == GL_FOG) renderState.fogEnabled = false;
+    else if (cap == GL_ALPHA_TEST) renderState.alphaTestEnabled = false;
+    else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = false;
+    else if (cap == GL_LIGHTING) {}
+    else if (cap == GL_COLOR_MATERIAL) {}
+    else if (p_glDisable) p_glDisable(cap);
+}
+
+void mc_glAlphaFunc(GLenum func, GLclampf ref) {
+    renderState.alphaTestRef = ref;
+}
+
+#undef glColor4f
+#undef glEnableClientState
+#undef glDisableClientState
+#undef glVertexPointer
+#undef glColorPointer
+#undef glTexCoordPointer
+#undef glNormalPointer
+#undef glDrawArrays
+
+static const GLvoid* vPtr = NULL;
+static const GLvoid* cPtr = NULL;
+static const GLvoid* tPtr = NULL;
+
+static GLint vSize = 3, cSize = 4, tSize = 2;
+static GLenum vType = GL_FLOAT, cType = GL_UNSIGNED_BYTE, tType = GL_FLOAT;
+static GLsizei vStride = 0, cStride = 0, tStride = 0;
+
+static bool vEnabled = false;
+static bool cEnabled = false;
+static bool tEnabled = false;
+
+void mc_glColor4f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+    renderState.color[0] = r;
+    renderState.color[1] = g;
+    renderState.color[2] = b;
+    renderState.color[3] = a;
+}
+
+void mc_glEnableClientState(GLenum array) {
+    if (array == GL_VERTEX_ARRAY) vEnabled = true;
+    else if (array == GL_COLOR_ARRAY) cEnabled = true;
+    else if (array == GL_TEXTURE_COORD_ARRAY) tEnabled = true;
+}
+
+void mc_glDisableClientState(GLenum array) {
+    if (array == GL_VERTEX_ARRAY) vEnabled = false;
+    else if (array == GL_COLOR_ARRAY) cEnabled = false;
+    else if (array == GL_TEXTURE_COORD_ARRAY) tEnabled = false;
+}
+
+void mc_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    vSize = size; vType = type; vStride = stride; vPtr = pointer;
+}
+
+void mc_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    cSize = size; cType = type; cStride = stride; cPtr = pointer;
+}
+
+void mc_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
+    tSize = size; tType = type; tStride = stride; tPtr = pointer;
+}
+
+void mc_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {}
+
+#undef glClear
+#undef glClearColor
+#undef glViewport
+
+void mc_glClear(GLbitfield mask) {
+    ensureShaders();
+    if (p_glClear) p_glClear(mask);
+}
+void mc_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
+    if (p_glClearColor) p_glClearColor(red, green, blue, alpha);
+}
+void mc_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
+    ensureShaders();
+    if (p_glViewport) p_glViewport(x, y, width, height);
+}
+
+void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    ensureShaders();
+    
+    if (!currentShader) return;
+    
+    if (currentShader) {
+        currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+        currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+        
+        currentShader->setUniform1i("u_useTexture", renderState.texture2DEnabled ? 1 : 0);
+        currentShader->setUniform1i("u_alphaTest", renderState.alphaTestEnabled ? 1 : 0);
+        currentShader->setUniform4f("u_color", renderState.color[0], renderState.color[1], renderState.color[2], renderState.color[3]);
+        
+        currentShader->setUniform1i("u_texture", 0);
+        
+        // Fog uniforms
+        currentShader->setUniform1i("u_fogEnabled", renderState.fogEnabled ? 1 : 0);
+        currentShader->setUniform4f("u_fogColor", renderState.fogColor[0], renderState.fogColor[1], renderState.fogColor[2], renderState.fogColor[3]);
+        currentShader->setUniform1f("u_fogStart", renderState.fogStart);
+        currentShader->setUniform1f("u_fogEnd", renderState.fogEnd);
+        currentShader->setUniform1f("u_fogDensity", renderState.fogDensity);
+        currentShader->setUniform1i("u_fogMode", renderState.fogMode);
+        
+        GLint posLoc = currentShader->getAttribLocation("a_position");
+        GLint texLoc = currentShader->getAttribLocation("a_texCoord");
+        GLint colLoc = currentShader->getAttribLocation("a_color");
+        
+        bool forceEnable = renderState.texture2DEnabled && currentShader;
+        if (forceEnable) {
+            vEnabled = true;
+            tEnabled = true;
+            cEnabled = true;
+            
+            vSize = 3; vType = GL_FLOAT; vStride = 24; vPtr = 0;
+            tSize = 2; tType = GL_FLOAT; tStride = 24; tPtr = (void*)12;
+            cSize = 4; cType = GL_UNSIGNED_BYTE; cStride = 24; cPtr = (void*)20;
+            
+        }
+        
+        if (vEnabled && posLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
+            p_glEnableVertexAttribArray(posLoc);
+            p_glVertexAttribPointer(posLoc, vSize, vType, GL_FALSE, vStride, vPtr);
+        }
+        if (tEnabled && texLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
+            p_glEnableVertexAttribArray(texLoc);
+            p_glVertexAttribPointer(texLoc, tSize, tType, GL_FALSE, tStride, tPtr);
+        } else if (texLoc != -1 && p_glDisableVertexAttribArray) {
+            p_glDisableVertexAttribArray(texLoc);
+        }
+        
+        if (cEnabled && colLoc != -1 && p_glEnableVertexAttribArray && p_glVertexAttribPointer) {
+            p_glEnableVertexAttribArray(colLoc);
+            p_glVertexAttribPointer(colLoc, cSize, cType, cType == GL_UNSIGNED_BYTE ? GL_TRUE : GL_FALSE, vStride, cPtr);
+        } else if (colLoc != -1) {
+            if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
+            if (p_glVertexAttrib4f) p_glVertexAttrib4f(colLoc, 1.0f, 1.0f, 1.0f, 1.0f);
+        }
+        
+        if (p_glDrawArrays) p_glDrawArrays(mode, first, count);
+        
+        if (vEnabled && posLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+        if (tEnabled && texLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
+        if (cEnabled && colLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
+    } else {
+        if (p_glDrawArrays) p_glDrawArrays(mode, first, count);
+    }
+    
+    GLenum err = glGetError();
+    if (err != GL_NO_ERROR) {
+        LOGE("GLES Error after draw call: 0x%x\n", err);
+    }
+}
+
+void mc_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
+}
+
+#undef glHint
+void mc_glHint(GLenum target, GLenum mode) {
+}
+
+#undef glGetFloatv
+void mc_glGetFloatv(GLenum pname, GLfloat *params) {
+    if (pname == GL_MODELVIEW_MATRIX) {
+        for (int i = 0; i < 16; i++) params[i] = modelViewStack.getTop().m[i];
+    } else if (pname == GL_PROJECTION_MATRIX) {
+        for (int i = 0; i < 16; i++) params[i] = projectionStack.getTop().m[i];
+    } else {
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+        if (p_glGetFloatv) p_glGetFloatv(pname, params);
+#else
+        glGetFloatv(pname, params);
+#endif
+    }
+}
+
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+void mc_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
+    if (p_glScissor) p_glScissor(x, y, width, height);
+}
+
+void mc_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels) {
+    if (p_glReadPixels) p_glReadPixels(x, y, width, height, format, type, pixels);
+}
+
+void mc_glDepthRangef(GLclampf zNear, GLclampf zFar) {
+    if (p_glDepthRangef) p_glDepthRangef(zNear, zFar);
+}
+
+void mc_glDepthFunc(GLenum func) {
+    if (p_glDepthFunc) p_glDepthFunc(func);
+}
+
+void mc_glCullFace(GLenum mode) {
+    if (p_glCullFace) p_glCullFace(mode);
+}
+
+void mc_glBlendFunc(GLenum sfactor, GLenum dfactor) {
+    if (p_glBlendFunc) p_glBlendFunc(sfactor, dfactor);
+}
+
+void mc_glBindTexture(GLenum target, GLuint texture) {
+    if (p_glBindTexture) p_glBindTexture(target, texture);
+}
+
+void mc_glGenTextures(GLsizei n, GLuint *textures) {
+    if (p_glGenTextures) p_glGenTextures(n, textures);
+}
+
+void mc_glDeleteTextures(GLsizei n, const GLuint *textures) {
+    if (p_glDeleteTextures) p_glDeleteTextures(n, textures);
+}
+
+void mc_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) {
+    if (p_glTexImage2D) p_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
+}
+
+void mc_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels) {
+    if (p_glTexSubImage2D) p_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
+}
+
+void mc_glTexParameteri(GLenum target, GLenum pname, GLint param) {
+    if (p_glTexParameteri) p_glTexParameteri(target, pname, param);
+}
+
+void mc_glDepthMask(GLboolean flag) {
+    if (p_glDepthMask) p_glDepthMask(flag);
+}
+
+void mc_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
+    if (p_glColorMask) p_glColorMask(red, green, blue, alpha);
+}
+
+void mc_glBindBuffer(GLenum target, GLuint buffer) {
+    if (p_glBindBuffer) p_glBindBuffer(target, buffer);
+}
+
+void mc_glDeleteBuffers(GLsizei n, const GLuint* buffers) {
+    if (p_glDeleteBuffers) p_glDeleteBuffers(n, buffers);
+}
+
+void mc_glPolygonOffset(GLfloat factor, GLfloat units) {
+    if (p_glPolygonOffset) p_glPolygonOffset(factor, units);
+}
+
+void mc_glLineWidth(GLfloat width) {
+    if (p_glLineWidth) p_glLineWidth(width);
+}
+
+GLenum mc_glGetError(void) {
+    if (p_glGetError) return p_glGetError();
+    return GL_NO_ERROR;
+}
+
+void mc_glEnableVertexAttribArray(GLuint index) {
+    if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(index);
+}
+
+void mc_glDisableVertexAttribArray(GLuint index) {
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(index);
+}
+
+void mc_glBufferData(GLenum target, GLsizeiptr size, const void* data, GLenum usage) {
+    if (p_glBufferData) p_glBufferData(target, size, data, usage);
+}
+
+const GLubyte* mc_glGetString(GLenum name) {
+    if (p_glGetString) return p_glGetString(name);
+    return (const GLubyte*)"";
+}
+
+void mc_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* pointer) {
+    if (p_glVertexAttribPointer) p_glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+}
+#endif

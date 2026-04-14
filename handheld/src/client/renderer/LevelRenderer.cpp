@@ -1022,6 +1022,7 @@ void LevelRenderer::renderClouds( float alpha ) {
 	//if (!mc->level->dimension->isNaturalDimension()) return;
 	glEnable2(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
+	glColor4f2(1.0f, 1.0f, 1.0f, 1.0f);
 	float yOffs = (float) (mc->player->yOld + (mc->player->y - mc->player->yOld) * alpha);
 	int s = 32;
 	int d = 256 / s;

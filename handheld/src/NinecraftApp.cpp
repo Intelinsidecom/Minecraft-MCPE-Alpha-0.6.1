@@ -10,6 +10,10 @@
 #include "platform/input/Mouse.h"
 #include "platform/input/Multitouch.h"
 
+#ifdef _UWP
+#include "AppPlatform_uwp.h"
+#endif
+
 #include "world/item/Item.h"
 #include "world/level/Level.h"
 #include "world/level/biome/Biome.h"
@@ -148,7 +152,10 @@ void NinecraftApp::update()
 {
 	++_frames;
 
-	// Generate Multitouch active pointer list
+#ifdef _UWP
+	static_cast<AppPlatform_uwp*>(platform())->processBufferedInput();
+#endif
+
 	Multitouch::commit();
 
 #ifndef ANDROID_PUBLISH
@@ -158,7 +165,9 @@ void NinecraftApp::update()
 
 	Minecraft::update();
 
+#ifndef _UWP
 	swapBuffers();
+#endif
     // Restart the server if (our modded) RakNet reports an error
     if (level && raknetInstance->isProbablyBroken() && raknetInstance->isServer()) {
         restartServer();

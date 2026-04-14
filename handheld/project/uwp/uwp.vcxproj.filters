@@ -1,0 +1,4074 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>cb819543-343a-4c00-a30b-dc6fdcfeee3b</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>2863de0a-9985-403f-a6f2-a7f2b0470e27</UniqueIdentifier>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c0569fcf-de26-4495-8a81-ce9651efeb77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client">
+      <UniqueIdentifier>{3cdf98cc-d7ef-4b0a-97c7-34fd4ac3f256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\gamemode">
+      <UniqueIdentifier>{7a663807-21f2-481a-a80c-e5db10336843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\gui">
+      <UniqueIdentifier>{f3e0bfa9-f6c7-4182-8448-1272b1ca9e74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\gui\components">
+      <UniqueIdentifier>{eb99baa1-48a1-4510-a31b-3602c7776c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\gui\screens">
+      <UniqueIdentifier>{4e3f0292-382d-4796-b888-e07e88e4cd53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\gui\screens\crafting">
+      <UniqueIdentifier>{b57d713e-71fc-48af-b935-6b715e8d3092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\gui\screens\touch">
+      <UniqueIdentifier>{79a96666-009c-46b0-9346-65cb34a92416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\model">
+      <UniqueIdentifier>{c5272881-7059-429b-b5f6-314f17349788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\model\geom">
+      <UniqueIdentifier>{c8786e98-a3bb-4edc-b9f7-905179abbcc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\multiplayer">
+      <UniqueIdentifier>{d7d10d82-f558-4349-82ca-6ce816a22144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\particle">
+      <UniqueIdentifier>{cd3b24f9-d106-451c-8386-51a867a14476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\player">
+      <UniqueIdentifier>{ddd128bd-daf3-4aa2-b41f-0e2d8cdb1d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\player\input">
+      <UniqueIdentifier>{3436ca37-be52-4983-973f-9e59ab6909ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\player\input\touchscreen">
+      <UniqueIdentifier>{51bf8438-bf69-4421-814c-90808fe8c157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\renderer">
+      <UniqueIdentifier>{d236c90b-6b78-4bd9-92ca-ecef0f7f5dea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\renderer\culling">
+      <UniqueIdentifier>{5eb42e2b-7783-4c86-8432-6d064a958d45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\renderer\entity">
+      <UniqueIdentifier>{18f84dae-8e1b-40b3-ac32-bb3bf0f03f19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\renderer\ptexture">
+      <UniqueIdentifier>{42e86386-f034-4279-b8d2-e847972791ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\renderer\tileentity">
+      <UniqueIdentifier>{743ded68-894f-4364-8faa-a7ee293d77fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\sound">
+      <UniqueIdentifier>{5e320d6e-d3cd-4d1a-86b2-d1b2ae1767ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\client\sound\data">
+      <UniqueIdentifier>{5785f2ee-7390-4231-a188-18f5cefc29f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\locale">
+      <UniqueIdentifier>{db4e73f5-6390-4330-91fe-ebf2af7abe0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\nbt">
+      <UniqueIdentifier>{38c03ea2-7ed6-4958-af9d-f7781784ba40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\network">
+      <UniqueIdentifier>{db0f8c7c-d3ed-46b6-bd89-32f8cbbb8ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\network\command">
+      <UniqueIdentifier>{0fa70dc7-3e4b-42fb-8205-272f4b0d0248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\network\packet">
+      <UniqueIdentifier>{fa92bc26-745a-4b16-bcc9-debdc146670e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\platform">
+      <UniqueIdentifier>{c27352e4-26dc-4227-9c6e-11ded341112e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\platform\audio">
+      <UniqueIdentifier>{db47ea40-d9dd-4872-9199-d701e7e9369f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\platform\input">
+      <UniqueIdentifier>{56a19390-3034-470f-9a06-064c13aa371b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\raknet">
+      <UniqueIdentifier>{552f523c-0f79-4b4a-8395-c9c2ec1f87e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\server">
+      <UniqueIdentifier>{e3d628d2-8049-40ca-8c1f-da9217a9f6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{557edbaa-ec8a-4bc3-9714-baefd0331559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world">
+      <UniqueIdentifier>{9ed08b6a-584c-4a69-bdcb-5f3496ab9ab0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity">
+      <UniqueIdentifier>{75a48168-ae5c-40f7-bb8a-48199d4523f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\ai">
+      <UniqueIdentifier>{a9c41f5b-fc95-4f26-a7da-76de86cd424b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\ai\control">
+      <UniqueIdentifier>{a5f7d885-3ad9-46b8-9309-78980b8fd5d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\ai\goal">
+      <UniqueIdentifier>{f100184b-3381-488f-94ec-a6d8e32bf73d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\ai\goal\target">
+      <UniqueIdentifier>{d482d358-6a7b-4186-a2ea-bd51fc87ae00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\ai\util">
+      <UniqueIdentifier>{1cd30503-d8f7-4ccf-ac3b-33902dd7c96f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\animal">
+      <UniqueIdentifier>{d81e5d34-e93d-4649-a1d7-1bc401db9c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\item">
+      <UniqueIdentifier>{92ede689-adcc-46ed-81a2-03081e3abc51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\monster">
+      <UniqueIdentifier>{8a1e95a7-1558-4e73-9cfc-745f762889ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\player">
+      <UniqueIdentifier>{3f8531dc-20a8-4219-bd7c-0c5a8203333b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\entity\projectile">
+      <UniqueIdentifier>{0f667ec0-cbed-494b-a66f-41268414cf18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\food">
+      <UniqueIdentifier>{3f5bbe4a-b95b-4ce5-891d-0c60089d16f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\inventory">
+      <UniqueIdentifier>{5929e530-f0df-431d-8007-20c34f95ad1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\item">
+      <UniqueIdentifier>{83fc5482-0f2b-46a5-b323-dc2343ffcf93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\item\crafting">
+      <UniqueIdentifier>{97afe63f-3fb9-48e3-9243-a69d2365e0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level">
+      <UniqueIdentifier>{c26dcf03-ea8b-454d-99c0-19fcc94947c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\biome">
+      <UniqueIdentifier>{b6fdb9cc-7e6b-4ee7-921d-a99a432de5f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\chunk">
+      <UniqueIdentifier>{dba8ebac-cabb-4253-b4ac-78c1ed50a4c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\chunk\storage">
+      <UniqueIdentifier>{09ec336c-3af6-4d6f-a8ea-7b977ce5061c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\dimension">
+      <UniqueIdentifier>{ff481e3f-b448-47a5-8658-7e0c9bd84af9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\levelgen">
+      <UniqueIdentifier>{b50b0709-fccc-4ec7-aed5-404bd1c03fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\levelgen\feature">
+      <UniqueIdentifier>{201c53da-f2b4-4146-922f-e8677b928819}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\levelgen\synth">
+      <UniqueIdentifier>{8a2a1591-c9e6-4e70-9bce-c17a3aed367a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\material">
+      <UniqueIdentifier>{43f2256e-7b4b-4c7d-82e0-ea68f7977573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\pathfinder">
+      <UniqueIdentifier>{d3a7029b-db0d-423e-a634-9ec682735017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\storage">
+      <UniqueIdentifier>{a2e52780-e03c-44e5-abed-f2b08fe5e2b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\tile">
+      <UniqueIdentifier>{5f4bcdfb-601d-443e-b844-e637c9df62e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\level\tile\entity">
+      <UniqueIdentifier>{a9bed2c6-dc7f-417f-995f-a8fab020283a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\world\phys">
+      <UniqueIdentifier>{fbe55f88-0c20-4d80-b8a8-b9bb0c0fb66f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{5acc2613-1876-4712-ac38-884a83fc6fef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\lang">
+      <UniqueIdentifier>{16ecbfae-d19c-430e-a061-e9b3261e13d7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\client\IConfigListener.cpp">
+      <Filter>src\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\Minecraft.cpp">
+      <Filter>src\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\MouseHandler.cpp">
+      <Filter>src\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\Options.cpp">
+      <Filter>src\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\OptionsFile.cpp">
+      <Filter>src\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\OptionStrings.cpp">
+      <Filter>src\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gamemode\CreatorMode.cpp">
+      <Filter>src\client\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gamemode\GameMode.cpp">
+      <Filter>src\client\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gamemode\SurvivalMode.cpp">
+      <Filter>src\client\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gamemode\CreativeMode.cpp">
+      <Filter>src\client\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\GuiElementContainer.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\ImageButton.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\InventoryPane.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\ItemPane.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\LargeImageButton.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\NinePatch.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\OptionsGroup.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\OptionsItem.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\OptionsPane.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\RolledSelectionListH.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\RolledSelectionListV.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\ScrolledSelectionList.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\ScrollingPane.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\Slider.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\SmallButton.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\TextBox.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\Button.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\GButton.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\components\GuiElement.cpp">
+      <Filter>src\client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\crafting\PaneCraftingScreen.cpp">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\crafting\StonecutterScreen.cpp">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\crafting\WorkbenchScreen.cpp">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\crafting\CraftingFilters.cpp">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\touch\TouchJoinGameScreen.cpp">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\touch\TouchSelectWorldScreen.cpp">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\touch\TouchStartMenuScreen.cpp">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\touch\TouchIngameBlockSelectionScreen.cpp">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\ProgressScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\RenameMPLevelScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\ScreenChooser.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\SelectWorldScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\SimpleChooseLevelScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\StartMenuScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\TextEditScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\UploadPhotoScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\ArmorScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\ChatScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\ChestScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\ChooseLevelScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\ConfirmScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\DeathScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\FurnaceScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\InBedScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\IngameBlockSelectionScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\JoinGameScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\OptionsScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\screens\PauseScreen.cpp">
+      <Filter>src\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\GuiComponent.cpp">
+      <Filter>src\client\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\Screen.cpp">
+      <Filter>src\client\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\Font.cpp">
+      <Filter>src\client\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\Gui.cpp">
+      <Filter>src\client\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\geom\ModelPart.cpp">
+      <Filter>src\client\model\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\geom\Polygon.cpp">
+      <Filter>src\client\model\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\geom\Cube.cpp">
+      <Filter>src\client\model\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\PigModel.cpp">
+      <Filter>src\client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\QuadrupedModel.cpp">
+      <Filter>src\client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\SheepFurModel.cpp">
+      <Filter>src\client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\SheepModel.cpp">
+      <Filter>src\client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\ChickenModel.cpp">
+      <Filter>src\client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\CowModel.cpp">
+      <Filter>src\client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\model\HumanoidModel.cpp">
+      <Filter>src\client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\particle\Particle.cpp">
+      <Filter>src\client\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\particle\ParticleEngine.cpp">
+      <Filter>src\client\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\player\input\touchscreen\TouchscreenInput.cpp">
+      <Filter>src\client\player\input\touchscreen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\player\input\KeyboardInput.cpp">
+      <Filter>src\client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\player\RemotePlayer.cpp">
+      <Filter>src\client\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\player\LocalPlayer.cpp">
+      <Filter>src\client\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\culling\Frustum.cpp">
+      <Filter>src\client\renderer\culling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\EntityRenderDispatcher.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\EntityRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\FallingTileRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\HumanoidMobRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\ItemRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\ItemSpriteRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\MobRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\PaintingRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\PlayerRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\SheepRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\TntRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\TripodCameraRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\ArrowRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\entity\ChickenRenderer.cpp">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\ptexture\DynamicTexture.cpp">
+      <Filter>src\client\renderer\ptexture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\tileentity\TileEntityRenderDispatcher.cpp">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\tileentity\TileEntityRenderer.cpp">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\tileentity\ChestRenderer.cpp">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\tileentity\SignRenderer.cpp">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\RenderChunk.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\RenderList.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\Shader.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\Tesselator.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\Textures.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\TileRenderer.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\Chunk.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\EntityTileRenderer.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\GameRenderer.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\gles.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\GLESLoader.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\ItemInHandRenderer.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\renderer\LevelRenderer.cpp">
+      <Filter>src\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\sound\Sound.cpp">
+      <Filter>src\client\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\sound\SoundEngine.cpp">
+      <Filter>src\client\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\locale\I18n.cpp">
+      <Filter>src\locale</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\nbt\Tag.cpp">
+      <Filter>src\nbt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\command\CommandServer.cpp">
+      <Filter>src\network\command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\NetEventCallback.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\Packet.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\PHPDirectoryServer2.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\RakNetInstance.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\ServerSideNetworkHandler.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\ClientSideNetworkHandler.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\NATPunchHandler.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\platform\audio\SoundSystemFMOD.cpp">
+      <Filter>src\platform\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\platform\input\Mouse.cpp">
+      <Filter>src\platform\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\platform\input\Multitouch.cpp">
+      <Filter>src\platform\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\platform\input\Controller.cpp">
+      <Filter>src\platform\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\platform\input\Keyboard.cpp">
+      <Filter>src\platform\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\platform\CThread.cpp">
+      <Filter>src\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\platform\time.cpp">
+      <Filter>src\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\BitStream.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\CCRakNetSlidingWindow.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\CCRakNetUDT.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\CheckSum.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\CloudClient.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\CloudCommon.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\CloudServer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\CommandParserInterface.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\ConnectionGraph2.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\ConsoleServer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\DataCompressor.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\DirectoryDeltaTransfer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\DS_BytePool.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\DS_ByteQueue.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\DS_HuffmanEncodingTree.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\DS_Table.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\DynDNS.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\EmailSender.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\EncodeClassName.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\EpochTimeToString.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\FileList.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\FileListTransfer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\FileOperations.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\FormatString.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\FullyConnectedMesh2.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\Getche.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\Gets.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\GetTime.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\gettimeofday.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\GridSectorizer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\HTTPConnection.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\IncrementalReadInterface.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\Itoa.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\LinuxStrings.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\LocklessTypes.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\LogCommandParser.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\MessageFilter.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\NatPunchthroughClient.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\NatPunchthroughServer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\NatTypeDetectionClient.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\NatTypeDetectionCommon.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\NatTypeDetectionServer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\NetworkIDManager.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\NetworkIDObject.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\PacketConsoleLogger.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\PacketFileLogger.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\PacketizedTCP.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\PacketLogger.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\PacketOutputWindowLogger.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\PluginInterface2.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\Rackspace.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakMemoryOverride.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakNetCommandParser.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakNetSocket.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakNetStatistics.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakNetTransport2.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakNetTypes.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakPeer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakSleep.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakString.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakThread.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RakWString.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\Rand.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\rdlmalloc.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\ReadyEvent.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\ReliabilityLayer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\ReplicaManager3.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\Router2.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\RPC4Plugin.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\SecureHandshake.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\SendToThread.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\SHA1.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\SignaledEvent.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\SimpleMutex.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\SocketLayer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\StringCompressor.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\StringTable.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\SuperFastHash.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\TableSerializer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\TCPInterface.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\TeamBalancer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\TelnetTransport.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\ThreadsafePacketLogger.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\TwoWayAuthentication.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\UDPForwarder.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\UDPProxyClient.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\UDPProxyCoordinator.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\UDPProxyServer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\VariableDeltaSerializer.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\VariableListDeltaTracker.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\VariadicSQLParser.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\VitaIncludes.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\WSAStartupSingleton.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\raknet\_FindFirst.cpp">
+      <Filter>src\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\server\ServerLevel.cpp">
+      <Filter>src\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\server\ServerPlayer.cpp">
+      <Filter>src\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\server\ArgumentsSettings.cpp">
+      <Filter>src\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\server\CreatorLevel.cpp">
+      <Filter>src\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\util\MatrixStack.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\util\Mth.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\util\PerfRenderer.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\util\PerfTimer.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\util\StringUtils.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\util\DataIO.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\ai\control\MoveControl.cpp">
+      <Filter>src\world\entity\ai\control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\animal\Cow.cpp">
+      <Filter>src\world\entity\animal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\animal\Pig.cpp">
+      <Filter>src\world\entity\animal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\animal\Sheep.cpp">
+      <Filter>src\world\entity\animal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\animal\WaterAnimal.cpp">
+      <Filter>src\world\entity\animal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\animal\Animal.cpp">
+      <Filter>src\world\entity\animal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\animal\Chicken.cpp">
+      <Filter>src\world\entity\animal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\item\PrimedTnt.cpp">
+      <Filter>src\world\entity\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\item\TripodCamera.cpp">
+      <Filter>src\world\entity\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\item\FallingTile.cpp">
+      <Filter>src\world\entity\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\item\ItemEntity.cpp">
+      <Filter>src\world\entity\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\monster\PigZombie.cpp">
+      <Filter>src\world\entity\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\monster\Skeleton.cpp">
+      <Filter>src\world\entity\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\monster\Spider.cpp">
+      <Filter>src\world\entity\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\monster\Zombie.cpp">
+      <Filter>src\world\entity\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\monster\Creeper.cpp">
+      <Filter>src\world\entity\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\monster\Monster.cpp">
+      <Filter>src\world\entity\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\player\Player.cpp">
+      <Filter>src\world\entity\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\player\Inventory.cpp">
+      <Filter>src\world\entity\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\projectile\Arrow.cpp">
+      <Filter>src\world\entity\projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\projectile\Throwable.cpp">
+      <Filter>src\world\entity\projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\MobCategory.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\Motive.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\Painting.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\PathfinderMob.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\SynchedEntityData.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\AgableMob.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\Entity.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\EntityFactory.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\FlyingMob.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\HangingEntity.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\entity\Mob.cpp">
+      <Filter>src\world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\food\SimpleFoodData.cpp">
+      <Filter>src\world\food</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\inventory\FillingContainer.cpp">
+      <Filter>src\world\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\inventory\FurnaceMenu.cpp">
+      <Filter>src\world\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\inventory\BaseContainerMenu.cpp">
+      <Filter>src\world\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\inventory\ContainerMenu.cpp">
+      <Filter>src\world\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\OreRecipes.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\Recipe.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\Recipes.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\StructureRecipes.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\ToolRecipes.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\WeaponRecipes.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\ArmorRecipes.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\crafting\FurnaceRecipes.cpp">
+      <Filter>src\world\item\crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\PickaxeItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\ShovelItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\ArmorItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\BedItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\DyePowderItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\HangingEntityItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\HatchetItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\HoeItem.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\Item.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\item\ItemInstance.cpp">
+      <Filter>src\world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\biome\Biome.cpp">
+      <Filter>src\world\level\biome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\biome\BiomeSource.cpp">
+      <Filter>src\world\level\biome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\chunk\LevelChunk.cpp">
+      <Filter>src\world\level\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\dimension\Dimension.cpp">
+      <Filter>src\world\level\dimension</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\feature\Feature.cpp">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\synth\PerlinNoise.cpp">
+      <Filter>src\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\synth\Synth.cpp">
+      <Filter>src\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\synth\ImprovedNoise.cpp">
+      <Filter>src\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\CanyonFeature.cpp">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\DungeonFeature.cpp">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\LargeCaveFeature.cpp">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\LargeFeature.cpp">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\levelgen\RandomLevelSource.cpp">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\material\Material.cpp">
+      <Filter>src\world\level\material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\pathfinder\Path.cpp">
+      <Filter>src\world\level\pathfinder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\storage\LevelData.cpp">
+      <Filter>src\world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\storage\LevelStorageSource.cpp">
+      <Filter>src\world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\storage\RegionFile.cpp">
+      <Filter>src\world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\storage\ExternalFileLevelStorage.cpp">
+      <Filter>src\world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\storage\ExternalFileLevelStorageSource.cpp">
+      <Filter>src\world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\storage\FolderMethods.cpp">
+      <Filter>src\world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\entity\SignTileEntity.cpp">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\entity\TileEntity.cpp">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\entity\ChestTileEntity.cpp">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\entity\FurnaceTileEntity.cpp">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\entity\NetherReactorTileEntity.cpp">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\TrapDoorTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\BedTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\ChestTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\CropTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\DoorTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\EntityTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\FurnaceTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\GrassTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\HeavyTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\LightGemTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\MelonTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\Mushroom.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\NetherReactor.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\NetherReactorPattern.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\SandTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\StairTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\StemTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\StoneSlabTile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\TallGrass.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\tile\Tile.cpp">
+      <Filter>src\world\level\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\Level.cpp">
+      <Filter>src\world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\LightLayer.cpp">
+      <Filter>src\world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\LightUpdate.cpp">
+      <Filter>src\world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\MobSpawner.cpp">
+      <Filter>src\world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\Region.cpp">
+      <Filter>src\world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\TickNextTickData.cpp">
+      <Filter>src\world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\level\Explosion.cpp">
+      <Filter>src\world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\phys\HitResult.cpp">
+      <Filter>src\world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\world\Direction.cpp">
+      <Filter>src\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AppPlatform_uwp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main_uwp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\NinecraftApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Performance.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SharedConstants.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\client\IConfigListener.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\KeyMapping.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\Minecraft.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\MouseHandler.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\Options.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\OptionsFile.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\OptionStrings.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\PixelCalc.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\Timer.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\User.h">
+      <Filter>src\client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gamemode\CreatorMode.h">
+      <Filter>src\client\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gamemode\GameMode.h">
+      <Filter>src\client\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gamemode\SurvivalMode.h">
+      <Filter>src\client\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gamemode\CreativeMode.h">
+      <Filter>src\client\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\GuiElement.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\GuiElementContainer.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\ImageButton.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\InventoryPane.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\ItemPane.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\LargeImageButton.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\NinePatch.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\OptionsGroup.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\OptionsItem.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\OptionsPane.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\RolledSelectionListH.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\RolledSelectionListV.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\ScrolledSelectionList.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\ScrollingPane.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\Slider.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\SmallButton.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\TextBox.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\Button.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\components\GButton.h">
+      <Filter>src\client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\crafting\PaneCraftingScreen.h">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\crafting\StonecutterScreen.h">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\crafting\WorkbenchScreen.h">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\crafting\CraftingFilters.h">
+      <Filter>src\client\gui\screens\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\touch\TouchIngameBlockSelectionScreen.h">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\touch\TouchJoinGameScreen.h">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\touch\TouchSelectWorldScreen.h">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\touch\TouchStartMenuScreen.h">
+      <Filter>src\client\gui\screens\touch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\PauseScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\PrerenderTilesScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\ProgressScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\RenameMPLevelScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\ScreenChooser.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\SelectWorldScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\SimpleChooseLevelScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\StartMenuScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\TextEditScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\UploadPhotoScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\ArmorScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\BaseContainerScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\BuyGameScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\ChatScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\ChestScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\ChooseLevelScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\ConfirmScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\DeathScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\DialogDefinitions.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\DisconnectionScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\FurnaceScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\InBedScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\IngameBlockSelectionScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\InvalidLicenseScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\JoinGameScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\screens\OptionsScreen.h">
+      <Filter>src\client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\Gui.h">
+      <Filter>src\client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\GuiComponent.h">
+      <Filter>src\client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\Screen.h">
+      <Filter>src\client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\TweenData.h">
+      <Filter>src\client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\gui\Font.h">
+      <Filter>src\client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\geom\ModelPart.h">
+      <Filter>src\client\model\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\geom\Polygon.h">
+      <Filter>src\client\model\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\geom\Vertex.h">
+      <Filter>src\client\model\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\geom\Cube.h">
+      <Filter>src\client\model\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\ModelInclude.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\PigModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\QuadrupedModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\SheepFurModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\SheepModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\SignModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\SkeletonModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\SpiderModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\ZombieModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\ChestModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\ChickenModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\CowModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\CreeperModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\HumanoidModel.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\model\Model.h">
+      <Filter>src\client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\multiplayer\MultiPlayerLevel.h">
+      <Filter>src\client\multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\HugeExplosionSeedParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\LavaParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\Particle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\ParticleEngine.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\ParticleInclude.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\RedDustParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\SmokeParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\SplashParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\TakeAnimationParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\TerrainParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\BreakingItemParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\BubbleParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\CritParticle2.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\ExplodeParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\FlameParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\particle\HugeExplosionParticle.h">
+      <Filter>src\client\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\touchscreen\TouchInputHolder.h">
+      <Filter>src\client\player\input\touchscreen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\touchscreen\TouchscreenInput.h">
+      <Filter>src\client\player\input\touchscreen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\touchscreen\TouchTurnInput.h">
+      <Filter>src\client\player\input\touchscreen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\touchscreen\ITouchScreenModel.h">
+      <Filter>src\client\player\input\touchscreen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\touchscreen\TouchAreaModel.h">
+      <Filter>src\client\player\input\touchscreen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\IMoveInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\ITurnInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\KeyboardInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\MouseBuildInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\MouseTurnInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\XperiaPlayInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\ControllerTurnInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\IBuildInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\IInputHolder.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\LocalPlayer.h">
+      <Filter>src\client\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\RemotePlayer.h">
+      <Filter>src\client\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\culling\Frustum.h">
+      <Filter>src\client\renderer\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\culling\FrustumCuller.h">
+      <Filter>src\client\renderer\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\culling\FrustumData.h">
+      <Filter>src\client\renderer\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\culling\AllowAllCuller.h">
+      <Filter>src\client\renderer\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\culling\Culler.h">
+      <Filter>src\client\renderer\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\EntityRenderDispatcher.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\EntityRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\FallingTileRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\HumanoidMobRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\ItemRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\ItemSpriteRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\MobRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\PaintingRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\PigRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\PlayerRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\SheepRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\SpiderRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\TntRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\TripodCameraRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\ArrowRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\ChickenRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\entity\CreeperRenderer.h">
+      <Filter>src\client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\ptexture\DynamicTexture.h">
+      <Filter>src\client\renderer\ptexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\tileentity\TileEntityRenderDispatcher.h">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\tileentity\TileEntityRenderer.h">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\tileentity\ChestRenderer.h">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\tileentity\SignRenderer.h">
+      <Filter>src\client\renderer\tileentity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\LevelRenderer.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\RenderChunk.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\RenderChunkHandler.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\RenderList.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\Shader.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\Tesselator.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\TextureData.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\Textures.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\TileRenderer.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\VertecDecl.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\Chunk.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\ChunkRenderer.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\Color4.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\DirtyChunkSorter.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\DistanceChunkSorter.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\EntityTileRenderer.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\GameRenderer.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\gles.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\GLESLoader.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\renderer\ItemInHandRenderer.h">
+      <Filter>src\client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\sound\SoundEngine.h">
+      <Filter>src\client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\sound\SoundRepository.h">
+      <Filter>src\client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\sound\Sound.h">
+      <Filter>src\client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\locale\I18n.h">
+      <Filter>src\locale</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\IntTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\ListTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\LongTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\NbtIo.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\ShortTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\StringTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\Tag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\ByteArrayTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\ByteTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\CompoundTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\DoubleTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\EndTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\nbt\FloatTag.h">
+      <Filter>src\nbt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\command\CommandServer.h">
+      <Filter>src\network\command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\AddPlayerPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\AdventureSettingsPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\AnimatePacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ChatPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ChunkDataPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ContainerAckPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ContainerClosePacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ContainerOpenPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ContainerSetContentPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ContainerSetDataPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ContainerSetSlotPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\DropItemPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\EntityEventPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ExplodePacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\HurtArmorPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\InteractPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\LevelEventPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\LoginPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\LoginStatusPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\MessagePacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\MoveEntityPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\MovePlayerPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\PacketInclude.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\PlaceBlockPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\PlayerActionPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\PlayerArmorEquipmentPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\PlayerEquipmentPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\ReadyPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\RemoveBlockPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\RemoveEntityPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\RemovePlayerPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\RequestChunkPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\RespawnPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\SendInventoryPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\SetEntityDataPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\SetEntityMotionPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\SetHealthPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\SetSpawnPositionPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\SetTimePacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\SignUpdatePacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\StartGamePacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\TakeItemEntityPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\TeleportEntityPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\TileEventPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\UpdateArmorPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\UpdateBlockPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\UseItemPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\AddEntityPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\AddItemEntityPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\AddMobPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\packet\AddPaintingPacket.h">
+      <Filter>src\network\packet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\NetEventCallback.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\Packet.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\PHPDirectoryServer2.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\RakNetInstance.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\ServerSideNetworkHandler.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\ClientSideNetworkHandler.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\NATPunchHandler.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\audio\SoundSystemFMOD.h">
+      <Filter>src\platform\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\input\Mouse.h">
+      <Filter>src\platform\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\input\Multitouch.h">
+      <Filter>src\platform\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\input\Controller.h">
+      <Filter>src\platform\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\input\Keyboard.h">
+      <Filter>src\platform\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\CThread.h">
+      <Filter>src\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\file.h">
+      <Filter>src\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\log.h">
+      <Filter>src\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\platform\time.h">
+      <Filter>src\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\AutopatcherRepositoryInterface.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\BitStream.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\CCRakNetSlidingWindow.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\CCRakNetUDT.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\CheckSum.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\CloudClient.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\CloudCommon.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\CloudServer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\CommandParserInterface.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ConnectionGraph2.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ConsoleServer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DataCompressor.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DirectoryDeltaTransfer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_BinarySearchTree.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_BPlusTree.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_BytePool.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_ByteQueue.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_Hash.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_Heap.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_HuffmanEncodingTree.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_HuffmanEncodingTreeFactory.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_HuffmanEncodingTreeNode.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_LinkedList.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_List.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_Map.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_MemoryPool.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_Multilist.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_OrderedChannelHeap.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_OrderedList.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_Queue.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_QueueLinkedList.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_RangeList.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_Table.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_ThreadsafeAllocatingQueue.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_Tree.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DS_WeightedGraph.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\DynDNS.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\EmailSender.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\EpochTimeToString.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Export.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\FileList.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\FileListNodeContext.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\FileListTransfer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\FileListTransferCBInterface.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\FileOperations.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\FormatString.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\FullyConnectedMesh2.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Getche.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Gets.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\GetTime.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\gettimeofday.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\GridSectorizer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\HTTPConnection.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\IncrementalReadInterface.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\InternalPacket.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Itoa.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Kbhit.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\LinuxStrings.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\LocklessTypes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\LogCommandParser.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\MessageFilter.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\MessageIdentifiers.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\MTUSize.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NativeFeatureIncludes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NativeFeatureIncludesOverrides.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NativeTypes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NatPunchthroughClient.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NatPunchthroughServer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NatTypeDetectionClient.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NatTypeDetectionCommon.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NatTypeDetectionServer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NetworkIDManager.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\NetworkIDObject.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PacketConsoleLogger.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PacketFileLogger.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PacketizedTCP.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PacketLogger.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PacketOutputWindowLogger.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PacketPool.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PacketPriority.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PluginInterface2.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\PS3Includes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Rackspace.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakAlloca.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakAssert.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakMemoryOverride.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetCommandParser.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetDefines.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetDefinesOverrides.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetSmartPtr.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetSocket.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetStatistics.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetTime.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetTransport2.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetTypes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakNetVersion.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakPeer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakPeerInterface.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakSleep.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakString.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakThread.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RakWString.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Rand.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\rdlmalloc.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\rdlmalloc-options.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ReadyEvent.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RefCountedObj.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ReliabilityLayer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ReplicaEnums.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ReplicaManager3.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\Router2.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\RPC4Plugin.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SecureHandshake.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SendToThread.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SHA1.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SignaledEvent.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SimpleMutex.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SimpleTCPServer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SingleProducerConsumer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SocketDefines.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SocketIncludes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SocketLayer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\StringCompressor.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\StringTable.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\SuperFastHash.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\TableSerializer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\TCPInterface.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\TeamBalancer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\TelnetTransport.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ThreadPool.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\ThreadsafePacketLogger.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\TransportInterface.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\TwoWayAuthentication.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\UDPForwarder.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\UDPProxyClient.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\UDPProxyCommon.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\UDPProxyCoordinator.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\UDPProxyServer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\VariableDeltaSerializer.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\VariableListDeltaTracker.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\VariadicSQLParser.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\VitaIncludes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\WindowsIncludes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\WSAStartupSingleton.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\XBox360Includes.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\_FindFirst.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\raknet\AutopatcherPatchContext.h">
+      <Filter>src\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\server\CreatorLevel.h">
+      <Filter>src\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\server\ServerLevel.h">
+      <Filter>src\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\server\ServerPlayer.h">
+      <Filter>src\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\server\ArgumentsSettings.h">
+      <Filter>src\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\MatrixStack.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\MemUtils.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\Mth.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\PerfRenderer.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\PerfTimer.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\RakDataIO.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\Random.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\SmoothFloat.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\StringUtils.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\WeighedRandom.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\CollectionUtils.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\DataIO.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\IntHashMap.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\util\Math.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\control\MoveControl.h">
+      <Filter>src\world\entity\ai\control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\control\Control.h">
+      <Filter>src\world\entity\ai\control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\control\JumpControl.h">
+      <Filter>src\world\entity\ai\control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\target\NearestAttackableTargetGoal.h">
+      <Filter>src\world\entity\ai\goal\target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\target\TargetGoal.h">
+      <Filter>src\world\entity\ai\goal\target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\target\HurtByTargetGoal.h">
+      <Filter>src\world\entity\ai\goal\target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\BreakDoorGoal.h">
+      <Filter>src\world\entity\ai\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\DoorInteractGoal.h">
+      <Filter>src\world\entity\ai\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\Goal.h">
+      <Filter>src\world\entity\ai\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\GoalSelector.h">
+      <Filter>src\world\entity\ai\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\MeleeAttackGoal.h">
+      <Filter>src\world\entity\ai\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\goal\RandomStrollGoal.h">
+      <Filter>src\world\entity\ai\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\util\RandomPos.h">
+      <Filter>src\world\entity\ai\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\PathNavigation.h">
+      <Filter>src\world\entity\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\ai\Sensing.h">
+      <Filter>src\world\entity\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\animal\Chicken.h">
+      <Filter>src\world\entity\animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\animal\Cow.h">
+      <Filter>src\world\entity\animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\animal\Pig.h">
+      <Filter>src\world\entity\animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\animal\Sheep.h">
+      <Filter>src\world\entity\animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\animal\WaterAnimal.h">
+      <Filter>src\world\entity\animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\animal\Animal.h">
+      <Filter>src\world\entity\animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\animal\AnimalInclude.h">
+      <Filter>src\world\entity\animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\item\PrimedTnt.h">
+      <Filter>src\world\entity\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\item\TripodCamera.h">
+      <Filter>src\world\entity\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\item\FallingTile.h">
+      <Filter>src\world\entity\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\item\ItemEntity.h">
+      <Filter>src\world\entity\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\monster\MonsterInclude.h">
+      <Filter>src\world\entity\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\monster\PigZombie.h">
+      <Filter>src\world\entity\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\monster\Skeleton.h">
+      <Filter>src\world\entity\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\monster\Spider.h">
+      <Filter>src\world\entity\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\monster\Zombie.h">
+      <Filter>src\world\entity\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\monster\Creeper.h">
+      <Filter>src\world\entity\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\monster\Monster.h">
+      <Filter>src\world\entity\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\player\OldInventory.h">
+      <Filter>src\world\entity\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\player\Player.h">
+      <Filter>src\world\entity\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\player\Abilities.h">
+      <Filter>src\world\entity\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\player\Inventory.h">
+      <Filter>src\world\entity\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\player\InventorySlotManager.h">
+      <Filter>src\world\entity\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\projectile\Throwable.h">
+      <Filter>src\world\entity\projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\projectile\ThrownEgg.h">
+      <Filter>src\world\entity\projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\projectile\Arrow.h">
+      <Filter>src\world\entity\projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\projectile\Snowball.h">
+      <Filter>src\world\entity\projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\Mob.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\MobCategory.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\MobFactory.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\Motive.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\Painting.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\PathfinderMob.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\SharedFlags.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\SynchedEntityData.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\AgableMob.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\Creature.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\Entity.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\EntityEvent.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\EntityFactory.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\EntityPos.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\EntityRendererId.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\EntityTypes.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\FlyingMob.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\entity\HangingEntity.h">
+      <Filter>src\world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\food\SimpleFoodData.h">
+      <Filter>src\world\food</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\food\FoodConstants.h">
+      <Filter>src\world\food</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\inventory\ContainerMenu.h">
+      <Filter>src\world\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\inventory\CraftingContainer.h">
+      <Filter>src\world\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\inventory\FillingContainer.h">
+      <Filter>src\world\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\inventory\FurnaceMenu.h">
+      <Filter>src\world\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\inventory\BaseContainerMenu.h">
+      <Filter>src\world\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\FurnaceRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\OreRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\Recipe.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\RecipeCategory.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\Recipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\ShapedRecipe.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\ShapelessRecipe.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\StructureRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\ToolRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\WeaponRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\ArmorRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\ClothDyeRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\crafting\FoodRecipes.h">
+      <Filter>src\world\item\crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\LeafTileItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\PickaxeItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\SaplingTileItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\SeedItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\ShearsItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\ShovelItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\SignItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\SnowballItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\StoneSlabTileItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\TileItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\TilePlanterItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\TreeTileItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\UseAnim.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\WeaponItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\ArmorItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\AuxDataTileItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\BedItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\BowItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\BowlFoodItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\CameraItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\ClothTileItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\CoalItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\DiggerItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\DoorItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\DyePowderItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\EggItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\FlintAndSteelItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\FoodItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\HangingEntityItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\HatchetItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\HoeItem.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\Item.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\ItemCategory.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\ItemInclude.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\item\ItemInstance.h">
+      <Filter>src\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\BiomeSource.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\FlatBiome.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\ForestBiome.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\RainforestBiome.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\SwampBiome.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\TaigaBiome.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\Biome.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\biome\BiomeInclude.h">
+      <Filter>src\world\level\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\chunk\storage\ChunkStorage.h">
+      <Filter>src\world\level\chunk\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\chunk\storage\MemoryChunkStorage.h">
+      <Filter>src\world\level\chunk\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\chunk\ChunkCache.h">
+      <Filter>src\world\level\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\chunk\ChunkSource.h">
+      <Filter>src\world\level\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\chunk\DataLayer.h">
+      <Filter>src\world\level\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\chunk\EmptyLevelChunk.h">
+      <Filter>src\world\level\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\chunk\LevelChunk.h">
+      <Filter>src\world\level\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\dimension\Dimension.h">
+      <Filter>src\world\level\dimension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\dimension\NormalDayCycleDimension.h">
+      <Filter>src\world\level\dimension</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\Feature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\FeatureInclude.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\FlowerFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\LakeFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\OreFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\PineFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\ReedsFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\SpringFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\SpruceFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\TallgrassFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\TreeFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\BirchFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\CactusFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\feature\ClayFeature.h">
+      <Filter>src\world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\synth\ImprovedNoise.h">
+      <Filter>src\world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\synth\PerlinNoise.h">
+      <Filter>src\world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\synth\Synth.h">
+      <Filter>src\world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\CanyonFeature.h">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\DungeonFeature.h">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\LargeCaveFeature.h">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\LargeFeature.h">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\RandomLevelSource.h">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\levelgen\TownFeature.h">
+      <Filter>src\world\level\levelgen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\material\LiquidMaterial.h">
+      <Filter>src\world\level\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\material\Material.h">
+      <Filter>src\world\level\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\material\WebMaterial.h">
+      <Filter>src\world\level\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\material\DecorationMaterial.h">
+      <Filter>src\world\level\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\material\GasMaterial.h">
+      <Filter>src\world\level\material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\pathfinder\Path.h">
+      <Filter>src\world\level\pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\pathfinder\PathFinder.h">
+      <Filter>src\world\level\pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\pathfinder\BinaryHeap.h">
+      <Filter>src\world\level\pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\pathfinder\Node.h">
+      <Filter>src\world\level\pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\FolderMethods.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\LevelData.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\LevelStorage.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\LevelStorageSource.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\MemoryLevelStorage.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\MemoryLevelStorageSource.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\MoveFolder.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\PlayerData.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\RegionFile.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\ExternalFileLevelStorage.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\storage\ExternalFileLevelStorageSource.h">
+      <Filter>src\world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\entity\NetherReactorTileEntity.h">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\entity\SignTileEntity.h">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\entity\TileEntity.h">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\entity\TileEntityRendererId.h">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\entity\ChestTileEntity.h">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\entity\FurnaceTileEntity.h">
+      <Filter>src\world\level\tile\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TileInclude.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TntTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TopSnowTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TorchTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TransparentTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TrapDoorTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TreeTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\WebTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\WorkbenchTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\BedTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\BookshelfTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\Bush.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\CactusTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\CarriedTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\ChestTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\ClayTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\ClothTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\CropTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\DirectionalTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\DirtTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\DoorTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\EntityTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\FarmTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\FenceGateTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\FenceTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\FireTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\FurnaceTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\GlassTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\GrassTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\GravelTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\HalfTransparentTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\HeavyTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\IceTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\InvisibleTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\LadderTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\LeafTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\LevelEvent.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\LightGemTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\LiquidTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\LiquidTileDynamic.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\LiquidTileStatic.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\MelonTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\MetalTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\MultiTextureTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\Mushroom.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\NetherReactor.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\NetherReactorPattern.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\ObsidianTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\OreTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\QuartzBlockTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\RedStoneOreTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\ReedTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\SandStoneTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\SandTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\Sapling.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\SignTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\SnowTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\StairTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\StemTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\StonecutterTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\StoneSlabTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\StoneTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\TallGrass.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\ThinFenceTile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\tile\Tile.h">
+      <Filter>src\world\level\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\Level.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\LevelConstants.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\LevelListener.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\LevelSettings.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\LevelSource.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\LightLayer.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\LightUpdate.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\MobSpawner.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\Region.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\TickNextTickData.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\TilePos.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\ChunkPos.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\Explosion.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\level\FoliageColor.h">
+      <Filter>src\world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\phys\HitResult.h">
+      <Filter>src\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\phys\Vec3.h">
+      <Filter>src\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\phys\AABB.h">
+      <Filter>src\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\Container.h">
+      <Filter>src\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\Difficulty.h">
+      <Filter>src\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\Direction.h">
+      <Filter>src\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\Facing.h">
+      <Filter>src\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\Pos.h">
+      <Filter>src\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\world\PosTranslator.h">
+      <Filter>src\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AppConstants.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AppPlatform.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AppPlatform_uwp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\EglConfigPrinter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ErrorCodes.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LicenseCodes.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\main_uwp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\NinecraftApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Performance.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\resource.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SharedConstants.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\terrain_565.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\terrain_565_2.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\terrain_4444.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\terrain_5551.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\App.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\data\images\terrain_565.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\data\images\terrain_565_2.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\data\images\terrain_4444.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\data\images\terrain_5551.h">
+      <Filter>data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\chain_1.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\chain_2.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\cloth_1.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\cloth_2.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\diamond_1.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\diamond_2.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\gold_1.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\gold_2.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\iron_1.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\armor\iron_2.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\art\kz.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\environment\clouds.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\font\default8.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\badge\minecon140.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\logo\raknet_high_72.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\logo\raknet_low_18.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\background.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\bg32.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\cursor.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\default_world.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\gui.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\gui_blocks.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\gui2.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\icons.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\itemframe.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\items.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\pi_title.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\spritesheet.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\title.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\gui\touchgui.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\item\arrows.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\item\camera.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\item\sign.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\char.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\chicken.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\cow.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\creeper.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\pig.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\pigzombie.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\sheep.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\sheep_fur.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\skeleton.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\spider.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\mob\zombie.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\ui\panorama_0.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\ui\panorama_1.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\ui\panorama_2.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\ui\panorama_3.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\ui\panorama_4.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\ui\panorama_5.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\ui\panorama_overlay.tga">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\particles.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="..\..\data\images\terrain.png">
+      <Filter>data</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallTile.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LargeTile.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-16.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-32.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-48.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-256.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\BadgeLogo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\BadgeLogo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\BadgeLogo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\BadgeLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\BadgeLogo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-100.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-125.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-150.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.scale-400.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="uwp_TemporaryKey.pfx" />
+    <None Include="..\..\data\shaders\default.fragment">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\shaders\default.vertex">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\images\terrain.pvr">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\images\terrain.pvr4">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\images\terrain.pvrtc">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\lang\en_US.lang">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\damage\fallbig1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\damage\fallbig2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\damage\fallsmall.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\chicken1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\chicken2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\chicken3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\chickenhurt1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\chickenhurt2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\chickenplop.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\cow1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\cow2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\cow3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\cow4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\cowhurt1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\cowhurt2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\cowhurt3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\creeper1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\creeper2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\creeper3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\creeper4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\creeperdeath.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\pig1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\pig2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\pig3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\pigdeath.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\sheep1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\sheep2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\sheep3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\skeleton1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\skeleton2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\skeleton3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\skeletonhurt1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\skeletonhurt2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\skeletonhurt3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\skeletonhurt4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\spider1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\spider2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\spider3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\spider4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\spiderdeath.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zombie1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zombie2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zombie3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zombiedeath.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zombiehurt1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zombiehurt2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpig1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpig2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpig3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpig4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpigangry1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpigangry2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpigangry3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpigangry4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpigdeath.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpighurt1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\mob\zpighurt2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\bow.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\bowhit1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\bowhit2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\bowhit3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\bowhit4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\click.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\door_close.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\door_open.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\eat1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\eat2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\eat3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\explode.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\fuse.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\glass1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\glass2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\glass3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\hurt.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\pop.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\splash.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\random\water.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\cloth1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\cloth2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\cloth3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\cloth4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\grass1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\grass2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\grass3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\grass4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\gravel2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\gravel3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\gravel4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\ladder1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\ladder2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\ladder3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\ladder4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\sand1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\sand2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\sand3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\sand4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\snow1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\snow2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\snow3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\snow4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\stone1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\stone2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\stone3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\stone4.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\wood1.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\wood2.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\wood3.m4a">
+      <Filter>data</Filter>
+    </None>
+    <None Include="..\..\data\sound\aac\step\wood4.m4a">
+      <Filter>data</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\raknet\CMakeLists.txt">
+      <Filter>src\raknet</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win32\libGLESv2.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win32\libEGL.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win32\fmodL_X86.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win32\fmod_X86.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\ARM\fmodL_ARM.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\ARM\fmod_ARM.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\ARM\libEGL.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\ARM\libGLESv2.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win64\fmodL_X64.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win64\fmod_X64.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win64\libEGL.dll" />
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win64\libGLESv2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\data\fonts\minecraft.ttf">
+      <Filter>data</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+</Project>

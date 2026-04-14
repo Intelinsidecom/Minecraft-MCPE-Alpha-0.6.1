@@ -7,7 +7,8 @@
 #include <errno.h>
 
 #include <EGL/egl.h>
-#include <GLES/gl.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 
 #include <android/log.h>
 #include <android_native_app_glue.h>
@@ -24,6 +25,8 @@
 #include "platform/input/Keyboard.h"
 #include "platform/input/Mouse.h"
 #include "platform/input/Multitouch.h"
+
+#include "client/renderer/gles.h"
 
 #include "EGLConfigPrinter.h"
 
@@ -73,7 +76,7 @@ engine_init_display( struct ENGINE* engine )
             //EGL_STENCIL_SIZE, 8,
             //EGL_DEPTH_SIZE, 16,
             //EGL_CONFIG_CAVEAT,   EGL_NONE,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
             EGL_NONE
     };
 
@@ -131,7 +134,12 @@ engine_init_display( struct ENGINE* engine )
     //surface = eglCreateWindowSurface( display, config, engine->app->window, NULL );
     LOGI("6) Creating context\n");
 
-    context = eglCreateContext( display, config, NULL, NULL );
+    // Specify OpenGL ES 2.0 context attributes
+    const EGLint contextAttribs[] = {
+        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_NONE
+    };
+    context = eglCreateContext( display, config, NULL, contextAttribs );
     LOGI("7) Make current\n");
 
     if( eglMakeCurrent( display, surface, surface, context ) == EGL_FALSE )
@@ -165,6 +173,7 @@ engine_init_display( struct ENGINE* engine )
 
     // Don't need to reload graphics first time
     if (engine->is_inited) {
+        glResetShaders();
         engine->userApp->onGraphicsReset(engine->appContext);
         engine->userApp->setSize(w, h);
     }

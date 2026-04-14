@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import <OpenGLES/ES1/gl.h>
-#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
 #import "../../../src/App.h"
 #import "../../../src/AppPlatform_iOS.h"
 #import "../../../src/NinecraftApp.h"

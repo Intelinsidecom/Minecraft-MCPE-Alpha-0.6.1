@@ -2,6 +2,9 @@
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
+#include "Shader.h"
+#include "GLESLoader.h"
+#include "../../util/MatrixStack.h"
 
 Tesselator Tesselator::instance(sizeof(GLfloat) * MAX_FLOATS); // max size in bytes
 
@@ -83,12 +86,10 @@ RenderChunk Tesselator::end( bool useMine, int bufferId )
 			vboId = 0;
 
 #ifdef USE_VBO
-		// Using VBO, use default buffer id only if we don't send in any
 		if (!useMine) {
 			bufferId = vboIds[vboId];
 		}
 #else
-		// Not using VBO - always use the next buffer object
 		bufferId = vboIds[vboId];
 #endif
 		int access = GL_STATIC_DRAW;//(accessMode==ACCESS_DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
@@ -100,31 +101,51 @@ RenderChunk Tesselator::end( bool useMine, int bufferId )
 #ifndef USE_VBO
 		// 0 1 2 3 4 5 6 7
 		// x y z u v c
-		if (hasTexture) {
-			glTexCoordPointer2(2, GL_FLOAT, VertexSizeBytes, (GLvoid*) (3 * 4));
-			glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
+		if (currentShader) {
+			currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+			currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+			currentShader->setUniform1i("u_useTexture", hasTexture ? 1 : 0);
+			currentShader->setUniform1i("u_alphaTest", renderState.alphaTestEnabled ? 1 : 0);
+			currentShader->setUniform4f("u_color", renderState.color[0], renderState.color[1], renderState.color[2], renderState.color[3]);
+			// Fog uniforms
+			currentShader->setUniform1i("u_fogEnabled", renderState.fogEnabled ? 1 : 0);
+			currentShader->setUniform4f("u_fogColor", renderState.fogColor[0], renderState.fogColor[1], renderState.fogColor[2], renderState.fogColor[3]);
+			currentShader->setUniform1f("u_fogStart", renderState.fogStart);
+			currentShader->setUniform1f("u_fogEnd", renderState.fogEnd);
+			currentShader->setUniform1f("u_fogDensity", renderState.fogDensity);
+			currentShader->setUniform1i("u_fogMode", renderState.fogMode);
 		}
-		if (hasColor) {
-			glColorPointer2(4, GL_UNSIGNED_BYTE, VertexSizeBytes, (GLvoid*) (5 * 4));
-			glEnableClientState2(GL_COLOR_ARRAY);
+		GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+		GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+		GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
+		GLint norLoc = currentShader ? currentShader->getAttribLocation("a_normal") : 3;
+
+		glEnableVertexAttribArray(posLoc);
+		glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, VertexSizeBytes, 0);
+
+		if (hasTexture) {
+			glEnableVertexAttribArray(texLoc);
+			glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, VertexSizeBytes, (GLvoid*)(3 * 4));
+		}
+		if (colLoc != -1) {
+			glEnableVertexAttribArray(colLoc);
+			glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, VertexSizeBytes, (GLvoid*)(5 * 4));
 		}
 		if (hasNormal) {
-			glNormalPointer(GL_BYTE, VertexSizeBytes, (GLvoid*) (6 * 4));
-			glEnableClientState2(GL_NORMAL_ARRAY);
+			glEnableVertexAttribArray(norLoc);
+			glVertexAttribPointer(norLoc, 4, GL_BYTE, GL_TRUE, VertexSizeBytes, (GLvoid*)(6 * 4));
 		}
-		glVertexPointer2(3, GL_FLOAT, VertexSizeBytes, 0);
-		glEnableClientState2(GL_VERTEX_ARRAY);
 
 		if (mode == GL_QUADS) {
 			glDrawArrays2(GL_TRIANGLES, 0, vertices);
 		} else {
 			glDrawArrays2(mode, 0, vertices);
 		}
-		//printf("drawing %d tris, size %d (%d,%d,%d)\n", vertices, p, hasTexture, hasColor, hasNormal);
-		glDisableClientState2(GL_VERTEX_ARRAY);
-		if (hasTexture) glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
-		if (hasColor) glDisableClientState2(GL_COLOR_ARRAY);
-		if (hasNormal) glDisableClientState2(GL_NORMAL_ARRAY);
+
+		glDisableVertexAttribArray(posLoc);
+		if (hasTexture) glDisableVertexAttribArray(texLoc);
+		if (colLoc != -1) glDisableVertexAttribArray(colLoc);
+		if (hasNormal) glDisableVertexAttribArray(norLoc);
 #endif /*!USE_VBO*/
 	}
 
@@ -273,6 +294,8 @@ void Tesselator::vertex( float x, float y, float z )
 			}
 			if (hasColor) {
 				dst.color = src.color;
+			} else {
+				dst.color = 0xFFFFFFFF;  // White (ABGR)
 			}
 			//if (hasNormal) {
 			//	dst.normal = src.normal;
@@ -295,6 +318,8 @@ void Tesselator::vertex( float x, float y, float z )
 	}
 	if (hasColor) {
 		vertex.color = _color;
+	} else {
+		vertex.color = 0xFFFFFFFF;  // White (ABGR)
 	}
 	//if (hasNormal) {
 	//	vertex.normal = _normal;
@@ -387,23 +412,35 @@ void Tesselator::draw()
 		glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
 		glBufferData2(GL_ARRAY_BUFFER, bytes, _varray, access); // GL_STREAM_DRAW
 
+		if (currentShader) {
+			currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
+			currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
+			currentShader->setUniform1i("u_useTexture", hasTexture ? 1 : 0);
+			currentShader->setUniform1i("u_alphaTest", renderState.alphaTestEnabled ? 1 : 0);
+			currentShader->setUniform4f("u_color", renderState.color[0], renderState.color[1], renderState.color[2], renderState.color[3]);
+			// Fog uniforms
+			currentShader->setUniform1i("u_fogEnabled", renderState.fogEnabled ? 1 : 0);
+			currentShader->setUniform4f("u_fogColor", renderState.fogColor[0], renderState.fogColor[1], renderState.fogColor[2], renderState.fogColor[3]);
+			currentShader->setUniform1f("u_fogStart", renderState.fogStart);
+			currentShader->setUniform1f("u_fogEnd", renderState.fogEnd);
+			currentShader->setUniform1f("u_fogDensity", renderState.fogDensity);
+			currentShader->setUniform1i("u_fogMode", renderState.fogMode);
+		}
+		GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
+		GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
+		GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
+
+		glEnableVertexAttribArray(posLoc);
+		glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, VertexSizeBytes, 0);
+
 		if (hasTexture) {
-			glTexCoordPointer2(2, GL_FLOAT, VertexSizeBytes, (GLvoid*) (3 * 4));
-			//glTexCoordPointer2(2, GL_FLOAT, VertexSizeBytes, (GLvoid*) &_varray->u);
-			glEnableClientState2(GL_TEXTURE_COORD_ARRAY);
+			glEnableVertexAttribArray(texLoc);
+			glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, VertexSizeBytes, (GLvoid*)(3 * 4));
 		}
-		if (hasColor) {
-			glColorPointer2(4, GL_UNSIGNED_BYTE, VertexSizeBytes, (GLvoid*) (5 * 4));
-			//glColorPointer2(4, GL_UNSIGNED_BYTE, VertexSizeBytes, (GLvoid*) &_varray->color);
-			glEnableClientState2(GL_COLOR_ARRAY);
+		if (colLoc != -1) {
+			glEnableVertexAttribArray(colLoc);
+			glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, VertexSizeBytes, (GLvoid*)(5 * 4));
 		}
-		//if (hasNormal) {
-		//	glNormalPointer(GL_BYTE, VertexSizeBytes, (GLvoid*) (6 * 4));
-		//	glEnableClientState2(GL_NORMAL_ARRAY);
-		//}
-		//glVertexPointer2(3, GL_FLOAT, VertexSizeBytes, (GLvoid*)&_varray);
-		glVertexPointer2(3, GL_FLOAT, VertexSizeBytes, 0);
-		glEnableClientState2(GL_VERTEX_ARRAY);
 
 		if (mode == GL_QUADS) {
 			glDrawArrays2(GL_TRIANGLES, 0, vertices);
@@ -411,10 +448,9 @@ void Tesselator::draw()
 			glDrawArrays2(mode, 0, vertices);
 		}
 
-		glDisableClientState2(GL_VERTEX_ARRAY);
-		if (hasTexture) glDisableClientState2(GL_TEXTURE_COORD_ARRAY);
-		if (hasColor) glDisableClientState2(GL_COLOR_ARRAY);
-		//if (hasNormal) glDisableClientState2(GL_NORMAL_ARRAY);
+		glDisableVertexAttribArray(posLoc);
+		if (hasTexture) glDisableVertexAttribArray(texLoc);
+		if (colLoc != -1) glDisableVertexAttribArray(colLoc);
 	}
 
 	clear();
