@@ -218,6 +218,61 @@ void mc_glHint(GLenum target, GLenum mode);
 void mc_glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 void mc_glClear(GLbitfield mask);
 void mc_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+void mc_glScissor(GLint x, GLint y, GLsizei width, GLsizei height);
+void mc_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
+void mc_glDepthRangef(GLclampf zNear, GLclampf zFar);
+void mc_glDepthFunc(GLenum func);
+void mc_glCullFace(GLenum mode);
+void mc_glBlendFunc(GLenum sfactor, GLenum dfactor);
+void mc_glBindTexture(GLenum target, GLuint texture);
+void mc_glGenTextures(GLsizei n, GLuint *textures);
+void mc_glDeleteTextures(GLsizei n, const GLuint *textures);
+void mc_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
+void mc_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels);
+void mc_glTexParameteri(GLenum target, GLenum pname, GLint param);
+void mc_glDepthMask(GLboolean flag);
+void mc_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+void mc_glBindBuffer(GLenum target, GLuint buffer);
+void mc_glDeleteBuffers(GLsizei n, const GLuint* buffers);
+void mc_glPolygonOffset(GLfloat factor, GLfloat units);
+void mc_glLineWidth(GLfloat width);
+void mc_glGetFloatv(GLenum pname, GLfloat *params);
+GLenum mc_glGetError(void);
+void mc_glEnableVertexAttribArray(GLuint index);
+void mc_glDisableVertexAttribArray(GLuint index);
+void mc_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* pointer);
+void mc_glBufferData(GLenum target, GLsizeiptr size, const void* data, GLenum usage);
+const GLubyte* mc_glGetString(GLenum name);
+#define glScissor mc_glScissor
+#define glReadPixels mc_glReadPixels
+#define glDepthRangef mc_glDepthRangef
+#define glDepthFunc mc_glDepthFunc
+#define glCullFace mc_glCullFace
+#define glBlendFunc mc_glBlendFunc
+#define glBindTexture mc_glBindTexture
+#define glGenTextures mc_glGenTextures
+#define glDeleteTextures mc_glDeleteTextures
+#define glTexImage2D mc_glTexImage2D
+#define glTexSubImage2D mc_glTexSubImage2D
+#define glTexParameteri mc_glTexParameteri
+#define glDepthMask mc_glDepthMask
+#define glColorMask mc_glColorMask
+#define glBindBuffer mc_glBindBuffer
+#define glDeleteBuffers mc_glDeleteBuffers
+#define glPolygonOffset mc_glPolygonOffset
+#define glLineWidth mc_glLineWidth
+#define glGetFloatv mc_glGetFloatv
+#define glGetError mc_glGetError
+#define glEnableVertexAttribArray mc_glEnableVertexAttribArray
+#define glDisableVertexAttribArray mc_glDisableVertexAttribArray
+#define glVertexAttribPointer mc_glVertexAttribPointer
+#define glBufferData mc_glBufferData
+#define glGetString mc_glGetString
+#define glViewport mc_glViewport
+#endif
+
 #define glViewport mc_glViewport
 #define glClear mc_glClear
 #define glClearColor mc_glClearColor
@@ -254,6 +309,16 @@ void mc_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha
 	//#define glBlendMode2(s) do{ if (Options::debugGl) LOGI("glEnable @ %s:%d : %d\n", __FILE__, __LINE__, s); glEnable(s); GLERR(19); } while(0)
 	#define glBlendFunc2(src, dst) do{ if (Options::debugGl) LOGI("glBlendFunc @ %s:%d : %d - %d\n", __FILE__, __LINE__, src, dst); glBlendFunc(src, dst); GLERR(23); } while(0)
 	#define glShadeModel2(s) do{ if (Options::debugGl) LOGI("glShadeModel @ %s:%d : %d\n", __FILE__, __LINE__, s); glShadeModel(s); GLERR(25); } while(0)
+	#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+	#define glScissor2(x, y, w, h) do{ if (Options::debugGl) LOGI("glScissor @ %s:%d : %d,%d,%d,%d\n", __FILE__, __LINE__, x, y, w, h); glScissor(x, y, w, h); GLERR(26); } while(0)
+	#define glReadPixels2(x, y, w, h, f, t, p) do{ if (Options::debugGl) LOGI("glReadPixels @ %s:%d : %d,%d,%d,%d\n", __FILE__, __LINE__, x, y, w, h); glReadPixels(x, y, w, h, f, t, p); GLERR(27); } while(0)
+	#define glDepthRangef2(n, f) do{ if (Options::debugGl) LOGI("glDepthRangef @ %s:%d : %f,%f\n", __FILE__, __LINE__, n, f); glDepthRangef(n, f); GLERR(28); } while(0)
+	#define glDepthFunc2(func) do{ if (Options::debugGl) LOGI("glDepthFunc @ %s:%d : %d\n", __FILE__, __LINE__, func); glDepthFunc(func); GLERR(29); } while(0)
+	#define glCullFace2(mode) do{ if (Options::debugGl) LOGI("glCullFace @ %s:%d : %d\n", __FILE__, __LINE__, mode); glCullFace(mode); GLERR(30); } while(0)
+	#define glDisableVertexAttribArray2(index) do{ if (Options::debugGl) LOGI("glDisableVertexAttribArray @ %s:%d : %d\n", __FILE__, __LINE__, index); glDisableVertexAttribArray(index); GLERR(31); } while(0)
+	#define glEnableVertexAttribArray2(index) do{ if (Options::debugGl) LOGI("glEnableVertexAttribArray @ %s:%d : %d\n", __FILE__, __LINE__, index); glEnableVertexAttribArray(index); GLERR(32); } while(0)
+	#define glVertexAttribPointer2(index, size, type, normalized, stride, pointer) do{ if (Options::debugGl) LOGI("glVertexAttribPointer @ %s:%d : %d\n", __FILE__, __LINE__, index); glVertexAttribPointer(index, size, type, normalized, stride, pointer); GLERR(33); } while(0)
+	#endif
 #else
 	#define glTranslatef2	glTranslatef
 	#define glRotatef2		glRotatef
@@ -283,6 +348,16 @@ void mc_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha
 	#define glColor4f2		glColor4f
 	#define glBlendFunc2	glBlendFunc
 	#define glShadeModel2	glShadeModel
+	#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+	#define glScissor2		glScissor
+	#define glReadPixels2	glReadPixels
+	#define glDepthRangef2	glDepthRangef
+	#define glDepthFunc2		glDepthFunc
+	#define glCullFace2		glCullFace
+	#define glDisableVertexAttribArray2	glDisableVertexAttribArray
+	#define glEnableVertexAttribArray2	glEnableVertexAttribArray
+	#define glVertexAttribPointer2	glVertexAttribPointer
+	#endif
 #endif
 
 //

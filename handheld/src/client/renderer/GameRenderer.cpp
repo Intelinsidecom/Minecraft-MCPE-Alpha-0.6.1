@@ -123,7 +123,7 @@ extern int _t_keepPic;
 /*public*/
 void GameRenderer::render(float a) {
 	TIMER_PUSH("mouse");
-	if (mc->player && mc->mouseGrabbed) {
+	if (mc->player && (mc->mouseGrabbed || mc->useTouchscreen())) {
         mc->mouseHandler.poll();
 		Mouse::reset2();
         //printf("Controller.x,y : %f,%f\n", Controller::getX(0), Controller::getY(0));

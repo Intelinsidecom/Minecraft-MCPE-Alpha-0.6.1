@@ -129,9 +129,9 @@ public:
 			_area.include(&screenArea);
 			_area.exclude(&moveArea);
 			_area.exclude(&inventoryArea);
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(_UWP)
             _area.exclude(&pauseArea);
-#endif /*__APPLE__*/
+#endif /*__APPLE__ || _UWP*/
 			//LOGI("Movearea: %f %f %f% f\n", moveArea._x0, moveArea._x1, moveArea._y0, moveArea._y1);
 
 			_model.clear();
@@ -324,7 +324,7 @@ public:
 		bool handled = false;
 
 		while (Multitouch::next()) {
-			MouseAction& m = Multitouch::getEvent();
+			const MouseAction& m = Multitouch::getEvent();
 			if (m.action == MouseAction::ACTION_MOVE) continue;
 
 			int areaId = _model.getPointerId(m.x, m.y, m.pointerId);
@@ -426,7 +426,7 @@ public:
 	virtual void onConfigChanged(const Config& c) {
 		_move.onConfigChanged(c);
 		_turnBuild.moveArea = _move.getRectangleArea();
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(_UWP)
 		_turnBuild.pauseArea = _move.getPauseRectangleArea();
 #endif
 		_turnBuild.inventoryArea = _mc->gui.getRectangleArea( _mc->options.isLeftHanded? 1 : -1 );

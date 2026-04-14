@@ -22,9 +22,12 @@
 #include "NinecraftApp.h"
 #define MAIN_CLASS NinecraftApp
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(_UWP)
 	#include "main_win32.h"
 	App* g_app = 0;
+#elif defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+#include "main_uwp.h"
+App* g_app = 0;
 #endif
 #ifdef ANDROID
     #ifdef PRE_ANDROID23

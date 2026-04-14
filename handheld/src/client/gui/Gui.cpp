@@ -774,7 +774,7 @@ void Gui::renderToolBar( float a, int ySlot, const int screenWidth ) {
 	//renderSlotWatch.stop();
 	//renderSlotWatch.printEvery(100, "Render slots:");
 
-	if (isMouseLocked) {
+	if (isMouseLocked && !minecraft->useTouchscreen()) {
 		renderSlot(getNumSlots()-1, (int)x, ySlot, a);
 	} else {
 		blit(screenWidth / 2 + 10 * getNumSlots() - 20 + 4, ySlot + 6, 242, 252, 14, 4, 14, 4);
@@ -792,7 +792,7 @@ void Gui::renderToolBar( float a, int ySlot, const int screenWidth ) {
 		ItemRenderer::renderGuiItemDecorations(minecraft->player->inventory->getItem(i), x, (float)ySlot);
 		x += 20;
 	}
-	if (isMouseLocked) {
+	if (isMouseLocked && !minecraft->useTouchscreen()) {
 		ItemRenderer::renderGuiItemDecorations(minecraft->player->inventory->getItem(getNumSlots()-1), x, (float)ySlot);
 	}
 	t.endOverrideAndDraw();
@@ -817,7 +817,7 @@ void Gui::renderToolBar( float a, int ySlot, const int screenWidth ) {
 				renderSlotText(item, k*x, k*ySlot + 1, true, true);
 			x += 20;
 		}
-		if (isMouseLocked) {
+		if (isMouseLocked && !minecraft->useTouchscreen()) {
 			ItemInstance* item = minecraft->player->inventory->getItem(getNumSlots()-1);
 			if (item && item->count >= 0)
 				renderSlotText(item, k*x, k*ySlot + 1, true, true);

@@ -78,6 +78,10 @@ TouchscreenInput_TestFps::TouchscreenInput_TestFps( Minecraft* mc, Options* opti
 	aUpRight(0),
 	_allowHeightChange(false)
 {
+
+	for (int i = 0; i < 8; ++i)
+		_wasPressed[i] = false;
+	
 	releaseAllKeys();
 	onConfigChanged( createConfig(mc) );
 
@@ -121,21 +125,40 @@ void TouchscreenInput_TestFps::onConfigChanged(const Config& c) {
 	*/
 
 	// Code for "D-pad with jump in center"
-	float Bw = w * 0.11f;//0.08f;
-	float Bh = Bw;//0.15f;
+#ifdef _UWP
+	float Bw = w * 0.12f;
+#else
+	float Bw = w * 0.09f;
+#endif
+	float Bh = Bw;
     
     // If too large (like playing on Tablet)
     PixelCalc& pc = _minecraft->pixelCalc;
+#ifdef _UWP
+    float maxSizeMm = 20.0f;
+    if (pc.pixelsToMillimeters(Bw) > maxSizeMm) {
+        Bw = Bh = pc.millimetersToPixels(maxSizeMm);
+    }
+#else
     if (pc.pixelsToMillimeters(Bw) > 14) {
         Bw = Bh = pc.millimetersToPixels(14);
     }
+#endif
 	// temp data
 	float xx;
 	float yy;
 
+#ifdef _UWP
+    const float bottomMargin = 24.0f;
+    const float sideMargin = 28.0f;
+	const float BaseY = h - bottomMargin - 3.0f * Bh;
+	const float BaseX = _options->isLeftHanded? w - sideMargin - 3 * Bw
+											:	sideMargin;
+#else
 	const float BaseY = -8 + h - 3.0f * Bh;
 	const float BaseX = _options->isLeftHanded? -8 + w - 3 * Bw
 											:	8 + 0;
+#endif
 	// Setup the bounding rectangle
 	_boundingRectangle = RectangleArea(BaseX, BaseY, BaseX + 3 * Bw, BaseY + 3 * Bh);
 
@@ -158,14 +181,19 @@ void TouchscreenInput_TestFps::onConfigChanged(const Config& c) {
 	xx = BaseX + 2 * Bw; yy = BaseY + Bh;
 	_model.addArea(AREA_DPAD_E, aRight = new RectangleArea(xx, yy, xx+Bw, yy+Bh));
 
-#ifdef __APPLE__
-    float maxPixels = _minecraft->pixelCalc.millimetersToPixels(10);
-    float btnSize = Mth::Min(18 * Gui::GuiScale, maxPixels);
-	_model.addArea(AREA_PAUSE, aPause = new RectangleArea(w - 4 - btnSize,
-                                                          4,
-                                                          w - 4,
-                                                          4 + btnSize));
-#endif /* __APPLE__ */
+#if defined(__APPLE__) || defined(_UWP)
+#ifdef _UWP
+    float maxPauseMm = 18.0f;
+#else
+    float maxPauseMm = 10.0f;
+#endif
+    float maxPixels = _minecraft->pixelCalc.millimetersToPixels(maxPauseMm);
+    float btnSize = Mth::Min(22 * Gui::GuiScale, maxPixels);
+	_model.addArea(AREA_PAUSE, aPause = new RectangleArea(w - 8 - btnSize,
+                                                          8,
+                                                          w - 8,
+                                                          8 + btnSize));
+#endif /* __APPLE__ || _UWP */
 
 	//rebuild();
 }
@@ -194,8 +222,10 @@ void TouchscreenInput_TestFps::releaseAllKeys()
 	xa = 0;
 	ya = 0;
 
-	for (int i = 0; i<8; ++i)
+	for (int i = 0; i<8; ++i) {
 		_buttons[i] = false;
+		_wasPressed[i] = false;
+	}
 #ifdef WIN32
 	for (int i = 0; i<NumKeys; ++i)
 		_keys[i] = false;
@@ -241,8 +271,26 @@ void TouchscreenInput_TestFps::tick( Player* player )
 
 		bool setButton = false;
 
+		#ifdef _UWP
+		int buttonIndex = areaId - AREA_DPAD_FIRST;
+		bool isFirstPress = false;
+		if (buttonIndex >= 0 && buttonIndex < 8) {
+			isFirstPress = Multitouch::isPointerDown(p) && !_wasPressed[buttonIndex];
+			if (isFirstPress) _wasPressed[buttonIndex] = true;
+		}
+
+		if (areaId == AREA_DPAD_C && isFirstPress) {
+			_allowHeightChange = true;
+		}
+
+		if (areaId == AREA_DPAD_C && Multitouch::isPointerDown(p) && _pressedJump) {
+			_allowHeightChange = true;
+		}
+		#else
+
 		if (Multitouch::isPressed(p))
-			_allowHeightChange = (areaId == AREA_DPAD_C);
+            _allowHeightChange = (areaId == AREA_DPAD_C);
+		#endif
 
         if (areaId == AREA_DPAD_C)
 		{
@@ -252,9 +300,17 @@ void TouchscreenInput_TestFps::tick( Player* player )
 			if (player->isInWater()) {
 				jumping = true;
 			}
+
+			#ifdef _UWP
+			else if (isFirstPress) {
+				jumping = true;
+			}
+			#else
 			else if (Multitouch::isPressed(p)) {
 				jumping = true;
-			} // Or if we are walking forward, jump while going forward!
+			}
+			#endif
+			// Or if we are walking forward, jump while going forward!
 			else if (_forward && !player->abilities.flying) {
 				areaId = AREA_DPAD_N;
 				tmpNorthJump = true;
@@ -300,14 +356,14 @@ void TouchscreenInput_TestFps::tick( Player* player )
 			setButton = true;
 			xa -= 1;
 		}
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(_UWP)
 		else if (areaId == AREA_PAUSE) {
 			if (Multitouch::isReleased(p)) {
                 _minecraft->soundEngine->playUI("random.click", 1, 1);
 				_minecraft->screenChooser.setScreen(SCREEN_PAUSE);
             }
 		}
-#endif /*__APPLE__*/
+#endif /*__APPLE__ || _UWP*/
 		_buttons[areaId - AREA_DPAD_FIRST] = setButton;
 	}
 
@@ -348,6 +404,14 @@ void TouchscreenInput_TestFps::tick( Player* player )
 	}
 	//printf("\n>- %f %f\n", xa, ya);
 	_pressedJump = heldJump;
+	
+#ifdef _UWP
+	for (int i = 0; i < 8; ++i) {
+		if (!_buttons[i]) {
+			_wasPressed[i] = false;
+		}
+	}
+#endif
 }
 
 static void drawRectangleArea(Tesselator& t, RectangleArea* a, int ux, int vy, float ssz = 64.0f) {
@@ -491,14 +555,14 @@ void TouchscreenInput_TestFps::rebuild() {
 	}
 	
 
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(_UWP)
 	if (!_minecraft->screen) {
 		if (isButtonDown(AREA_PAUSE))  t.colorABGR(cPressedPause);
 		else						   t.colorABGR(cReleasedPause);
 		
         drawRectangleArea(t, aPause, 200, 64, 18.0f);
 	}
-#endif /*__APPLE__*/
+#endif /*__APPLE__ || _UWP*/
 //t.end(true, _bufferId);
 	//return;
 

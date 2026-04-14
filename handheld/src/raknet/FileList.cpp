@@ -735,7 +735,11 @@ void FileList::DeleteFiles(const char *applicationDirectory)
 #ifdef _MSC_VER
 #pragma warning( disable : 4966 ) // unlink declared deprecated by Microsoft in order to make it harder to be cross platform.  I don't agree it's deprecated.
 #endif
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+        int result = _unlink(fullPath);
+#else
         int result = unlink(fullPath);
+#endif
 		if (result!=0)
 		{
 			RAKNET_DEBUG_PRINTF("FileList::DeleteFiles: unlink (%s) failed.\n", fullPath);

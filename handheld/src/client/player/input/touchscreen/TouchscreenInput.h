@@ -72,6 +72,7 @@ private:
 	float _sneakTapTime;
 
 	bool _buttons[8];
+	bool _wasPressed[8];
 	bool isButtonDown(int areaId);
 	void rebuild();
 };

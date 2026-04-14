@@ -5,6 +5,14 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #else
+#ifndef GL_GLEXT_PROTOTYPES
+#define GL_GLEXT_PROTOTYPES 1
+#endif
+#if defined(WIN32) || defined(_WIN32)
+#ifndef GL_APICALL
+#define GL_APICALL
+#endif
+#endif
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
 #endif
@@ -41,6 +49,37 @@ typedef void (GL_APIENTRY *PFNGLVERTEXATTRIBPOINTER)(GLuint index, GLint size, G
 typedef void (GL_APIENTRY *PFNGLVERTEXATTRIB4F)(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 typedef void (GL_APIENTRY *PFNGLDELETESHADER)(GLuint shader);
 typedef void (GL_APIENTRY *PFNGLDELETEPROGRAM)(GLuint program);
+typedef void (GL_APIENTRY *PFNGLVIEWPORT)(GLint x, GLint y, GLsizei width, GLsizei height);
+typedef void (GL_APIENTRY *PFNGLCLEAR)(GLbitfield mask);
+typedef void (GL_APIENTRY *PFNGLCLEARCOLOR)(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+typedef void (GL_APIENTRY *PFNGLSCISSOR)(GLint x, GLint y, GLsizei width, GLsizei height);
+typedef void (GL_APIENTRY *PFNGLREADPIXELS)(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels);
+typedef void (GL_APIENTRY *PFNGLDEPTHRANGEF)(GLclampf zNear, GLclampf zFar);
+typedef void (GL_APIENTRY *PFNGLDEPTHFUNC)(GLenum func);
+typedef void (GL_APIENTRY *PFNGLCULLFACE)(GLenum mode);
+typedef void (GL_APIENTRY *PFNGLPOLYGONOFFSET)(GLfloat factor, GLfloat units);
+typedef void (GL_APIENTRY *PFNGLLINEWIDTH)(GLfloat width);
+typedef GLenum (GL_APIENTRY *PFNGLGETERROR)(void);
+typedef void (GL_APIENTRY *PFNGLDEPTHMASK)(GLboolean flag);
+typedef void (GL_APIENTRY *PFNGLCOLORMASK)(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+typedef void (GL_APIENTRY *PFNGLBINDTEXTURE)(GLenum target, GLuint texture);
+typedef void (GL_APIENTRY *PFNGLBINDBUFFER)(GLenum target, GLuint buffer);
+typedef void (GL_APIENTRY *PFNGLDELETEBUFFERS)(GLsizei n, const GLuint* buffers);
+typedef void (GL_APIENTRY *PFNGLENABLE)(GLenum cap);
+typedef void (GL_APIENTRY *PFNGLDISABLE)(GLenum cap);
+typedef void (GL_APIENTRY *PFNGLBLENDFUNC)(GLenum sfactor, GLenum dfactor);
+typedef void (GL_APIENTRY *PFNGLDRAWARRAYS)(GLenum mode, GLint first, GLsizei count);
+typedef void (GL_APIENTRY *PFNGLGETFLOATV)(GLenum pname, GLfloat* params);
+typedef void (GL_APIENTRY *PFNGLGENTEXTURES)(GLsizei n, GLuint* textures);
+typedef void (GL_APIENTRY *PFNGLDELETETEXTURES)(GLsizei n, const GLuint* textures);
+typedef void (GL_APIENTRY *PFNGLTEXIMAGE2D)(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid* pixels);
+typedef void (GL_APIENTRY *PFNGLTEXSUBIMAGE2D)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* pixels);
+typedef void (GL_APIENTRY *PFNGLTEXPARAMETERI)(GLenum target, GLenum pname, GLint param);
+typedef void (GL_APIENTRY *PFNGLBUFFERDATA)(GLenum target, GLsizeiptr size, const void* data, GLenum usage);
+typedef const GLubyte* (GL_APIENTRY *PFNGLGETSTRING)(GLenum name);
+
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+#endif
 
 // Global function pointers
 extern PFNGLCREATESHADER p_glCreateShader;
@@ -66,6 +105,37 @@ extern PFNGLVERTEXATTRIBPOINTER p_glVertexAttribPointer;
 extern PFNGLVERTEXATTRIB4F p_glVertexAttrib4f;
 extern PFNGLDELETESHADER p_glDeleteShader;
 extern PFNGLDELETEPROGRAM p_glDeleteProgram;
+
+// Additional OpenGL function pointers
+extern PFNGLVIEWPORT p_glViewport;
+extern PFNGLCLEAR p_glClear;
+extern PFNGLCLEARCOLOR p_glClearColor;
+extern PFNGLSCISSOR p_glScissor;
+extern PFNGLREADPIXELS p_glReadPixels;
+extern PFNGLDEPTHRANGEF p_glDepthRangef;
+extern PFNGLDEPTHFUNC p_glDepthFunc;
+extern PFNGLCULLFACE p_glCullFace;
+extern PFNGLPOLYGONOFFSET p_glPolygonOffset;
+extern PFNGLLINEWIDTH p_glLineWidth;
+extern PFNGLGETERROR p_glGetError;
+extern PFNGLDEPTHMASK p_glDepthMask;
+extern PFNGLCOLORMASK p_glColorMask;
+extern PFNGLBINDTEXTURE p_glBindTexture;
+extern PFNGLBINDBUFFER p_glBindBuffer;
+extern PFNGLDELETEBUFFERS p_glDeleteBuffers;
+extern PFNGLENABLE p_glEnable;
+extern PFNGLDISABLE p_glDisable;
+extern PFNGLBLENDFUNC p_glBlendFunc;
+extern PFNGLDRAWARRAYS p_glDrawArrays;
+extern PFNGLGETFLOATV p_glGetFloatv;
+extern PFNGLGENTEXTURES p_glGenTextures;
+extern PFNGLDELETETEXTURES p_glDeleteTextures;
+extern PFNGLTEXIMAGE2D p_glTexImage2D;
+extern PFNGLTEXSUBIMAGE2D p_glTexSubImage2D;
+extern PFNGLTEXPARAMETERI p_glTexParameteri;
+extern PFNGLBUFFERDATA p_glBufferData;
+extern PFNGLGETSTRING p_glGetString;
+
 
 void LoadGLESFunctions();
 bool GLESFunctionsLoaded();

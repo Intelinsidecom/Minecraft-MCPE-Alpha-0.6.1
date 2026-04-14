@@ -5,6 +5,8 @@
 
 #ifdef RPI
 #include <SDL/SDL.h>
+#elif defined(WIN32)
+extern App* g_app;
 #endif
 
 MouseHandler::MouseHandler( ITurnInput* turnInput )
@@ -31,7 +33,6 @@ void MouseHandler::grab() {
 	SDL_WM_GrabInput(SDL_GRAB_ON);
 	SDL_ShowCursor(0);
 #elif defined(WIN32)
-	extern App* g_app;
 	if (g_app && g_app->platform()) g_app->platform()->grabMouse();
 #endif
 }
@@ -42,7 +43,6 @@ void MouseHandler::release() {
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
 	SDL_ShowCursor(1);
 #elif defined(WIN32)
-	extern App* g_app;
 	if (g_app && g_app->platform()) g_app->platform()->releaseMouse();
 #endif
 }

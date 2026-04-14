@@ -39,6 +39,7 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
 
   if (NULL != tz)
   {
+#if !defined(WINAPI_FAMILY)
     if (!tzflag)
     {
       _tzset();
@@ -46,6 +47,21 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
     }
     tz->tz_minuteswest = _timezone / 60;
     tz->tz_dsttime = _daylight;
+#else
+    TIME_ZONE_INFORMATION tzi;
+    DWORD result = GetTimeZoneInformation(&tzi);
+    
+    if (result != TIME_ZONE_ID_INVALID)
+    {
+      tz->tz_minuteswest = -tzi.Bias;
+      tz->tz_dsttime = (result == TIME_ZONE_ID_DAYLIGHT) ? 1 : 0;
+    }
+    else
+    {
+      tz->tz_minuteswest = 0;
+      tz->tz_dsttime = 0;
+    }
+#endif
   }
 
   return 0;

@@ -1022,6 +1022,7 @@ void LevelRenderer::renderClouds( float alpha ) {
 	//if (!mc->level->dimension->isNaturalDimension()) return;
 	glEnable2(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
+	glColor4f2(1.0f, 1.0f, 1.0f, 1.0f);
 	float yOffs = (float) (mc->player->yOld + (mc->player->y - mc->player->yOld) * alpha);
 	int s = 32;
 	int d = 256 / s;
@@ -1054,7 +1055,6 @@ void LevelRenderer::renderClouds( float alpha ) {
 	t.begin();
 
 	t.color(cr, cg, cb, 0.8f);
-	glColor4f2(1, 1, 1, 1);  // Reset global color to white for clouds
 	for (int xx = -s * d; xx < +s * d; xx += s) {
 		for (int zz = -s * d; zz < +s * d; zz += s) {
 			t.vertexUV((float)xx, yy, (float)zz + s, xx * scale + uo, (zz + s) * scale + vo);

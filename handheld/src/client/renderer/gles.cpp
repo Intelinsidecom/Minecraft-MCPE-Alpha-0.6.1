@@ -120,6 +120,7 @@ static void ensureShaders() {
         "../../shaders/",
         "../shaders/"
 #else
+        "",
         "data/shaders/",
         "../../data/shaders/",
         "../data/shaders/"
@@ -171,6 +172,7 @@ void anGenBuffers(GLsizei n, GLuint* buffers) {
 
 #ifdef USE_VBO
 void drawArrayVT(int bufferId, int vertices, int vertexSize /* = 24 */, unsigned int mode /* = GL_TRIANGLES */) {
+	if (!currentShader) return;
 	if (currentShader) {
 		currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
 		currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
@@ -179,20 +181,21 @@ void drawArrayVT(int bufferId, int vertices, int vertexSize /* = 24 */, unsigned
 	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
 	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
 	
-	glEnableVertexAttribArray(texLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(texLoc);
 	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)(3 * 4));
 	
-	glEnableVertexAttribArray(posLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(posLoc);
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
 	
 	glDrawArrays2(mode, 0, vertices);
 	
-	glDisableVertexAttribArray(posLoc);
-	glDisableVertexAttribArray(texLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
 }
 
 #ifndef drawArrayVT_NoState
 void drawArrayVT_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) {
+	if (!currentShader) return;
 	glBindBuffer2(GL_ARRAY_BUFFER, bufferId);
 	
 	GLint posLoc = currentShader ? currentShader->getAttribLocation("a_position") : 0;
@@ -200,24 +203,25 @@ void drawArrayVT_NoState(int bufferId, int vertices, int vertexSize /* = 24 */) 
 	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
 	
 	
-	glEnableVertexAttribArray(posLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(posLoc);
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
 	
-	glEnableVertexAttribArray(texLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(texLoc);
 	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*) (3 * 4));
 	
-	glEnableVertexAttribArray(colLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(colLoc);
 	glVertexAttribPointer(colLoc, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, (GLvoid*) (5 * 4));
 	
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
 	
-	glDisableVertexAttribArray(posLoc);
-	glDisableVertexAttribArray(texLoc);
-	glDisableVertexAttribArray(colLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
+	if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
 }
 #endif
 
 void drawArrayVTC(int bufferId, int vertices, int vertexSize /* = 24 */) {
+	if (!currentShader) return;
 	if (currentShader) {
 		currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
 		currentShader->setUniformMatrix4("u_projection", projectionStack.getTop().m);
@@ -228,9 +232,9 @@ void drawArrayVTC(int bufferId, int vertices, int vertexSize /* = 24 */) {
 	GLint texLoc = currentShader ? currentShader->getAttribLocation("a_texCoord") : 1;
 	GLint colLoc = currentShader ? currentShader->getAttribLocation("a_color") : 2;
     
-	glEnableVertexAttribArray(posLoc);
-	glEnableVertexAttribArray(texLoc);
-	glEnableVertexAttribArray(colLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(posLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(texLoc);
+	if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(colLoc);
     
 	glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
 	glVertexAttribPointer(texLoc, 2, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*) (3 * 4));
@@ -238,9 +242,9 @@ void drawArrayVTC(int bufferId, int vertices, int vertexSize /* = 24 */) {
     
 	glDrawArrays2(GL_TRIANGLES, 0, vertices);
     
-	glDisableVertexAttribArray(posLoc);
-	glDisableVertexAttribArray(texLoc);
-	glDisableVertexAttribArray(colLoc);
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
 }
 
 #ifndef drawArrayVTC_NoState
@@ -604,7 +608,7 @@ void mc_glEnable(GLenum cap) {
     else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = true;
     else if (cap == GL_LIGHTING) {}
     else if (cap == GL_COLOR_MATERIAL) {}
-    else glEnable(cap);
+    else if (p_glEnable) p_glEnable(cap);
 }
 
 void mc_glDisable(GLenum cap) {
@@ -613,7 +617,7 @@ void mc_glDisable(GLenum cap) {
     else if (cap == GL_TEXTURE_2D) renderState.texture2DEnabled = false;
     else if (cap == GL_LIGHTING) {}
     else if (cap == GL_COLOR_MATERIAL) {}
-    else glDisable(cap);
+    else if (p_glDisable) p_glDisable(cap);
 }
 
 void mc_glAlphaFunc(GLenum func, GLclampf ref) {
@@ -680,18 +684,20 @@ void mc_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {}
 
 void mc_glClear(GLbitfield mask) {
     ensureShaders();
-    glClear(mask);
+    if (p_glClear) p_glClear(mask);
 }
 void mc_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
-    glClearColor(red, green, blue, alpha);
+    if (p_glClearColor) p_glClearColor(red, green, blue, alpha);
 }
 void mc_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
     ensureShaders();
-    glViewport(x, y, width, height);
+    if (p_glViewport) p_glViewport(x, y, width, height);
 }
 
 void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     ensureShaders();
+    
+    if (!currentShader) return;
     
     if (currentShader) {
         currentShader->setUniformMatrix4("u_modelView", currentStack->getTop().m);
@@ -746,13 +752,13 @@ void mc_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
             if (p_glVertexAttrib4f) p_glVertexAttrib4f(colLoc, 1.0f, 1.0f, 1.0f, 1.0f);
         }
         
-        glDrawArrays(mode, first, count);
+        if (p_glDrawArrays) p_glDrawArrays(mode, first, count);
         
         if (vEnabled && posLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(posLoc);
         if (tEnabled && texLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(texLoc);
         if (cEnabled && colLoc != -1 && p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(colLoc);
     } else {
-        glDrawArrays(mode, first, count);
+        if (p_glDrawArrays) p_glDrawArrays(mode, first, count);
     }
     
     GLenum err = glGetError();
@@ -775,6 +781,110 @@ void mc_glGetFloatv(GLenum pname, GLfloat *params) {
     } else if (pname == GL_PROJECTION_MATRIX) {
         for (int i = 0; i < 16; i++) params[i] = projectionStack.getTop().m[i];
     } else {
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+        if (p_glGetFloatv) p_glGetFloatv(pname, params);
+#else
         glGetFloatv(pname, params);
+#endif
     }
 }
+
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+void mc_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
+    if (p_glScissor) p_glScissor(x, y, width, height);
+}
+
+void mc_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels) {
+    if (p_glReadPixels) p_glReadPixels(x, y, width, height, format, type, pixels);
+}
+
+void mc_glDepthRangef(GLclampf zNear, GLclampf zFar) {
+    if (p_glDepthRangef) p_glDepthRangef(zNear, zFar);
+}
+
+void mc_glDepthFunc(GLenum func) {
+    if (p_glDepthFunc) p_glDepthFunc(func);
+}
+
+void mc_glCullFace(GLenum mode) {
+    if (p_glCullFace) p_glCullFace(mode);
+}
+
+void mc_glBlendFunc(GLenum sfactor, GLenum dfactor) {
+    if (p_glBlendFunc) p_glBlendFunc(sfactor, dfactor);
+}
+
+void mc_glBindTexture(GLenum target, GLuint texture) {
+    if (p_glBindTexture) p_glBindTexture(target, texture);
+}
+
+void mc_glGenTextures(GLsizei n, GLuint *textures) {
+    if (p_glGenTextures) p_glGenTextures(n, textures);
+}
+
+void mc_glDeleteTextures(GLsizei n, const GLuint *textures) {
+    if (p_glDeleteTextures) p_glDeleteTextures(n, textures);
+}
+
+void mc_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) {
+    if (p_glTexImage2D) p_glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
+}
+
+void mc_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels) {
+    if (p_glTexSubImage2D) p_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
+}
+
+void mc_glTexParameteri(GLenum target, GLenum pname, GLint param) {
+    if (p_glTexParameteri) p_glTexParameteri(target, pname, param);
+}
+
+void mc_glDepthMask(GLboolean flag) {
+    if (p_glDepthMask) p_glDepthMask(flag);
+}
+
+void mc_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
+    if (p_glColorMask) p_glColorMask(red, green, blue, alpha);
+}
+
+void mc_glBindBuffer(GLenum target, GLuint buffer) {
+    if (p_glBindBuffer) p_glBindBuffer(target, buffer);
+}
+
+void mc_glDeleteBuffers(GLsizei n, const GLuint* buffers) {
+    if (p_glDeleteBuffers) p_glDeleteBuffers(n, buffers);
+}
+
+void mc_glPolygonOffset(GLfloat factor, GLfloat units) {
+    if (p_glPolygonOffset) p_glPolygonOffset(factor, units);
+}
+
+void mc_glLineWidth(GLfloat width) {
+    if (p_glLineWidth) p_glLineWidth(width);
+}
+
+GLenum mc_glGetError(void) {
+    if (p_glGetError) return p_glGetError();
+    return GL_NO_ERROR;
+}
+
+void mc_glEnableVertexAttribArray(GLuint index) {
+    if (p_glEnableVertexAttribArray) p_glEnableVertexAttribArray(index);
+}
+
+void mc_glDisableVertexAttribArray(GLuint index) {
+    if (p_glDisableVertexAttribArray) p_glDisableVertexAttribArray(index);
+}
+
+void mc_glBufferData(GLenum target, GLsizeiptr size, const void* data, GLenum usage) {
+    if (p_glBufferData) p_glBufferData(target, size, data, usage);
+}
+
+const GLubyte* mc_glGetString(GLenum name) {
+    if (p_glGetString) return p_glGetString(name);
+    return (const GLubyte*)"";
+}
+
+void mc_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* pointer) {
+    if (p_glVertexAttribPointer) p_glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+}
+#endif

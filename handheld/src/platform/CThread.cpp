@@ -13,7 +13,11 @@
 
 	CThread::CThread( pthread_fn threadFunc, void* threadParam )
 	{
-	#ifdef WIN32
+	#ifdef _UWP
+		m_stdThread = std::thread([threadFunc, threadParam]() {
+			threadFunc(threadParam);
+		});
+	#elif defined(WIN32)
 		mp_threadFunc = (LPTHREAD_START_ROUTINE) threadFunc;
 		
 		m_threadHandle = CreateThread(
@@ -61,7 +65,11 @@
 
 	CThread::~CThread()
 	{
-	#ifdef WIN32
+	#ifdef _UWP
+		if (m_stdThread.joinable()) {
+			m_stdThread.join();
+		}
+	#elif defined(WIN32)
 		TerminateThread(m_threadHandle, 0);
 	#endif
 	#if defined(LINUX) || defined(ANDROID) || defined(__APPLE__) || defined(POSIX)

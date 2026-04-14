@@ -8,24 +8,17 @@
 Shader* currentShader = NULL;
 
 GLuint Shader::compileShader(GLenum type, const std::string& source) {
-    LOGI("DIAGNOSTIC: Compiling %s shader...\n", type == GL_VERTEX_SHADER ? "VERTEX" : "FRAGMENT");
-
     if (!p_glCreateShader) {
         LOGE("DIAGNOSTIC: p_glCreateShader is NULL! Loader might have failed.\n");
         return 0;
     }
 
     GLuint shader = p_glCreateShader(type);
-    GLenum err = glGetError();
-    LOGI("DIAGNOSTIC: p_glCreateShader returned %u, error: 0x%x\n", shader, err);
-
     if (shader == 0) return 0;
 
     const char* src = source.c_str();
     p_glShaderSource(shader, 1, &src, NULL);
     p_glCompileShader(shader);
-    err = glGetError();
-    LOGI("DIAGNOSTIC: p_glCompileShader called, error: 0x%x\n", err);
 
     GLint success;
     p_glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -33,8 +26,6 @@ GLuint Shader::compileShader(GLenum type, const std::string& source) {
         char infoLog[512];
         p_glGetShaderInfoLog(shader, 512, NULL, infoLog);
         LOGE("DIAGNOSTIC: Shader compilation failed! Log:\n%s\n", infoLog);
-    } else {
-        LOGI("DIAGNOSTIC: Shader compiled successfully.\n");
     }
     return shader;
 }
@@ -71,15 +62,11 @@ Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile) {
     }
 
     programId = p_glCreateProgram();
-    GLenum err = glGetError();
-    LOGI("DIAGNOSTIC: p_glCreateProgram returned %u, error: 0x%x\n", programId, err);
 
     if (programId != 0) {
         p_glAttachShader(programId, vertex);
         p_glAttachShader(programId, fragment);
         p_glLinkProgram(programId);
-        err = glGetError();
-        LOGI("DIAGNOSTIC: p_glLinkProgram err: 0x%x\n", err);
 
         GLint success;
         p_glGetProgramiv(programId, GL_LINK_STATUS, &success);
@@ -89,8 +76,6 @@ Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile) {
             LOGE("DIAGNOSTIC: Shader linking failed! Log:\n%s\n", infoLog);
             p_glDeleteProgram(programId);
             programId = 0;
-        } else {
-            LOGI("DIAGNOSTIC: Shader program linked successfully. ID: %u\n", programId);
         }
     }
 
@@ -110,15 +95,11 @@ Shader::Shader(const std::string& vertexSource, const std::string& fragmentSourc
     }
 
     programId = p_glCreateProgram();
-    GLenum err = glGetError();
-    LOGI("DIAGNOSTIC: p_glCreateProgram returned %u, error: 0x%x\n", programId, err);
 
     if (programId != 0) {
         p_glAttachShader(programId, vertex);
         p_glAttachShader(programId, fragment);
         p_glLinkProgram(programId);
-        err = glGetError();
-        LOGI("DIAGNOSTIC: p_glLinkProgram err: 0x%x\n", err);
 
         GLint success;
         p_glGetProgramiv(programId, GL_LINK_STATUS, &success);
@@ -128,8 +109,6 @@ Shader::Shader(const std::string& vertexSource, const std::string& fragmentSourc
             LOGE("DIAGNOSTIC: Shader linking failed! Log:\n%s\n", infoLog);
             p_glDeleteProgram(programId);
             programId = 0;
-        } else {
-            LOGI("DIAGNOSTIC: Shader program linked successfully. ID: %u\n", programId);
         }
     }
 

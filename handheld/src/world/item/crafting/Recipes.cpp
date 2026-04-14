@@ -607,8 +607,8 @@ const RecipeList& Recipes::getRecipes()
 ItemInstance Recipes::getItemFor( CraftingContainer* craftSlots )
 {
 	int count = 0;
-	ItemInstance* first;
-	ItemInstance* second;
+	ItemInstance* first = NULL;
+	ItemInstance* second = NULL;
 	for (int i = 0; i < craftSlots->getContainerSize(); i++) {
 		ItemInstance* item = craftSlots->getItem(i);
 		if (item) {

@@ -3,7 +3,7 @@
 
 #include "../../../platform/log.h"
 
-#ifdef WIN32
+#if defined(WIN32) || defined(WINAPI_FAMILY)
 	#include <io.h>
 #else
 int _mkdir(const char* name);

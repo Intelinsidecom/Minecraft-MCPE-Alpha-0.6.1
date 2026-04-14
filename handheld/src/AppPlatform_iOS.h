@@ -57,6 +57,15 @@ public:
     virtual float getPixelsPerMillimeter();
     
 	virtual bool isTouchscreen();
+
+    virtual bool supportsTouchscreen() {
+        return true;
+    }
+
+    virtual bool supportsNonTouchscreen() {
+        return false;
+    }
+
     virtual void vibrate(int milliSeconds);
     
 	virtual bool isNetworkEnabled(bool onlyWifiAllowed);

@@ -47,10 +47,13 @@ bool WriteFileWithDirectories( const char *path, char *data, unsigned dataLength
 				pathCopy[ index ] = 0;
 	
 	#ifdef _WIN32
-	#pragma warning( disable : 4966 ) // mkdir declared deprecated by Microsoft in order to make it harder to be cross platform.  I don't agree it's deprecated.
+#pragma warning( disable : 4966 ) // mkdir declared deprecated by Microsoft in order to make it harder to be cross platform.  I don't agree it's deprecated.
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+				res = _mkdir( pathCopy );
+#else
 				res = mkdir( pathCopy );
-	#else
-	
+#endif
+#else
 				res = mkdir( pathCopy, 0744 );
 	#endif
 				if (res<0 && errno!=EEXIST && errno!=EACCES)
@@ -84,7 +87,11 @@ bool WriteFileWithDirectories( const char *path, char *data, unsigned dataLength
 	{
 #ifdef _WIN32
 #pragma warning( disable : 4966 ) // mkdir declared deprecated by Microsoft in order to make it harder to be cross platform.  I don't agree it's deprecated.
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+		res = _mkdir( pathCopy );
+#else
 		res = mkdir( pathCopy );
+#endif
 #else
 		res = mkdir( pathCopy, 0744 );
 #endif

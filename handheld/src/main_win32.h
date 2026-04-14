@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 */
-
 #include "client/renderer/gles.h"
 #include <EGL/egl.h>
 #define WIN32_LEAN_AND_MEAN 1

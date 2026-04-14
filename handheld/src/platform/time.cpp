@@ -1,7 +1,7 @@
 #include "time.h"
 #include <cstring>
 
-#ifdef WIN32
+#ifdef _WIN32
     #include <windows.h>
 #else
 	#include <sys/time.h>
@@ -37,8 +37,12 @@
 /// This is allowed to be here, since getTimeS and getTimeMs both have t(0)
 /// as base (and obviously not good for an initial random seed)
 int getRawTimeS() {
-#ifdef WIN32
+#ifdef _WIN32
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+	return (int)(GetTickCount64() / 1000);
+#else
 	return (int)(GetTickCount() / 1000);
+#endif
 #else
 	timeval now;
 	gettimeofday(&now, 0);
