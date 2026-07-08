@@ -6,12 +6,17 @@
 #include "../../sound/SoundEngine.h"
 #include "../../../world/entity/player/Inventory.h"
 #include "../../../platform/input/Mouse.h"
+#include "../../../platform/time.h"
+#include "crafting/WorkbenchScreen.h"
+#include "../../../world/item/crafting/Recipe.h"
 
 #include "../Gui.h"
 #include "../../renderer/Textures.h"
 #include "../../gamemode/GameMode.h"
 #include "ArmorScreen.h"
 #include "../components/Button.h"
+
+#include <cmath>
 
 #if defined(__APPLE__)
     static const std::string demoVersionString("Not available in the Lite version");
@@ -314,4 +319,97 @@ void IngameBlockSelectionScreen::buttonClicked( Button* button )
 		minecraft->setScreen(new ArmorScreen());
 	}
 	super::buttonClicked(button);
+}
+
+void IngameBlockSelectionScreen::navigateInventory(int dx, int dy)
+{
+	int currentRow = selectedItem / InventoryCols;
+	int currentCol = selectedItem % InventoryCols;
+	
+	int newRow = currentRow + dy;
+	int newCol = currentCol + dx;
+	
+	if (newRow < 0) newRow = 0;
+	if (newRow >= InventoryRows) newRow = InventoryRows - 1;
+	if (newCol < 0) newCol = 0;
+	if (newCol >= InventoryCols) newCol = InventoryCols - 1;
+	
+	int newSlot = newRow * InventoryCols + newCol;
+	
+	if (newSlot >= InventorySize) newSlot = InventorySize - 1;
+	if (newSlot < 0) newSlot = 0;
+	
+	while (!isAllowed(newSlot) && newSlot > 0)
+	{
+		if (dx > 0) newSlot--;
+		else if (dx < 0) newSlot++;
+		else if (dy > 0) newSlot -= InventoryCols;
+		else if (dy < 0) newSlot += InventoryCols;
+		
+		if (newSlot < 0 || newSlot >= InventorySize) break;
+	}
+	
+	if (isAllowed(newSlot))
+		selectedItem = newSlot;
+}
+
+void IngameBlockSelectionScreen::handleControllerInput()
+{
+	extern float g_leftStickX;
+	extern float g_leftStickY;
+	extern float g_rightStickX;
+	extern float g_rightStickY;
+	extern bool g_controllerAPressed;
+	extern bool g_controllerBPressed;
+	
+	static bool wasAPressed = false;
+	static bool wasBPressed = false;
+	static bool bCycleUsed = false;
+	
+	Screen::handleControllerInput();
+	
+	static bool wasStickActive = false;
+	static int lastNavTime = 0;
+	
+	float stickThreshold = 0.4f;
+	int currentTime = getTimeMs();
+	const int REPEAT_DELAY_MS = 100;
+	
+	bool isStickXActive = std::abs(g_leftStickX) > stickThreshold;
+	bool isStickYActive = std::abs(g_leftStickY) > stickThreshold;
+	
+	if (isStickXActive || isStickYActive)
+	{
+		if (!wasStickActive || (currentTime - lastNavTime > REPEAT_DELAY_MS))
+		{
+			int dx = 0, dy = 0;
+			
+			if (g_leftStickX > stickThreshold)
+				dx = 1;
+			else if (g_leftStickX < -stickThreshold)
+				dx = -1;
+			
+			if (g_leftStickY > stickThreshold)
+				dy = -1;
+			else if (g_leftStickY < -stickThreshold)
+				dy = 1;
+			
+			navigateInventory(dx, dy);
+			lastNavTime = currentTime;
+		}
+	}
+	else
+	{
+		wasStickActive = false;
+		lastNavTime = currentTime - REPEAT_DELAY_MS;
+	}
+	
+	wasStickActive = isStickXActive || isStickYActive;
+	
+	if (g_controllerAPressed && !wasAPressed)
+	{
+		selectSlotAndClose();
+	}
+	wasAPressed = g_controllerAPressed;
+	wasBPressed = g_controllerBPressed;
 }

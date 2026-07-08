@@ -7,6 +7,8 @@
 #include "../../platform/input/Keyboard.h"
 #include "../../platform/input/Mouse.h"
 #include "../renderer/Textures.h"
+#include "../../platform/input/SDL2Controller.h"
+#include "../../platform/log.h"
 
 Screen::Screen()
 :   passEvents(false),
@@ -37,6 +39,12 @@ void Screen::init( Minecraft* minecraft, int width, int height )
 	init();
 	setupPositions();
 	updateTabButtonSelection();
+	
+	extern bool g_controllerConnected;
+	if (g_controllerConnected)
+	{
+		initControllerNavigation();
+	}
 }
 
 void Screen::init()
@@ -252,4 +260,91 @@ void Screen::lostFocus() {
 void Screen::toGUICoordinate( int& x, int& y ) {
 	x = x * width / minecraft->width;
 	y = y * height / minecraft->height - 1;
+}
+
+void Screen::tick()
+{
+    extern bool g_controllerConnected;
+    if (g_controllerConnected && minecraft && minecraft->screen == this)
+    {
+        handleControllerInput();
+    }
+}
+
+void Screen::initControllerNavigation()
+{
+    g_controllerNavigation.init(width, height);
+    g_controllerNavigation.setGUIMode(true);
+    
+
+    for (unsigned int i = 0; i < buttons.size(); i++)
+    {
+        Button* button = buttons[i];
+        if (button->active && button->visible)
+        {
+            g_controllerNavigation.registerButton(button);
+        }
+    }
+    
+    g_controllerNavigation.updateButtonSelection();
+}
+
+void Screen::handleControllerInput()
+{
+    extern float g_leftStickX;
+    extern float g_leftStickY;
+    extern float g_rightStickY;
+    extern bool g_controllerAPressed;
+    extern bool g_controllerBPressed;
+    static bool wasAPressed = false;
+    static bool wasBPressed = false;
+    static bool bCycleUsed = false;
+    
+    if (g_controllerBPressed && !wasBPressed && !buttons.empty())
+    {
+        int focusedIndex = -1;
+        for (unsigned int i = 0; i < buttons.size(); i++)
+        {
+            if (buttons[i]->selected && buttons[i]->active && buttons[i]->visible)
+            {
+                focusedIndex = i;
+                break;
+            }
+        }
+        
+        if (focusedIndex >= 0 && focusedIndex < (int)buttons.size() - 1)
+        {
+            buttons[focusedIndex]->selected = false;
+            buttons[focusedIndex + 1]->selected = true;
+            bCycleUsed = true;
+        }
+        else if (focusedIndex == (int)buttons.size() - 1)
+        {
+            bCycleUsed = false;
+        }
+        else
+        {
+            if (!buttons.empty() && buttons[0]->active && buttons[0]->visible)
+                buttons[0]->selected = true;
+            bCycleUsed = true;
+        }
+    }
+    else if (!g_controllerBPressed)
+    {
+        bCycleUsed = false;
+    }
+
+    if (bCycleUsed)
+    {
+        g_controllerNavigation.tick(minecraft, g_leftStickX, g_leftStickY, g_rightStickY, 
+                                     g_controllerAPressed, false, wasAPressed, wasBPressed);
+    }
+    else
+    {
+        g_controllerNavigation.tick(minecraft, g_leftStickX, g_leftStickY, g_rightStickY, 
+                                     g_controllerAPressed, g_controllerBPressed, wasAPressed, wasBPressed);
+    }
+    
+    wasAPressed = g_controllerAPressed;
+    wasBPressed = g_controllerBPressed;
 }

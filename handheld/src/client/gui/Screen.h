@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "GuiComponent.h"
+#include "ControllerNavigation.h"
 
 class Font;
 class Minecraft;
@@ -31,9 +32,12 @@ public:
 	virtual void keyboardTextEvent();
 	virtual bool handleBackEvent(bool isDown);
 
-    virtual void tick() {}
+    virtual void tick();
 
     virtual void removed() {}
+    
+    virtual void initControllerNavigation();
+    virtual void handleControllerInput();
 
     virtual void renderBackground();
     virtual void renderBackground(int vo);

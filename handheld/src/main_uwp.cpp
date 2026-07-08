@@ -28,11 +28,9 @@ UWPApplication::~UWPApplication()
 
 void UWPApplication::Initialize(CoreApplicationView^ applicationView)
 {
-    // Set up activation handler
     applicationView->Activated += ref new TypedEventHandler<CoreApplicationView^, IActivatedEventArgs^>(
         this, &UWPApplication::OnActivated);
     
-    // Set up suspension/resume handlers
     CoreApplication::Suspending += ref new EventHandler<SuspendingEventArgs^>(
         [this](Platform::Object^ sender, SuspendingEventArgs^ args) {
             OnSuspending(sender, args);
@@ -48,33 +46,26 @@ void UWPApplication::SetWindow(CoreWindow^ window)
 {
     m_window = window;
     
-    // Set up window event handlers
     window->SizeChanged += ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(
         this, &UWPApplication::OnWindowSizeChanged);
     
     window->VisibilityChanged += ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(
         this, &UWPApplication::OnVisibilityChanged);
     
-    // Get display information
     m_displayInfo = DisplayInformation::GetForCurrentView();
     m_displayInfo->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(
         this, &UWPApplication::OnDpiChanged);
     
-    // Create platform implementation
     m_platform = new AppPlatform_uwp();
     m_platform->setCoreWindow(window);
     m_platform->setDisplayInfo(m_displayInfo);
-    
-    // Register platform BEFORE initializing EGL/Shaders
     glSetPlatform(m_platform);
     
-    // Initialize EGL
     if (!InitializeEGL())
     {
         return;
     }
     
-    // Set up input handlers
     SetupInputHandlers();
 }
 
@@ -84,7 +75,6 @@ void UWPApplication::Load(Platform::String^ entryPoint)
 
 void UWPApplication::Run()
 {
-    // Initialize the game
     InitializeGame();
     
     if (!m_initialized)
@@ -92,29 +82,20 @@ void UWPApplication::Run()
         return;
     }
     
-    // Process events until the application exits
     while (g_running && !m_app->wantToQuit())
     {
-        // WIN32-STYLE: Process ALL pending events immediately without batching
-        // This eliminates input latency caused by ProcessOneAndAllPending batching
         int eventCount = 0;
-        const int MAX_EVENTS_PER_FRAME = 100;  // Safety limit
-        
-        // Process all pending events one at a time (immediate mode)
+        const int MAX_EVENTS_PER_FRAME = 100;
         auto dispatcher = CoreWindow::GetForCurrentThread()->Dispatcher;
         while (eventCount < MAX_EVENTS_PER_FRAME)
         {
-            // ProcessOneIfPresent returns immediately if no events
-            // We can't check return value, so rely on internal queue draining
             dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessOneIfPresent);
             eventCount++;
-            
-            // Check if we're quitting after each event
+
             if (!g_running || m_app->wantToQuit())
                 break;
         }
         
-        // Update and Render on the UI thread
         UpdateGame();
         RenderGame();
     }
@@ -134,7 +115,6 @@ void UWPApplication::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^
 {
     auto deferral = args->SuspendingOperation->GetDeferral();
     
-    // Save game state if needed
     deferral->Complete();
 }
 
@@ -163,7 +143,6 @@ void UWPApplication::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEv
     {
         if (!args->Visible)
         {
-            // Pause the game when window is hidden
             static_cast<Minecraft*>(m_app)->pauseGame(false);
         }
     }
@@ -176,7 +155,6 @@ void UWPApplication::OnDpiChanged(DisplayInformation^ sender, Object^ args)
         m_platform->setDisplayInfo(sender);
     }
     
-    // Potentially trigger a resize to game engine if scale drastically changed
     if (m_app && m_initialized && m_window)
     {
         float scale = sender->LogicalDpi / 96.0f;
@@ -195,32 +173,26 @@ void UWPApplication::InitializeGame()
     
     try
     {
-        // Set up application context
         m_context.platform = m_platform;
         m_context.display = m_platform->getEGLDisplay();
         m_context.surface = m_platform->getEGLSurface();
         m_context.context = m_platform->getEGLContext();
         m_context.doRender = true;
         
-        // Create the game instance
         m_app = new NinecraftApp();
         g_app = m_app;
         
-        // Set external storage paths (UWP writable folders)
         static_cast<NinecraftApp*>(m_app)->externalStoragePath = m_platform->getLocalStoragePath();
         static_cast<NinecraftApp*>(m_app)->externalCacheStoragePath = m_platform->getTempStoragePath();
         
-        // Initialize the game
         m_app->init(m_context);
         
-        // Mark game as initialized so input can be processed
+        SDL2Controller::init();
+        
         m_platform->setGameInitialized(true);
         
-        // Register input handlers AFTER game is fully initialized
-        // This prevents static initialization order crashes
         m_platform->registerInputHandlers();
         
-        // Set initial window size
         int width = m_platform->getScreenWidth();
         int height = m_platform->getScreenHeight();
         m_app->setSize(width, height);
@@ -247,12 +219,11 @@ void UWPApplication::UpdateGame()
     
     try
     {
-        // Update the game and process input within the lock
         {
             std::lock_guard<std::mutex> lock(m_platform->getGameMutex());
             
-            // Process gamepad input
-            ProcessGamepadInput();
+            SDL2Controller::poll();
+            SDL2Controller::tick();
             
             m_app->update();
         }
@@ -274,16 +245,13 @@ void UWPApplication::RenderGame()
     
     try
     {
-        // Make EGL context current
         if (eglMakeCurrent(m_context.display, m_context.surface, m_context.surface, m_context.context))
         {
-            // Render the game
             {
                 std::lock_guard<std::mutex> lock(m_platform->getGameMutex());
                 m_app->draw();
             }
             
-            // Swap buffers
             eglSwapBuffers(m_context.display, m_context.surface);
         }
     }
@@ -304,6 +272,8 @@ void UWPApplication::CleanupGame()
     
     g_running = false;
     
+    SDL2Controller::shutdown();
+    
     if (m_timer)
     {
         m_timer->Cancel();
@@ -315,7 +285,7 @@ void UWPApplication::CleanupGame()
         try
         {
             m_app->quit();
-            Sleep(50); // Give the game time to clean up
+            Sleep(50);
             delete m_app;
             m_app = nullptr;
             g_app = nullptr;
@@ -338,48 +308,40 @@ void UWPApplication::CleanupGame()
 
 void UWPApplication::SetupInputHandlers()
 {
-    // Input handlers are already set up in AppPlatform_uwp
-    // This method can be used for additional input setup if needed
 }
 
 void UWPApplication::ProcessGamepadInput()
 {
     try
     {
-        // Check for connected gamepads
         auto gamepads = Gamepad::Gamepads;
         
         if (gamepads->Size > 0)
         {
-            auto gamepad = gamepads->GetAt(0); // Use first gamepad
+            auto gamepad = gamepads->GetAt(0);
             auto reading = gamepad->GetCurrentReading();
             
-            // Map gamepad input to controller system
             float leftX = reading.LeftThumbstickX;
             float leftY = reading.LeftThumbstickY;
             float rightX = reading.RightThumbstickX;
             float rightY = reading.RightThumbstickY;
             
-            // Apply deadzone
             const float deadzone = 0.1f;
             if (abs(leftX) < deadzone) leftX = 0.0f;
             if (abs(leftY) < deadzone) leftY = 0.0f;
             if (abs(rightX) < deadzone) rightX = 0.0f;
             if (abs(rightY) < deadzone) rightY = 0.0f;
             
-            // Feed left stick (movement)
             if (abs(leftX) > 0.01f || abs(leftY) > 0.01f)
             {
                 Controller::feed(0, Controller::STATE_MOVE, leftX, leftY);
             }
             
-            // Feed right stick (camera)
             if (abs(rightX) > 0.01f || abs(rightY) > 0.01f)
             {
                 Controller::feed(1, Controller::STATE_MOVE, rightX, rightY);
             }
             
-            // Handle buttons
             bool buttonA = (reading.Buttons & GamepadButtons::A) == GamepadButtons::A;
             bool buttonB = (reading.Buttons & GamepadButtons::B) == GamepadButtons::B;
             bool buttonX = (reading.Buttons & GamepadButtons::X) == GamepadButtons::X;
@@ -397,7 +359,6 @@ void UWPApplication::ProcessGamepadInput()
             bool buttonMenu = (reading.Buttons & GamepadButtons::Menu) == GamepadButtons::Menu;
             bool buttonView = (reading.Buttons & GamepadButtons::View) == GamepadButtons::View;
             
-            // Map buttons to keyboard keys for compatibility
             if (buttonA) Keyboard::feed(' ', 1); else Keyboard::feed(' ', 0); // Jump
             if (buttonB) Keyboard::feed('E', 1); else Keyboard::feed('E', 0); // Inventory
             if (buttonX) Keyboard::feed('Q', 1); else Keyboard::feed('Q', 0); // Drop item
@@ -416,7 +377,6 @@ void UWPApplication::ProcessGamepadInput()
     }
     catch (...)
     {
-        // Gamepad input failed, continue without it
     }
 }
 
@@ -427,8 +387,6 @@ bool UWPApplication::InitializeEGL()
         return false;
     }
     
-    // EGL is already initialized in AppPlatform_uwp
-    // Just verify it's working
     EGLDisplay display = m_platform->getEGLDisplay();
     EGLSurface surface = m_platform->getEGLSurface();
     EGLContext context = m_platform->getEGLContext();
@@ -438,7 +396,6 @@ bool UWPApplication::InitializeEGL()
         return false;
     }
     
-    // Initialize OpenGL ES functions
     glInit();
     
     return true;
@@ -446,7 +403,6 @@ bool UWPApplication::InitializeEGL()
 
 void UWPApplication::CleanupEGL()
 {
-    // EGL cleanup is handled in AppPlatform_uwp destructor
 }
 
 IFrameworkView^ UWPApplicationFactory::CreateView()
@@ -454,12 +410,10 @@ IFrameworkView^ UWPApplicationFactory::CreateView()
     return ref new UWPApplication();
 }
 
-// UWP application entry point
 [Platform::MTAThread]
 int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLine, int nCmdShow)
 {
-    // Initialize COM for UWP
-    HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+    HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     if (FAILED(hr) && hr != RPC_E_CHANGED_MODE)
     {
         return -1;
@@ -467,11 +421,9 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmd
     
     try
     {
-        // Create and run the UWP application
         auto factory = ref new UWPApplicationFactory();
         CoreApplication::Run(factory);
         
-        // Cleanup COM
         CoUninitialize();
         return 0;
     }

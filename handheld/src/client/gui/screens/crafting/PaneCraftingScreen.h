@@ -52,6 +52,9 @@ public:
 	void buttonClicked(Button* button);
 	void keyPressed( int eventKey );
 
+	virtual void handleControllerInput();
+	void navigateItems(int direction);
+
 	// IItemPaneCallback
 	void onItemSelected(const ItemPane* forPane, int itemIndexInCurrentCategory);
 	const std::vector<CItem*>& getItems(const ItemPane* forPane);
@@ -101,6 +104,8 @@ private:
 	NinePatchLayer* guiBackground;
 	NinePatchLayer* guiSlotCategory;
 	NinePatchLayer* guiSlotCategorySelected;
+
+	int _controllerSelectedItemIndex;
 };
 
 #endif /*NET_MINECRAFT_CLIENT_GUI_SCREENS_CRAFT_PaneCraftingScreen_H__*/

@@ -24,6 +24,8 @@ protected:
 	virtual void buttonClicked(Button* button);
 
 	virtual void keyPressed(int eventKey);
+	virtual void handleControllerInput();
+	void navigateInventory(int dx, int dy);
 private:
 	void renderSlots();
 	void renderSlot(int slot, int x, int y, float a);

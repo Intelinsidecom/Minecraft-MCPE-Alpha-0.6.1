@@ -107,18 +107,17 @@ AppPlatform_uwp::AppPlatform_uwp()
     , _visibleBoundsOffsetY(0)
     , _touchScaleX(1.0)
     , _touchScaleY(1.0)
-    , _inputProfile(InputProfile::Desktop_MouseKeyboard)  // Default, will be determined below
+    , _inputProfile(InputProfile::Desktop_MouseKeyboard)
     , _lastTouchX(0)
     , _lastTouchY(0)
     , _hasLastTouchPosition(false)
 {
-    // Initialize pointer ID mapping arrays
+
     for (int i = 0; i < 256; i++) _pointerIdMap[i] = -1;
     for (int i = 0; i < 4; i++) _pointerIdActive[i] = false;
     _orientationToken.Value = 0;
     _dpiToken.Value = 0;
 
-    // Force landscape for all touch devices on UWP
     auto touch = ref new Windows::Devices::Input::TouchCapabilities();
     if (touch->TouchPresent > 0)
     {
@@ -127,50 +126,27 @@ AppPlatform_uwp::AppPlatform_uwp()
             Windows::Graphics::Display::DisplayOrientations::LandscapeFlipped;
     }
     
-    // Initialize input systems early to prevent crashes
     Mouse::reset();
     Multitouch::reset();
     
-    // Detect device capabilities
     _touchPresent = touch->TouchPresent > 0;
-    
     auto mouse = ref new Windows::Devices::Input::MouseCapabilities();
     _mousePresent = mouse->MousePresent > 0;
-    
-    // Also check keyboard - most desktop PCs have keyboards
     auto keyboard = ref new Windows::Devices::Input::KeyboardCapabilities();
     _keyboardPresent = keyboard->KeyboardPresent > 0;
-    
-    // DETERMINE INPUT PROFILE ONCE - this eliminates expensive runtime checks
-    // 
-    // DESKTOP INDICATORS (in order of reliability):
-    // 1. No touch + has mouse/keyboard = Desktop PC
-    // 2. Has keyboard + large screen (> 1024px width) = Desktop/Laptop
-    // 3. Has mouse (even with touch) = Desktop with touchscreen
-    //
-    // MOBILE INDICATORS:
-    // 1. Has touch only (no mouse, no keyboard) = Phone/Tablet
-    // 2. Small screen (< 900px) + touch = Mobile
-    
     bool hasDesktopInput = _mousePresent || _keyboardPresent;
     bool hasOnlyTouch = _touchPresent && !hasDesktopInput;
     
     if (!_touchPresent && (_mousePresent || _keyboardPresent)) {
-        // Pure desktop - no touchscreen, has mouse and/or keyboard
         _inputProfile = InputProfile::Desktop_MouseKeyboard;
     }
     else if (hasOnlyTouch) {
-        // Touch only with no desktop input = Mobile
         _inputProfile = InputProfile::Mobile_TouchOnly;
     }
     else if (_touchPresent && (_mousePresent || _keyboardPresent)) {
-        // Both touch AND desktop input = Desktop with touchscreen
-        // This covers: laptops with touchscreens, desktop with touch monitors
         _inputProfile = InputProfile::Desktop_Touch;
     }
     else {
-        // Fallback: No touch, no mouse, no keyboard detected
-        // Could be: Xbox, TV, or exotic setup - assume desktop for safety
         _inputProfile = InputProfile::Desktop_MouseKeyboard;
     }
     
@@ -196,13 +172,12 @@ AppPlatform_uwp::~AppPlatform_uwp()
 
 std::string AppPlatform_uwp::extractFileName(const std::string& path)
 {
-    // Find the last path separator
     size_t lastSlash = path.find_last_of("/\\");
     if (lastSlash != std::string::npos)
     {
         return path.substr(lastSlash + 1);
     }
-    return path; // No separator found, return the original path
+    return path;
 }
 
 std::string AppPlatform_uwp::wstringToStd(const std::wstring& ws)
@@ -227,17 +202,9 @@ std::wstring AppPlatform_uwp::stringToWString(const std::string& s)
 void AppPlatform_uwp::setCoreWindow(CoreWindow^ window)
 {
     _coreWindow = window;
-    
-    // NOTE: Input handlers are now registered AFTER game initialization
-    // to avoid static initialization order crashes
-    // This is done in registerInputHandlers() which is called after m_app->init()
-    
-    // Initialize MouseDevice for relative movement
     _mouseDevice = Windows::Devices::Input::MouseDevice::GetForCurrentView();
     _mouseDevice->MouseMoved += ref new TypedEventHandler<Windows::Devices::Input::MouseDevice^, Windows::Devices::Input::MouseEventArgs^>(
         [this](Windows::Devices::Input::MouseDevice^ sender, Windows::Devices::Input::MouseEventArgs^ args) { onMouseMoved(sender, args); });
-
-    // Initialize EGL once we have a window
     initializeEGL();
     updateScreenDimensions();
 }
@@ -249,18 +216,13 @@ void AppPlatform_uwp::registerInputHandlers()
         return;
     }
     
-    // Use cached _inputProfile instead of expensive isMobileDevice() calls
-    // This is determined ONCE at initialization, not on every event
     if (_inputProfile == InputProfile::Mobile_TouchOnly)
     {
-        // Mobile only: Enable pointer capture for immediate touch (no edge gesture delay)
         _coreWindow->SetPointerCapture();
     }
     
-    // Set up input event handlers - WIN32-STYLE: No filtering, no extra checks
     _coreWindow->PointerPressed += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(
         [this](CoreWindow^ sender, PointerEventArgs^ args) { 
-            // Only mark handled on mobile to prevent edge gesture delay
             if (_inputProfile == InputProfile::Mobile_TouchOnly)
                 args->Handled = true;
             onPointerPressed(args); 
@@ -287,7 +249,6 @@ void AppPlatform_uwp::registerInputHandlers()
 
 void AppPlatform_uwp::setDisplayInfo(DisplayInformation^ info)
 {
-    // Clean up previous event handlers if they exist
     if (_displayInfo != nullptr)
     {
         if (_orientationToken.Value != 0) _displayInfo->OrientationChanged -= _orientationToken;
@@ -295,8 +256,7 @@ void AppPlatform_uwp::setDisplayInfo(DisplayInformation^ info)
         _orientationToken.Value = 0;
         _dpiToken.Value = 0;
     }
-    
-    // UWP FIX: Clean up VisibleBoundsChanged handler
+
     if (_visibleBoundsToken.Value != 0)
     {
         auto appView = Windows::UI::ViewManagement::ApplicationView::GetForCurrentView();
@@ -306,16 +266,13 @@ void AppPlatform_uwp::setDisplayInfo(DisplayInformation^ info)
 
     _displayInfo = info;
     updateScreenDimensions();
-    
-    // Handle display orientation changes
+
     _orientationToken = _displayInfo->OrientationChanged += ref new TypedEventHandler<DisplayInformation^, Platform::Object^>(
         [this](DisplayInformation^ sender, Platform::Object^ args) { updateScreenDimensions(); });
-    
-    // Handle DPI changes
+
     _dpiToken = _displayInfo->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Platform::Object^>(
         [this](DisplayInformation^ sender, Platform::Object^ args) { updateScreenDimensions(); });
-    
-    // UWP FIX: Subscribe to VisibleBoundsChanged to handle navigation bar expand/collapse
+
     auto appView = Windows::UI::ViewManagement::ApplicationView::GetForCurrentView();
     _visibleBoundsToken = appView->VisibleBoundsChanged += ref new TypedEventHandler<ApplicationView^, Platform::Object^>(
         [this](ApplicationView^ sender, Platform::Object^ args) { updateScreenDimensions(); });
@@ -328,8 +285,6 @@ void AppPlatform_uwp::initializeEGL()
         return;
     }
 
-    // EGL configuration attributes - GPU OPTIMIZED
-    // Using RGB565 (16-bit color) to reduce GPU memory bandwidth by 50%
     EGLint configAttributes[] = {
         EGL_RED_SIZE, 5,
         EGL_GREEN_SIZE, 6,
@@ -344,23 +299,17 @@ void AppPlatform_uwp::initializeEGL()
         EGL_NONE
     };
 
-    // EGL context attributes - GPU OPTIMIZED
-    // Enable shader program binary cache to avoid recompilation
     EGLint contextAttributes[] = {
         EGL_CONTEXT_CLIENT_VERSION, 2,
         EGL_CONTEXT_PROGRAM_BINARY_CACHE_ENABLED_ANGLE, EGL_TRUE,
         EGL_NONE
     };
 
-    // Initialize EGL with ANGLE platform display extension for fast present path
-    // Get eglGetPlatformDisplayEXT function pointer
     PFNEGLGETPLATFORMDISPLAYEXTPROC eglGetPlatformDisplayEXT = 
         (PFNEGLGETPLATFORMDISPLAYEXTPROC)eglGetProcAddress("eglGetPlatformDisplayEXT");
     
     if (eglGetPlatformDisplayEXT)
     {
-        // EGL platform attributes - GPU OPTIMIZED
-        // Disable debug layers (major GPU overhead), enable automatic trim, use copy path
         EGLint platformAttributes[] = {
             EGL_PLATFORM_ANGLE_TYPE_ANGLE, EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE,
             EGL_EXPERIMENTAL_PRESENT_PATH_ANGLE, EGL_EXPERIMENTAL_PRESENT_PATH_COPY_ANGLE,
@@ -375,7 +324,6 @@ void AppPlatform_uwp::initializeEGL()
     }
     else
     {
-        // Fallback to legacy eglGetDisplay if platform extension not available
         _eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     }
     
@@ -390,52 +338,45 @@ void AppPlatform_uwp::initializeEGL()
         return;
     }
 
-    // Choose configuration
     EGLint numConfigs;
     if (!eglChooseConfig(_eglDisplay, configAttributes, &_eglConfig, 1, &numConfigs) || numConfigs == 0)
     {
         return;
     }
 
-    // Create surface
     _eglSurface = eglCreateWindowSurface(_eglDisplay, _eglConfig, reinterpret_cast<EGLNativeWindowType>(_coreWindow), nullptr);
     if (_eglSurface == EGL_NO_SURFACE)
     {
         return;
     }
 
-    // Create context
     _eglContext = eglCreateContext(_eglDisplay, _eglConfig, EGL_NO_CONTEXT, contextAttributes);
     if (_eglContext == EGL_NO_CONTEXT)
     {
         return;
     }
 
-    // Make context current
     if (!eglMakeCurrent(_eglDisplay, _eglSurface, _eglSurface, _eglContext))
     {
         return;
     }
     
-    // Load GLES functions immediately after making context current
     LoadGLESFunctions();
 }
 
 void AppPlatform_uwp::grabMouse()
 {
-    // Use cached profile - never grab on mobile-only devices
     if (_inputProfile == InputProfile::Mobile_TouchOnly)
     {
         return;
     }
     
-    // On hybrid devices with touch but no mouse present, don't grab
     if (!_mousePresent && _touchPresent)
     {
         return;
     }
     _mouseGrabbed = true;
-    _ignoreNextMove = true; // Ignore the first delta after grabbing
+    _ignoreNextMove = true;
     if (_coreWindow)
     {
         _coreWindow->PointerCursor = nullptr;
@@ -485,7 +426,6 @@ BinaryBlob AppPlatform_uwp::readAssetFile(const std::string& filename)
     std::string normalizedPath = filename;
     std::replace(normalizedPath.begin(), normalizedPath.end(), '/', '\\');
     
-    // Strip leading ../ or ..\ from the path as CreateFile2 is very sensitive to them in UWP
     while (normalizedPath.substr(0, 3) == "..\\" || normalizedPath.substr(0, 3) == "../") {
         normalizedPath = normalizedPath.substr(3);
     }
@@ -502,7 +442,6 @@ BinaryBlob AppPlatform_uwp::readAssetFile(const std::string& filename)
     candidates.push_back("data\\shaders\\" + justFileName);
     candidates.push_back("assets\\shaders\\" + justFileName);
 
-    // De-duplicate candidates while preserving order
     std::vector<std::string> pathsToTry;
     for (const auto& c : candidates)
     {
@@ -512,12 +451,10 @@ BinaryBlob AppPlatform_uwp::readAssetFile(const std::string& filename)
 
     for (const auto& tryRelativePath : pathsToTry)
     {
-        // UNIFIED FIX: Try relative path first (UWP native preference for package content)
         std::vector<unsigned char> buffer = readFileToBuffer(tryRelativePath);
         std::string usedPath = "relative:" + tryRelativePath;
 
         if (buffer.empty()) {
-            // Fallback to absolute path using _packagePath
             std::string fullPath = wstringToStd(_packagePath);
             if (!fullPath.empty() && fullPath.back() != '\\')
                 fullPath += "\\";
@@ -557,11 +494,8 @@ TextureData AppPlatform_uwp::loadTexture(const std::string& filename_, bool text
 
 void AppPlatform_uwp::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
 {
-    // Read pixels from framebuffer
     unsigned char* pixelData = new unsigned char[glWidth * glHeight * 4];
     glReadPixels(0, 0, glWidth, glHeight, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
-    
-    // Flip vertically (OpenGL has origin at bottom-left)
     unsigned char* flippedData = new unsigned char[glWidth * glHeight * 4];
     for (int y = 0; y < glHeight; y++)
     {
@@ -599,39 +533,31 @@ float AppPlatform_uwp::getPixelsPerMillimeter()
 
 bool AppPlatform_uwp::supportsTouchscreen()
 {
-    // Only return true for actual mobile/touch-first devices
-    // Desktop with touchscreen (laptops, touch monitors) should NOT show mobile controls
-    // Mobile-only devices need the mobile UI
     return _inputProfile == InputProfile::Mobile_TouchOnly || _inputProfile == InputProfile::Mobile_WithMouse;
 }
 
 bool AppPlatform_uwp::isMobileDevice() const
 {
-    // Use cached profile - fast, no recalculation
     return _inputProfile == InputProfile::Mobile_TouchOnly || _inputProfile == InputProfile::Mobile_WithMouse;
 }
 
 bool AppPlatform_uwp::isTabletDevice() const
 {
-    // Tablet device: touch + larger screen (> 800px width and height)
     return _touchPresent && _screenWidth > 800 && _screenHeight > 800;
 }
 
 bool AppPlatform_uwp::supportsNonTouchscreen()
 {
-    // Check both mouse AND keyboard - either one indicates desktop input capability
-    // UWP's MouseCapabilities sometimes returns 0 even when mouse is present
     return _mousePresent || _keyboardPresent;
 }
 
 bool AppPlatform_uwp::hasBuyButtonWhenInvalidLicense()
 {
-    return false; // Store handles licensing
+    return false;
 }
 
 int AppPlatform_uwp::checkLicense()
 {
-    // UWP store handles licensing
     return 0; // Valid license
 }
 
@@ -642,13 +568,9 @@ std::string AppPlatform_uwp::getDateString(int s)
     return ss.str();
 }
 
-// Helper function to safely check if input systems are initialized
-// This tries to safely verify the static objects are ready
 static bool AreInputSystemsReady()
 {
     try {
-        // Try to access the input systems in a safe way
-        // If they're not initialized, these will throw or crash
         Mouse::rewind();
         Multitouch::rewind();
         return true;
@@ -667,7 +589,6 @@ void AppPlatform_uwp::onPointerPressed(PointerEventArgs^ args)
     auto props = point->Properties;
     float scale = _displayInfo ? (_displayInfo->LogicalDpi / 96.0f) : 1.0f;
     
-    // MOBILE: Buffer for later processing on game thread (avoids race conditions)
     if (_inputProfile == InputProfile::Mobile_TouchOnly)
     {
         short x = static_cast<short>((position.X * _touchScaleX) * scale + _visibleBoundsOffsetX);
@@ -679,24 +600,19 @@ void AppPlatform_uwp::onPointerPressed(PointerEventArgs^ args)
         return;
     }
     
-    // CRITICAL FIX: When mouse is grabbed (game mode), ONLY feed button state, NOT absolute coordinates
-    // Feeding absolute coordinates while grabbed causes camera to snap (interprets as massive delta)
     if (_mouseGrabbed)
     {
-        // Game mode: Feed only button state, no coordinates
-        // Relative movement is handled exclusively by onMouseMoved
         if (props->IsLeftButtonPressed)
         {
-            Mouse::feed(MouseAction::ACTION_LEFT, 1, 0, 0);  // No coords when grabbed!
+            Mouse::feed(MouseAction::ACTION_LEFT, 1, 0, 0);
         }
         if (props->IsRightButtonPressed)
         {
-            Mouse::feed(MouseAction::ACTION_RIGHT, 1, 0, 0);  // No coords when grabbed!
+            Mouse::feed(MouseAction::ACTION_RIGHT, 1, 0, 0);
         }
         return;
     }
     
-    // DESKTOP GUI mode (not grabbed): Feed absolute coordinates for cursor position
     short x = static_cast<short>(position.X * scale);
     short y = static_cast<short>(position.Y * scale);
     
@@ -721,7 +637,6 @@ void AppPlatform_uwp::onPointerMoved(PointerEventArgs^ args)
     int pointerId = point->PointerId;
     float scale = _displayInfo ? (_displayInfo->LogicalDpi / 96.0f) : 1.0f;
     
-    // MOBILE: Buffer for later processing on game thread (avoids race conditions)
     if (_inputProfile == InputProfile::Mobile_TouchOnly)
     {
         short x = static_cast<short>((position.X * _touchScaleX) * scale + _visibleBoundsOffsetX);
@@ -733,14 +648,11 @@ void AppPlatform_uwp::onPointerMoved(PointerEventArgs^ args)
         return;
     }
     
-    // DESKTOP: When mouse is grabbed, PointerMoved provides absolute coordinates
-    // which interfere with the relative movement from MouseDevice. Skip entirely.
     if (_mouseGrabbed)
     {
         return;
     }
     
-    // DESKTOP GUI mode (not grabbed): Update cursor position
     short x = static_cast<short>(position.X * scale);
     short y = static_cast<short>(position.Y * scale);
     
@@ -758,12 +670,8 @@ void AppPlatform_uwp::onMouseMoved(Windows::Devices::Input::MouseDevice^ sender,
     auto delta = args->MouseDelta;
     if (delta.X != 0 || delta.Y != 0)
     {
-        // Cap deltas to prevent wild snaps at low FPS
         short dx = static_cast<short>((std::max)(-200, (std::min)(200, delta.X)));
         short dy = static_cast<short>((std::max)(-200, (std::min)(200, delta.Y)));
-
-        // Process relative mouse movement IMMEDIATELY for camera control
-        // This eliminates input lag for mouse look (critical for desktop)
         Mouse::feed(MouseAction::ACTION_MOVE, 0, 0, 0, dx, dy);
     }
 }
@@ -778,7 +686,6 @@ void AppPlatform_uwp::onPointerReleased(PointerEventArgs^ args)
     auto kind = point->Properties->PointerUpdateKind;
     float scale = _displayInfo ? (_displayInfo->LogicalDpi / 96.0f) : 1.0f;
     
-    // MOBILE: Buffer for later processing on game thread (avoids race conditions)
     if (_inputProfile == InputProfile::Mobile_TouchOnly)
     {
         short x = static_cast<short>((position.X * _touchScaleX) * scale + _visibleBoundsOffsetX);
@@ -790,7 +697,6 @@ void AppPlatform_uwp::onPointerReleased(PointerEventArgs^ args)
         return;
     }
     
-    // CRITICAL FIX: When mouse is grabbed (game mode), ONLY feed button state, NOT absolute coordinates
     if (_mouseGrabbed)
     {
         if (kind == Windows::UI::Input::PointerUpdateKind::LeftButtonReleased)

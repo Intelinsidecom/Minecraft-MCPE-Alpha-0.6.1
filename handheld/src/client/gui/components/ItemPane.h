@@ -80,6 +80,9 @@ public:
 	bool onSelect( int gridId, bool selected );
 	void drawScrollBar( ScrollBar& hScroll );
 	//void setSize()
+	
+	// Scroll to make item visible (for controller navigation)
+	void scrollToItem(int itemIndex, int itemHeight, int paneHeight);
 
 	Font* f;
 	Textures* textures;

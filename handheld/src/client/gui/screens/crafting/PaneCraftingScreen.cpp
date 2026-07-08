@@ -16,6 +16,9 @@
 #include "../../../../world/level/Level.h"
 #include "../../../../world/item/DyePowderItem.h"
 #include "../../../../world/item/crafting/Recipe.h"
+#include "../../../../platform/time.h"
+
+#include <cmath>
 
 static NinePatchLayer* guiPaneFrame = NULL;
 
@@ -66,7 +69,8 @@ PaneCraftingScreen::PaneCraftingScreen(int craftingSize)
 	guiBackground(NULL),
 	guiSlotCategory(NULL),
 	guiSlotCategorySelected(NULL),
-	numCategories(4)
+	numCategories(4),
+	_controllerSelectedItemIndex(0)
 {
 	for (int i = 0; i < numCategories; ++i) {
 		categoryBitmasks.push_back(1 << i);
@@ -193,6 +197,7 @@ void PaneCraftingScreen::setupPositions() {
 
 void PaneCraftingScreen::tick() {
 	if (pane) pane->tick();
+	Screen::tick();
 }
 
 void PaneCraftingScreen::render(int xm, int ym, float a) {
@@ -282,6 +287,7 @@ void PaneCraftingScreen::buttonClicked(Button* button) {
 		}
 		currentCategory = categoryId;
 		selectedCategoryButton = (CategoryButton*)button;
+		_controllerSelectedItemIndex = 0;
 	}
 }
 
@@ -526,6 +532,124 @@ void CraftButton::setSize(float w, float h ) {
 		bg->setSize(w, h);
 		bgSelected->setSize(w, h);
 	}
+}
+
+void PaneCraftingScreen::navigateItems(int direction)
+{
+	if (!pane || _categories.empty() || currentCategory < 0)
+		return;
+	
+	const std::vector<CItem*>& items = _categories[currentCategory];
+	if (items.empty())
+		return;
+	
+	_controllerSelectedItemIndex += direction;
+	
+	int numItems = (int)items.size();
+	if (_controllerSelectedItemIndex < 0)
+		_controllerSelectedItemIndex = 0;
+	if (_controllerSelectedItemIndex >= numItems)
+		_controllerSelectedItemIndex = numItems - 1;
+	
+	pane->setSelected(_controllerSelectedItemIndex, true);
+	onItemSelected(pane, _controllerSelectedItemIndex);
+	pane->scrollToItem(_controllerSelectedItemIndex, 22, paneRect.h);
+}
+
+void PaneCraftingScreen::handleControllerInput()
+{
+	extern float g_rightStickX;
+	extern float g_rightStickY;
+	extern float g_leftStickX;
+	extern float g_leftStickY;
+	extern bool g_controllerAPressed;
+	extern bool g_controllerBPressed;
+	static bool wasAPressed = false;
+	static bool wasBPressed = false;
+	static bool bCycleUsed = false;
+	
+	if (g_controllerBPressed && !wasBPressed && !buttons.empty())
+	{
+		int focusedIndex = -1;
+		for (unsigned int i = 0; i < buttons.size(); i++)
+		{
+			if (buttons[i]->selected && buttons[i]->active && buttons[i]->visible)
+			{
+				focusedIndex = i;
+				break;
+			}
+		}
+		
+		if (focusedIndex >= 0 && focusedIndex < (int)buttons.size() - 1)
+		{
+			buttons[focusedIndex]->selected = false;
+			buttons[focusedIndex + 1]->selected = true;
+			bCycleUsed = true;
+		}
+		else if (focusedIndex == (int)buttons.size() - 1)
+		{
+			bCycleUsed = false;
+		}
+		else
+		{
+			if (!buttons.empty() && buttons[0]->active && buttons[0]->visible)
+				buttons[0]->selected = true;
+			bCycleUsed = true;
+		}
+	}
+	else if (!g_controllerBPressed)
+	{
+		bCycleUsed = false;
+	}
+	
+	if (bCycleUsed)
+	{
+		g_controllerNavigation.tick(minecraft, g_leftStickX, g_leftStickY, g_rightStickY,
+			                             g_controllerAPressed, false, wasAPressed, wasBPressed);
+	}
+	else
+	{
+		g_controllerNavigation.tick(minecraft, g_leftStickX, g_leftStickY, g_rightStickY,
+			                             g_controllerAPressed, g_controllerBPressed, wasAPressed, wasBPressed);
+	}
+	
+	static bool wasStickActive = false;
+	static int lastNavTime = 0;
+	
+	float rightStickThreshold = 0.4f;
+	int currentTime = getTimeMs();
+	const int REPEAT_DELAY_MS = 100;
+	
+	bool isStickActive = std::abs(g_rightStickY) > rightStickThreshold;
+	
+	if (isStickActive)
+	{
+		bool canNavigate = false;
+		
+		if (!wasStickActive)
+		{
+			canNavigate = true;
+		}
+		else if (currentTime - lastNavTime > REPEAT_DELAY_MS)
+		{
+			canNavigate = true;
+		}
+		
+		if (canNavigate)
+		{
+			if (g_rightStickY > 0)
+				navigateItems(-1);
+			else
+				navigateItems(1);
+			
+			lastNavTime = currentTime;
+		}
+	}
+	
+	wasStickActive = isStickActive;
+	
+	wasAPressed = g_controllerAPressed;
+	wasBPressed = g_controllerBPressed;
 }
 
 void CraftButton::init( Textures* textures)

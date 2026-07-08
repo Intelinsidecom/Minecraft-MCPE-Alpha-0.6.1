@@ -33,6 +33,7 @@
 #include "sound/SoundEngine.h"
 #endif
 #include "../platform/CThread.h"
+#include "../platform/input/Keyboard.h"
 #include "../platform/input/Mouse.h"
 #include "../platform/input/Controller.h"
 #include "../AppPlatform.h"
@@ -57,6 +58,9 @@
 
 #include "player/input/ControllerTurnInput.h"
 #include "player/input/XperiaPlayInput.h"
+#include "player/input/GamepadBuildInput.h"
+#include "player/input/SDL2TurnInput.h"
+#include "player/input/SDL2MoveInput.h"
 
 #endif
 
@@ -650,6 +654,44 @@ public:
 void Minecraft::tickInput() {
 #ifndef STANDALONE_SERVER
 	InputRAII raiiInput;
+
+	extern bool g_controllerConnected;
+	extern float g_leftStickX;
+	extern float g_leftStickY;
+	extern float g_rightStickX;
+	extern float g_rightStickY;
+	
+	bool controllerActive = g_controllerConnected;
+	bool controllerStickMoving = (g_leftStickX != 0.0f || g_leftStickY != 0.0f || 
+	                              g_rightStickX != 0.0f || g_rightStickY != 0.0f);
+	bool keyboardActive = Keyboard::isKeyDown(Keyboard::KEY_W) || 
+	                      Keyboard::isKeyDown(Keyboard::KEY_A) || 
+	                      Keyboard::isKeyDown(Keyboard::KEY_S) || 
+	                      Keyboard::isKeyDown(Keyboard::KEY_D) ||
+	                      Keyboard::isKeyDown(Keyboard::KEY_SPACE) ||
+	                      Keyboard::isKeyDown(Keyboard::KEY_LSHIFT);
+	static int lastMouseX = 0, lastMouseY = 0;
+	int currentMouseX = Mouse::getX();
+	int currentMouseY = Mouse::getY();
+	bool mouseMoved = (currentMouseX != lastMouseX || currentMouseY != lastMouseY);
+	lastMouseX = currentMouseX;
+	lastMouseY = currentMouseY;
+	bool mouseActive = mouseMoved || Mouse::getButtonState(1) || Mouse::getButtonState(2);
+	
+	if (controllerActive && controllerStickMoving && !_wasControllerConnected) {
+		_wasControllerConnected = true;
+		_reloadInput();
+	}
+
+	else if (_wasControllerConnected && (keyboardActive || mouseActive)) {
+		_wasControllerConnected = false;
+		_reloadInput();
+	}
+
+	else if (g_controllerConnected != _wasControllerConnected && !controllerStickMoving && !keyboardActive) {
+		_wasControllerConnected = g_controllerConnected;
+		_reloadInput();
+	}
 
 	if (screen && !screen->passEvents) {
 		screenMutex = true;
@@ -1323,6 +1365,10 @@ void Minecraft::reloadOptions() {
 
 void Minecraft::_reloadInput() {
 #ifndef STANDALONE_SERVER
+	// Track controller state for dynamic switching
+	extern bool g_controllerConnected;
+	_wasControllerConnected = g_controllerConnected;
+
 	delete inputHolder;
 
 	if (useTouchscreen()) {
@@ -1331,13 +1377,21 @@ void Minecraft::_reloadInput() {
 		#if defined(ANDROID) || defined(__APPLE__) 
 			inputHolder = new CustomInputHolder(
 				new XperiaPlayInput(&options),
-				new ControllerTurnInput(2, ControllerTurnInput::MODE_DELTA),
+				new ControllerTurnInput(1, ControllerTurnInput::MODE_DELTA),
 				new IBuildInput());
 		#else
-			inputHolder = new CustomInputHolder(
-				new KeyboardInput(&options),
-				new MouseTurnInput(MouseTurnInput::MODE_DELTA, width/2, height/2),
-				new MouseBuildInput());
+			extern bool g_controllerConnected;
+			if (g_controllerConnected) {
+				inputHolder = new CustomInputHolder(
+					new SDL2MoveInput(&options),
+					new SDL2TurnInput(),
+					new MouseBuildInput());
+			} else {
+				inputHolder = new CustomInputHolder(
+					new KeyboardInput(&options),
+					new MouseTurnInput(MouseTurnInput::MODE_DELTA, width/2, height/2),
+					new MouseBuildInput());
+			}
 		#endif
 	}
 

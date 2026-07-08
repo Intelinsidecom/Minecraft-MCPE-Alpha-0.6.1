@@ -7,6 +7,7 @@
 #include "platform/input/Keyboard.h"
 #include "platform/input/Multitouch.h"
 #include "platform/input/Controller.h"
+#include "platform/input/SDL2Controller.h"
 #include "util/Mth.h"
 #include "AppPlatform_uwp.h"
 #include "NinecraftApp.h"

@@ -222,6 +222,7 @@ private:
 
 	int _licenseId;
 	bool _supportsNonTouchscreen;
+	bool _wasControllerConnected;
 
 	bool _isCreativeMode;
 	//int _respawnPlayerTicks;

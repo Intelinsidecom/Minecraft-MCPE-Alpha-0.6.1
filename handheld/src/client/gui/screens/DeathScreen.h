@@ -19,6 +19,8 @@ public:
 	void render(int xm, int ym, float a);
 
 	void buttonClicked(Button* button);
+	bool handleBackEvent(bool isDown);
+	void handleControllerInput();
 
 private:
 	Button* bRespawn;

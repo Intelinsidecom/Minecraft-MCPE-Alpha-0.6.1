@@ -487,7 +487,13 @@ void SelectWorldScreen::tick()
 		//hasSelection = true;
 	}
 
+	bool deleteWasInactive = !bDelete.active;
 	bDelete.active = isIndexValid(worldsList->selectedItem);
+	extern bool g_controllerConnected;
+	if (g_controllerConnected && deleteWasInactive && bDelete.active)
+		initControllerNavigation();
+
+	Screen::tick();
 }
 
 void SelectWorldScreen::render( int xm, int ym, float a )
@@ -558,6 +564,50 @@ void SelectWorldScreen::keyPressed( int eventKey )
 	}
 
 	Screen::keyPressed(eventKey);
+}
+
+void SelectWorldScreen::handleControllerInput()
+{
+    extern float g_leftStickX;
+    extern float g_leftStickY;
+    extern float g_rightStickX;
+    extern float g_rightStickY;
+    extern bool g_controllerAPressed;
+    extern bool g_controllerBPressed;
+    extern bool g_rightStickPressed;
+    static bool wasLeftPressed = false;
+    static bool wasRightPressed = false;
+    static bool wasRightStickPressed = false;
+    static bool wasAPressed = false;
+    static bool wasBPressed = false;
+    
+    bool leftPressed = g_rightStickX < -0.3f;
+    bool rightPressed = g_rightStickX > 0.3f;
+    
+    if (leftPressed && !wasLeftPressed)
+        worldsList->stepLeft();
+    if (rightPressed && !wasRightPressed)
+        worldsList->stepRight();
+    
+    if (g_rightStickPressed && !wasRightStickPressed)
+    {
+        if (isIndexValid(worldsList->selectedItem))
+        {
+            worldsList->selectItem(worldsList->selectedItem, false);
+        }
+    }
+    
+    if (g_controllerBPressed && !wasBPressed)
+    {
+        handleBackEvent(true);
+    }
+    
+    wasLeftPressed = leftPressed;
+    wasRightPressed = rightPressed;
+    wasRightStickPressed = g_rightStickPressed;
+    wasAPressed = g_controllerAPressed;
+    wasBPressed = g_controllerBPressed;
+    Screen::handleControllerInput();
 }
 
 //

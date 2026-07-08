@@ -146,3 +146,34 @@ void ItemPane::drawScrollBar( ScrollBar& sb ) {
 	int color = ((int)(255.0f * sb.alpha) << 24) | 0xffffff;
 	fill(2 + sb.x, sb.y, 2 + sb.x + sb.w, sb.y + sb.h, color);
 }
+
+void ItemPane::scrollToItem(int itemIndex, int itemHeight, int paneHeight)
+{
+	// In ScrollingPane, contentOffset.y is NEGATIVE when scrolled down
+	// item 0 at top: offset = 0
+	// item 5 at top: offset = -(5 * itemHeight)
+	
+	Vec3& offset = contentOffset();
+	float currentOffsetY = offset.y;
+	
+	// Calculate item's Y position in content space (negative values for lower items)
+	float itemTopY = -(itemIndex * itemHeight);
+	float itemBottomY = itemTopY - itemHeight;
+	
+	// Visible area in content space: currentOffsetY (top) to currentOffsetY - paneHeight (bottom)
+	// Note: smaller/negative Y is lower on screen
+	
+	// If item top is below visible bottom (item is too far down), scroll down
+	if (itemTopY < currentOffsetY - paneHeight + itemHeight)
+	{
+		// Scroll so item is at bottom of visible area
+		float newOffsetY = itemTopY + paneHeight - itemHeight;
+		setContentOffset(offset.x, newOffsetY);
+	}
+	// If item bottom is above visible top (item is too far up), scroll up
+	else if (itemBottomY > currentOffsetY)
+	{
+		// Scroll so item is at top of visible area
+		setContentOffset(offset.x, itemTopY);
+	}
+}

@@ -188,6 +188,7 @@ void StartMenuScreen::setupPositions() {
 
 void StartMenuScreen::tick() {
 	_updateLicense();
+	Screen::tick();
 }
 
 void StartMenuScreen::buttonClicked(::Button* button) {
@@ -274,7 +275,13 @@ void StartMenuScreen::_updateLicense()
 	if (LicenseCodes::isReady(id))
 	{
 		if (LicenseCodes::isOk(id))
+		{
+			bool wasInactive = !bHost.active;
 			bJoin.active = bHost.active = bOptions.active = true;
+			extern bool g_controllerConnected;
+			if (g_controllerConnected && wasInactive)
+				initControllerNavigation();
+		}
 		else
 		{
 			bool hasBuyButton = minecraft->platform()->hasBuyButtonWhenInvalidLicense();

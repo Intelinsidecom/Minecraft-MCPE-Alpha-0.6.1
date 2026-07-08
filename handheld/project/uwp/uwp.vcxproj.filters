@@ -1252,6 +1252,18 @@
     <ClCompile Include="..\..\src\SharedConstants.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\platform\input\SDL2Controller.cpp">
+      <Filter>src\platform\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\player\input\SDL2MoveInput.cpp">
+      <Filter>src\client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\player\input\SDL2TurnInput.cpp">
+      <Filter>src\client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\client\gui\ControllerNavigation.cpp">
+      <Filter>src\client\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\client\IConfigListener.h">
@@ -3384,6 +3396,12 @@
     <ClInclude Include="..\..\data\images\terrain_5551.h">
       <Filter>data</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\SDL2MoveInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\client\player\input\SDL2TurnInput.h">
+      <Filter>src\client\player\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
@@ -4043,6 +4061,8 @@
     <None Include="..\..\data\sound\aac\step\wood4.m4a">
       <Filter>data</Filter>
     </None>
+    <None Include="..\..\lib\bin\UWP\Win32\SDL2.dll" />
+    <None Include="..\..\lib\bin\UWP\ARM\SDL2.dll" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\src\raknet\CMakeLists.txt">

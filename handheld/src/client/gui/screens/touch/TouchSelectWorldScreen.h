@@ -96,6 +96,7 @@ public:
 	virtual bool handleBackEvent(bool isDown);
 	virtual void buttonClicked(Button* button);
 	virtual void keyPressed(int eventKey);
+	virtual void handleControllerInput();
 
 	bool isInGameScreen();
 private:

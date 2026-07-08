@@ -169,7 +169,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmodL_ARM.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;fmodL_ARM.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -180,7 +180,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmod_ARM.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;fmod_ARM.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
@@ -191,7 +191,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;libpng_static.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;zlib.lib;libpng_static.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
@@ -202,7 +202,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;libpng_static.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;zlib.lib;libpng_static.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -213,7 +213,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;fmodL_X86.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;fmodL_X86.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -224,7 +224,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;fmod_X86.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;fmod_X86.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -235,7 +235,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;fmodL_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;fmodL_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -246,7 +246,7 @@
       <PreprocessorDefinitions>_UWP;OPENGL_ES;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;fmod_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;zlib.lib;libpng.lib;libEGL.lib;libGLESv2.lib;WindowsApp.lib;fmod_X64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -906,6 +906,44 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\Win32\SDL2.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\lib\bin\UWP\ARM\SDL2.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </CopyFileToFolders>
     <None Include="uwp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -1208,6 +1246,7 @@
     <ClCompile Include="..\..\src\client\gui\components\Slider.cpp" />
     <ClCompile Include="..\..\src\client\gui\components\SmallButton.cpp" />
     <ClCompile Include="..\..\src\client\gui\components\TextBox.cpp" />
+    <ClCompile Include="..\..\src\client\gui\ControllerNavigation.cpp" />
     <ClCompile Include="..\..\src\client\gui\Font.cpp" />
     <ClCompile Include="..\..\src\client\gui\Gui.cpp" />
     <ClCompile Include="..\..\src\client\gui\GuiComponent.cpp" />
@@ -1259,6 +1298,8 @@
     <ClCompile Include="..\..\src\client\particle\Particle.cpp" />
     <ClCompile Include="..\..\src\client\particle\ParticleEngine.cpp" />
     <ClCompile Include="..\..\src\client\player\input\KeyboardInput.cpp" />
+    <ClCompile Include="..\..\src\client\player\input\SDL2MoveInput.cpp" />
+    <ClCompile Include="..\..\src\client\player\input\SDL2TurnInput.cpp" />
     <ClCompile Include="..\..\src\client\player\input\touchscreen\TouchscreenInput.cpp" />
     <ClCompile Include="..\..\src\client\player\LocalPlayer.cpp" />
     <ClCompile Include="..\..\src\client\player\RemotePlayer.cpp" />
@@ -1317,6 +1358,7 @@
     <ClCompile Include="..\..\src\platform\input\Keyboard.cpp" />
     <ClCompile Include="..\..\src\platform\input\Mouse.cpp" />
     <ClCompile Include="..\..\src\platform\input\Multitouch.cpp" />
+    <ClCompile Include="..\..\src\platform\input\SDL2Controller.cpp" />
     <ClCompile Include="..\..\src\platform\time.cpp" />
     <ClCompile Include="..\..\src\raknet\BitStream.cpp" />
     <ClCompile Include="..\..\src\raknet\CCRakNetSlidingWindow.cpp" />
@@ -1669,6 +1711,8 @@
     <ClInclude Include="..\..\src\client\player\input\KeyboardInput.h" />
     <ClInclude Include="..\..\src\client\player\input\MouseBuildInput.h" />
     <ClInclude Include="..\..\src\client\player\input\MouseTurnInput.h" />
+    <ClInclude Include="..\..\src\client\player\input\SDL2MoveInput.h" />
+    <ClInclude Include="..\..\src\client\player\input\SDL2TurnInput.h" />
     <ClInclude Include="..\..\src\client\player\input\touchscreen\ITouchScreenModel.h" />
     <ClInclude Include="..\..\src\client\player\input\touchscreen\TouchAreaModel.h" />
     <ClInclude Include="..\..\src\client\player\input\touchscreen\TouchInputHolder.h" />

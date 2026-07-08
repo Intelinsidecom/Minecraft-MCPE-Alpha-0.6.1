@@ -56,6 +56,7 @@ public:
 	static const int KEY_Z = 90;
 
 	static const int KEY_BACKSPACE = 8;
+	static const int KEY_TAB = 9;
 	static const int KEY_RETURN = 13;
 
 	static const int KEY_F1 = 112;

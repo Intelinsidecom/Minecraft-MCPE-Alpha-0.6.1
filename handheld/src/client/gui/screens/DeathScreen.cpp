@@ -50,6 +50,56 @@ void DeathScreen::setupPositions()
 
 void DeathScreen::tick() {
 	++_tick;
+	Screen::tick();
+}
+
+bool DeathScreen::handleBackEvent(bool isDown)
+{
+	return true;
+}
+
+void DeathScreen::handleControllerInput()
+{
+    extern bool g_controllerAPressed;
+    extern bool g_controllerBPressed;
+    static bool wasAPressed = false;
+    static bool wasBPressed = false;
+    
+    if (g_controllerAPressed && !wasAPressed)
+    {
+        for (unsigned int i = 0; i < buttons.size(); i++)
+        {
+            if (buttons[i]->selected && buttons[i]->active)
+            {
+                buttonClicked(buttons[i]);
+                break;
+            }
+        }
+    }
+    
+    if (g_controllerBPressed && !wasBPressed)
+    {
+        int currentIndex = -1;
+        for (unsigned int i = 0; i < buttons.size(); i++)
+        {
+            if (buttons[i]->selected)
+            {
+                currentIndex = i;
+                break;
+            }
+        }
+        
+        int nextIndex = (currentIndex + 1) % buttons.size();
+        for (unsigned int i = 0; i < buttons.size(); i++)
+        {
+            buttons[i]->selected = (i == nextIndex);
+        }
+    }
+    
+    wasAPressed = g_controllerAPressed;
+    wasBPressed = g_controllerBPressed;
+    
+    Screen::handleControllerInput();
 }
 
 void DeathScreen::render( int xm, int ym, float a )

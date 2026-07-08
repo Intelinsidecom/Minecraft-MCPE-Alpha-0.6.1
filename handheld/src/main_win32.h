@@ -18,6 +18,7 @@
 #include <cstdio>
 #include "platform/input/Mouse.h"
 #include "platform/input/Multitouch.h"
+#include "platform/input/SDL2Controller.h"
 #include "util/Mth.h"
 #include "AppPlatform_win32.h"
 #include "resource.h"
@@ -424,6 +425,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 	g_app->init(appContext);
 	g_app->setSize(appContext.platform->getScreenWidth(), appContext.platform->getScreenHeight());
 
+	SDL2Controller::init();
+
 	//_beginthread(inputNetworkThread, 0, 0);
 	
 	// Main event loop
@@ -440,6 +443,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 				DispatchMessage(&sMessage);
 			}
 		}
+		
+		SDL2Controller::poll();
+		SDL2Controller::tick();
+		
 		app->update();
 		
 		//Sleep(30);
@@ -454,6 +461,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 	Sleep(50);
 	//printf("_crtDumpMemoryLeaks: %d\n", _CrtDumpMemoryLeaks());
 	
+	SDL2Controller::shutdown();
+
 	eglMakeCurrent(appContext.display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
 	eglDestroyContext(appContext.display, appContext.context);
 	eglDestroySurface(appContext.display, appContext.surface);
